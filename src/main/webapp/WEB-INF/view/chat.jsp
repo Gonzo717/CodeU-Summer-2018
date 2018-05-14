@@ -44,7 +44,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     };
   </script>
 </head>
-
+<%-- onload within the actual conversations created --%>
 <body onload="scrollChat()">
 
   <nav>
