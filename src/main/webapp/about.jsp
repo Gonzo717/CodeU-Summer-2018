@@ -40,7 +40,7 @@
       <p>
         This chat app started as a playground for us Google CodeU participants to
         practice our java and team working skills. We have decided to call this chat app
-        Trill and hope to make to fill it with amazing features in the future!
+        Trill and hope to fill it with amazing features in the future!
       </p>
 
       <h1><Strong> Meet Team JavaChips:</strong></h1>
