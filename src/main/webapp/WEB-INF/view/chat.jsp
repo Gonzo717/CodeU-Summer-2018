@@ -34,7 +34,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       height: 500px;
       overflow-y: scroll
     }
-  </style>
+  </style> 
 
   <script>
     // scroll the chat div to the bottom
