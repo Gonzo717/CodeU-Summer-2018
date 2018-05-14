@@ -51,7 +51,7 @@
           He is from Chicago and enjoys reading, playing the trumpet,
           and riding his bike around the city. This summer he will also be teaching
           kids how to code at Northwestern!</li>
-        <li><strong>Crista Rivera:</strong> Rising sophomore at the University of
+        <li><strong>Crista Mondragon:</strong> Rising sophomore at the University of
           Illinois at Chicago. Unlike Gonzalo, she seems to be pretty good at discrete
           and is actually a TA for the course. She is from the NW suburbs of Chicago
           and enjoys listening to alt, rock, and many other types of music, as well as
