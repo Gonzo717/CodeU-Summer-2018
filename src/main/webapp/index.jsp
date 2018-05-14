@@ -16,13 +16,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>trill</title>
+  <title>Trill</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
   <nav> <%-- the menu navbar --%>
-    <a id="navTitle" href="/">trill</a>
+    <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
