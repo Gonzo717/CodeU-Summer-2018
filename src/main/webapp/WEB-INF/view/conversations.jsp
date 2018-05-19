@@ -24,7 +24,7 @@
 </head>
 <body>
 
-  <nav>
+   <nav>
     <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
@@ -32,8 +32,11 @@
     <% } else{ %>
       <a href="/login">Login</a>
     <% } %>
-    <a href="/about.jsp">About</a>
-  </nav>
+    <% if(request.getSession().getAttribute("admin") != null){ %>
+      <a href="/admin">Admin</a>
+    <% } %>
+      <a href="/about.jsp">About</a>
+</nav>
 
   <div id="container">
 

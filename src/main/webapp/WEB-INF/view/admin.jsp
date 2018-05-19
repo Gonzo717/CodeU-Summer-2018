@@ -16,12 +16,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
+  <title>Trill</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
-  <nav>
+  <nav> <%-- the menu navbar --%>
     <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
@@ -29,32 +29,26 @@
     <% } else{ %>
       <a href="/login">Login</a>
     <% } %>
-    <% if(request.getSession().getAttribute("admin") != null){ %>
-      <a href="/admin.jsp">Admin</a>
-    <% } %>
+    <a href="/admin">Admin</a>
     <a href="/about.jsp">About</a>
+
   </nav>
 
   <div id="container">
-    <h1>Login</h1>
+    <div
+      style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-    <% if(request.getAttribute("error") != null){ %>
-        <h2 style="color:red"><%= request.getAttribute("error") %></h2>
-    <% } %>
+      <h1>CodeU Summer 2018</h1>
+      <h2>Welcome to our glorious ADMIN PAGE!</h2>
+      <h3>Powered by JavaChips</h3>
+    </div>
+    <div id="stats"
+      style="width:85%; margin-left:auto; margin-right:auto; margin-top: 50px;">
+      <h2>The wonderful site statistics go here!</h2>
 
-    <form action="/login" method="POST">
-      <label for="username">Username: </label>
-      <br/>
-      <input type="text" name="username" id="username">
-      <br/>
-      <label for="password">Password: </label>
-      <br/>
-      <input type="password" name="password" id="password">
-      <br/><br/>
-      <button type="submit">Login</button>
-    </form>
-
-    <p>New users can register <a href="/register">here</a>.</p>
+    </div>
   </div>
+
+
 </body>
 </html>
