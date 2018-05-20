@@ -30,6 +30,7 @@
       <a href="/login">Login</a>
     <% } %>
     <a href="/admin">Admin</a>
+    <a href="/profile">Profile Page</a>
     <a href="/about.jsp">About</a>
 
   </nav>
