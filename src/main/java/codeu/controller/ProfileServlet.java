@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ActivityFeedServlet extends HttpServlet {
+public class ProfileServlet extends HttpServlet {
 	//implement doGet so it knows where to go
 	@Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
