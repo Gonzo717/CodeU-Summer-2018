@@ -32,11 +32,14 @@
     <% } else{ %>
       <a href="/login">Login</a>
     <% } %>
+     
     <% if(request.getSession().getAttribute("admin") != null){ %>
       <a href="/admin">Admin</a>
     <% } %>
-      <a href="/about.jsp">About</a>
-</nav>
+    <!-- Add login checking for activity feed here -->
+    <a href="/activityfeed">Activity Feed</a>
+    <a href="/about.jsp">About</a>
+  </nav>
 
   <div id="container">
 
