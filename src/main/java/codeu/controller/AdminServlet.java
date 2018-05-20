@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 
 /** Servlet class responsible for the login page. */
-public class LoginServlet extends HttpServlet {
+public class AdminServlet extends HttpServlet {
 
   /** Store class that gives access to Users. */
   private UserStore userStore;
@@ -55,8 +55,7 @@ public class LoginServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-
-    request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+    request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**
@@ -88,14 +87,11 @@ public class LoginServlet extends HttpServlet {
 
     if(admin){
       request.getSession().setAttribute("user", ("admin: " + username));
-      request.getSession().setAttribute("admin", username);
-      // request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
       response.sendRedirect("/admin");
     }
     else{
       request.getSession().setAttribute("user", (username));
       response.sendRedirect("/conversations");
     }
-
   }
 }

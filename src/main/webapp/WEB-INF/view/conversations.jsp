@@ -24,13 +24,17 @@
 </head>
 <body>
 
-  <nav>
+   <nav>
     <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
     <% } else{ %>
       <a href="/login">Login</a>
+    <% } %>
+     
+    <% if(request.getSession().getAttribute("admin") != null){ %>
+      <a href="/admin">Admin</a>
     <% } %>
     <!-- Add login checking for activity feed here -->
     <a href="/activityfeed">Activity Feed</a>
