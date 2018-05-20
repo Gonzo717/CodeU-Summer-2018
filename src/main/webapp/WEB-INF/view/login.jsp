@@ -29,6 +29,10 @@
     <% } else{ %>
       <a href="/login">Login</a>
     <% } %>
+  	
+  	<!-- Add login checking for activity feed here -->
+    <a href="/activityfeed">Activity Feed</a>
+    
     <a href="/about.jsp">About</a>
   </nav>
 
