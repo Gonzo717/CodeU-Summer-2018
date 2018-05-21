@@ -56,8 +56,10 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       <a href="/login">Login</a>
     <% } %>
   	<!-- Add login checking for activity feed here -->
+    <% if(request.getSession().getAttribute("admin") != null){ %>
+      <a href="/admin">Admin</a>
+    <% } %>
     <a href="/activityfeed">Activity Feed</a>
-    <a href="/profile">Profile Page</a>
     <a href="/about.jsp">About</a>
   </nav>
 

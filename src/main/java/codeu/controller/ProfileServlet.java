@@ -18,7 +18,17 @@ public class ProfileServlet extends HttpServlet {
 	@Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
-  }
+					String requestUrl = request.getRequestURI();
+					String currentProfile = requestUrl.substring("/user/".length());
+					String username = (String) request.getSession().getAttribute("user");
 
-}
+					if (currentProfile.equals(username)){
+						System.out.println(currentProfile);
+						System.out.println(username);
+						request.getRequestDispatcher("/WEB-INF/view/userprofile.jsp").forward(request, response);
+					}
+					else{
+						request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+					}
+				}
+  }

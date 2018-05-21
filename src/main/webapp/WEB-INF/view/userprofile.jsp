@@ -25,6 +25,6 @@
 			<a href="/activityfeed">Activity Feed</a>
 			<a href="/about.jsp">About</a>
 		</nav>
-		    <h1> This is a profile page </h1>
+		    <h1> This is YOUR profile page </h1>
 	</body>
 </html>
