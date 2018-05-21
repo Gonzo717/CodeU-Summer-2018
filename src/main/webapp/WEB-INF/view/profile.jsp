@@ -1,4 +1,9 @@
-<!DOCTYPE>
+<%@ page import="java.util.List" %>
+<%@ page import="codeu.model.data.Conversation" %>
+<%@ page import="codeu.model.data.Message" %>
+<%@ page import="codeu.model.store.basic.UserStore" %>
+
+<!DOCTYPE html>
 <html>
 	<head>
 	  <link rel="stylesheet" href="/css/main.css" type="text/css">
@@ -14,16 +19,12 @@
 			<% } else { %>
 				<a href="/login">Login</a>
 			<% } %>
-			<!-- Add login checking for activity feed here -->
-			<% if(request.getSession().getAttribute("admin") != null){ %>
+      <% if(request.getSession().getAttribute("admin") != null){ %>
         <a href="/admin">Admin</a>
       <% } %>
 			<a href="/activityfeed">Activity Feed</a>
 			<a href="/about.jsp">About</a>
 		</nav>
-		<h1>
-			This is the activity feed.
-			It is currently under construction!
-		</h1>
+		    <h1> This is a profile page </h1>
 	</body>
 </html>

@@ -34,7 +34,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       height: 500px;
       overflow-y: scroll
     }
-  </style> 
+  </style>
 
   <script>
     // scroll the chat div to the bottom
@@ -56,6 +56,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       <a href="/login">Login</a>
     <% } %>
   	<!-- Add login checking for activity feed here -->
+    <% if(request.getSession().getAttribute("admin") != null){ %>
+      <a href="/admin">Admin</a>
+    <% } %>
     <a href="/activityfeed">Activity Feed</a>
     <a href="/about.jsp">About</a>
   </nav>
@@ -74,7 +77,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
     %>
-      <li><strong><%= author %>:</strong> <%= message.getContent() %></li>
+      <li><strong><a href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
     <%
       }
     %>
