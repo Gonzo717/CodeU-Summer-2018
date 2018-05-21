@@ -86,7 +86,8 @@ public class AdminServlet extends HttpServlet {
     boolean admin = userStore.isUserAdmin(username);
 
     if(admin){
-      request.getSession().setAttribute("user", ("admin: " + username));
+      request.getSession().setAttribute("user", username);
+      request.getSession().setAttribute("admin", username);
       response.sendRedirect("/admin");
     }
     else{

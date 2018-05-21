@@ -123,7 +123,7 @@ public class LoginServletTest {
     loginServlet.doPost(mockRequest, mockResponse);
 
     Mockito.verify(mockUserStore, Mockito.never()).addUser(Mockito.any(User.class));
-    Mockito.verify(mockSession).setAttribute("user", "admin: " + "test username");
+    Mockito.verify(mockSession).setAttribute("user", "test username");
     Mockito.verify(mockSession).setAttribute("admin", "test username");
     Mockito.verify(mockResponse).sendRedirect("/admin");
   }

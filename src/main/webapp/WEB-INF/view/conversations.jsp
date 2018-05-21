@@ -39,9 +39,15 @@
     <!-- Add login checking for activity feed here -->
     <a href="/activityfeed">Activity Feed</a>
     <a href="/about.jsp">About</a>
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <a href="/logout">Logout</a>
+    <% } %>
   </nav>
 
   <div id="container">
+    <% if ((request.getSession().getAttribute("user") == null) && (request.getSession().getAttribute("admin") == null)){ %>
+       <h3><a href="/login">Login</a> to start a conversation</h3>
+    <% } %>
 
     <% if(request.getAttribute("error") != null){ %>
         <h2 style="color:red"><%= request.getAttribute("error") %></h2>

@@ -16,10 +16,13 @@
 			<% } %>
 			<!-- Add login checking for activity feed here -->
 			<% if(request.getSession().getAttribute("admin") != null){ %>
-        <a href="/admin">Admin</a>
-      <% } %>
+				<a href="/admin">Admin</a>
+			<% } %>
 			<a href="/activityfeed">Activity Feed</a>
 			<a href="/about.jsp">About</a>
+			<% if(request.getSession().getAttribute("user") != null){ %>
+				<a href="/logout">Logout</a>
+			<% } %>
 		</nav>
 		<h1>
 			This is the activity feed.
