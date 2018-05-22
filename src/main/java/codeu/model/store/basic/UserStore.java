@@ -136,7 +136,7 @@ public class UserStore {
     return false;
   }
 
-  /** Return true if the given username is known to be an admin. */
+  /* Return true if the given username is known to be an admin. */
   public boolean isUserAdmin(String username){
     for(String name : adminUsernames){
       if(name.equals(username)) {
@@ -146,7 +146,14 @@ public class UserStore {
     return false;
   }
 
+/* Adds another admin */
+  public void addAdmin(String username){
+    adminUsernames.add(username);
+  }
 
+  public List getAdmins(){
+    return adminUsernames;
+  }
   /**
    * Sets the List of Users stored by this UserStore. This should only be called once, when the data
    * is loaded from Datastore.
