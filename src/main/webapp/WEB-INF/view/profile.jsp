@@ -19,12 +19,15 @@
 			<% } else { %>
 				<a href="/login">Login</a>
 			<% } %>
-      <% if(request.getSession().getAttribute("admin") != null){ %>
-        <a href="/admin">Admin</a>
-      <% } %>
+			<% if(request.getSession().getAttribute("admin") != null){ %>
+				<a href="/admin">Admin</a>
+			<% } %>
 			<a href="/activityfeed">Activity Feed</a>
 			<a href="/about.jsp">About</a>
+			<% if(request.getSession().getAttribute("user") != null){ %>
+				<a href="/logout">Logout</a>
+			<% } %>
 		</nav>
-		    <h1> This is a profile page </h1>
+			<h1> This is a profile page </h1>
 	</body>
 </html>

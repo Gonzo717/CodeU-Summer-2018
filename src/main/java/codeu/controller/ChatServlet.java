@@ -116,6 +116,7 @@ public class ChatServlet extends HttpServlet {
 
     String username = (String) request.getSession().getAttribute("user");
     if (username == null) {
+      System.out.println(request.getSession().getAttribute("user"));
       // user is not logged in, don't let them add a message
       response.sendRedirect("/login");
       return;
