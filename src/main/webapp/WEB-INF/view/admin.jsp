@@ -59,6 +59,15 @@
 			</ul>
 			<h3>A graph displaying new users as a function of time in months goes here!</h3>
 			<h3>A graph displaying new messages as a function of time in hours goes here!</h3>
+
+			<h3>Add admins:</h3>
+		    <form action="/admin" method="addAdmin">
+		      <label for="username">Username: </label>
+		      <br/>
+		      <input type="text" name="username" id="username">
+		      <br/>
+		      <button type="submit">Create</button>
+		    </form>
 		</div>
 	</div>
 
