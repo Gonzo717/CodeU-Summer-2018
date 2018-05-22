@@ -23,7 +23,7 @@
 
 <% 	System.out.println("WE ARE LOGGIN OUT!");
 	request.getSession().invalidate();
-	response.sendRedirect("index.jsp"); %>
+	response.sendRedirect("/index.jsp"); %>
 
 </body>
 </html>

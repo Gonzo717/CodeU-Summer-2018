@@ -83,28 +83,35 @@ public class AdminServlet extends HttpServlet {
    * This function fires when a user submits the refresh stats form (clicks the refresh stats button). It gets the totalUsers,
    TotalConvos, and totalMessages each time to provide a hot-reload of what is happening.
    */
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response)
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException {
+		// 	A method allowing the admin to refresh stats on the fly!
 
-	// 	A method allowing the admin to refresh stats on the fly!
+		List<User> totalUsers = userStore.getUsers();
+		List<Conversation> totalConvos = convoStore.getAllConversations();
+		List<Message> totalMessages = messageStore.getAllMessages();
 
-	List<User> totalUsers = userStore.getUsers();
-	List<Conversation> totalConvos = convoStore.getAllConversations();
-	List<Message> totalMessages = messageStore.getAllMessages();
+		int numTotalUsers = totalUsers.size();
+		int numTotalConvos = totalConvos.size();
+		int numTotalMessages = totalMessages.size();
 
-	int numTotalUsers = totalUsers.size();
-	int numTotalConvos = totalConvos.size();
-	int numTotalMessages = totalMessages.size();
+		request.getSession().setAttribute("numUsers", numTotalUsers);
+		request.getSession().setAttribute("numConvos", numTotalConvos);
+		request.getSession().setAttribute("numMessages", numTotalMessages);
+		// request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request,response);
+		response.sendRedirect("/admin");
+	}
 
-	request.getSession().setAttribute("numUsers", numTotalUsers);
-	request.getSession().setAttribute("numConvos", numTotalConvos);
-	request.getSession().setAttribute("numMessages", numTotalMessages);
-	// request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request,response);
-	response.sendRedirect("/admin");
+	public void addAdmin(HttpServletRequest request, HttpServletResponse response)
+		throws IOException, ServletException {
+			String username = request.getParameter("username");
 
-	// public refreshStats(){
-		
+			if (!username.matches("[\\w*\\s*]*")) {
+      			request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
+      			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+      		}
+	}
 		
 	// }
 	// if(admin){
@@ -123,5 +130,5 @@ public class AdminServlet extends HttpServlet {
 	// Begin the data statistics portion
 
 
-  }
 }
+

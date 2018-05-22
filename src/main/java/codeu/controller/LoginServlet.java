@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
 
 		if(admin){
 			int totalUsers = userStore.getUsers().size();
-
+			
 			request.getSession().setAttribute("user", username);
 			request.getSession().setAttribute("admin", username);
 			request.getSession().setAttribute("numUsers", totalUsers);
