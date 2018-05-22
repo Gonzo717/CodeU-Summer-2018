@@ -49,8 +49,8 @@ public class LogoutServlet extends HttpServlet {
 	}
 
 	/**
-	 * This function fires when a user requests the /login URL. It simply forwards the request to
-	 * login.jsp.
+	 * This function fires when a user requests the /logout URL. It simply forwards the request to
+	 * logout.jsp.
 	 */
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

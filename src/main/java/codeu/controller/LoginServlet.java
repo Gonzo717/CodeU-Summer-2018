@@ -88,11 +88,14 @@ public class LoginServlet extends HttpServlet {
 		boolean admin = userStore.isUserAdmin(username);
 
 		if(admin){
+			int totalUsers = userStore.getUsers().size();
+
 			request.getSession().setAttribute("user", username);
 			request.getSession().setAttribute("admin", username);
-			System.out.println("WE ARE ADMINISTRATING");
-			System.out.println(request.getSession().getAttribute("user"));
-			System.out.println(request.getSession().getAttribute("admin"));
+			request.getSession().setAttribute("numUsers", totalUsers);
+			// request.getSession().setAttribute("numConvos", totalConvos);
+			// request.getSession().setAttribute("numMessages", totalMessages);
+			// request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 			// request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
 			response.sendRedirect("/admin");
 		}
