@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
 
 	/** Store class that gives access to Users. */
 	private UserStore userStore;
-
 	/**
 	 * Set up state for handling login-related requests. This method is only called when running in a
 	 * server, not when running in a test.
@@ -88,15 +87,10 @@ public class LoginServlet extends HttpServlet {
 		boolean admin = userStore.isUserAdmin(username);
 
 		if(admin){
-			int totalUsers = userStore.getUsers().size();
-			
+
 			request.getSession().setAttribute("user", username);
 			request.getSession().setAttribute("admin", username);
-			request.getSession().setAttribute("numUsers", totalUsers);
-			// request.getSession().setAttribute("numConvos", totalConvos);
-			// request.getSession().setAttribute("numMessages", totalMessages);
-			// request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
-			// request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
+
 			response.sendRedirect("/admin");
 		}
 		else{

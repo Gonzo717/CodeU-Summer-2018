@@ -37,7 +37,6 @@ public class AdminServlet extends HttpServlet {
 
   /** Store class that gives access to Users. */
   private UserStore userStore;
-
   private ConversationStore convoStore;
   private MessageStore messageStore;
 
@@ -49,7 +48,6 @@ public class AdminServlet extends HttpServlet {
   public void init() throws ServletException {
 	super.init();
 	setUserStore(UserStore.getInstance());
-
 	setConversationStore(ConversationStore.getInstance());
 	setMessageStore(MessageStore.getInstance());
   }
@@ -79,6 +77,44 @@ public class AdminServlet extends HttpServlet {
 	request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
+	public void addAdmin(HttpServletRequest request, HttpServletResponse response)
+		throws IOException, ServletException {
+
+			String username = request.getParameter("username");
+			System.out.println(username);
+			if (!username.matches("[\\w*\\s*]*")) {
+	  			request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
+	  			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+	  			return;
+	  		}
+
+		    if (userStore.isUserRegistered(username)) {
+		      	request.setAttribute("error", "That username is already taken.");
+		      	request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+		      	return;
+		    }
+
+			userStore.addAdmin(username);
+			request.setAttribute("success", "Admin successfully added");
+		    request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+	}
+
+	public void refreshStats(HttpServletRequest request, HttpServletResponse response)
+		throws IOException, ServletException {
+			List<User> totalUsers = userStore.getUsers();
+			List<Conversation> totalConvos = convoStore.getAllConversations();
+			List<Message> totalMessages = messageStore.getAllMessages();
+
+			int numTotalUsers = totalUsers.size();
+			int numTotalConvos = totalConvos.size();
+			int numTotalMessages = totalMessages.size();
+
+			request.getSession().setAttribute("numUsers", numTotalUsers);
+			request.getSession().setAttribute("numConvos", numTotalConvos);
+			request.getSession().setAttribute("numMessages", numTotalMessages);
+
+		}
+
   /**
    * This function fires when a user submits the refresh stats form (clicks the refresh stats button). It gets the totalUsers,
    TotalConvos, and totalMessages each time to provide a hot-reload of what is happening.
@@ -87,48 +123,16 @@ public class AdminServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException {
 		// 	A method allowing the admin to refresh stats on the fly!
+			refreshStats(request, response);
+			System.out.println(request.getParameter("username"));
+			if(request.getParameter("username") != null){
+				addAdmin(request, response);
+			}
+			else{
+				response.sendRedirect("/admin");
+			}
 
-		List<User> totalUsers = userStore.getUsers();
-		List<Conversation> totalConvos = convoStore.getAllConversations();
-		List<Message> totalMessages = messageStore.getAllMessages();
-
-		int numTotalUsers = totalUsers.size();
-		int numTotalConvos = totalConvos.size();
-		int numTotalMessages = totalMessages.size();
-
-		request.getSession().setAttribute("numUsers", numTotalUsers);
-		request.getSession().setAttribute("numConvos", numTotalConvos);
-		request.getSession().setAttribute("numMessages", numTotalMessages);
-		// request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request,response);
-		response.sendRedirect("/admin");
 	}
-
-	public void addAdmin(HttpServletRequest request, HttpServletResponse response)
-		throws IOException, ServletException {
-			String username = request.getParameter("username");
-
-			if (!username.matches("[\\w*\\s*]*")) {
-      			request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
-      			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
-      		}
-	}
-		
-	// }
-	// if(admin){
-	//   	request.getSession().setAttribute("user", username);
-	//   	request.getSession().setAttribute("admin", username);
-	//   	System.out.println("userstore is comin");
-	//   	System.out.println(userStore);
-	//   	System.out.println("did userstore work??? hmm");
-	//   	response.sendRedirect("/admin");
-	// }
-	// else{
-	//   	request.getSession().setAttribute("user", (username));
-	// 	response.sendRedirect("/conversations");
-	// }
-
-	// Begin the data statistics portion
-
 
 }
 
