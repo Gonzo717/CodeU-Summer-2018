@@ -71,6 +71,13 @@ public class MessageStore {
     persistentStorageAgent.writeThrough(message);
   }
 
+  public List getAllMessages(){
+    /*
+    A simple getter method to return all the messages in MessageStore
+    */
+    return messages;
+  }
+
   /** Access the current set of Messages within the given Conversation. */
   public List<Message> getMessagesInConversation(UUID conversationId) {
 

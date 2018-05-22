@@ -71,12 +71,6 @@ public class UserStore {
     adminUsernames.add("Gonzalomeister");
   }
 
-  // public void AdminStore(PersistentStorageAgent persistentStorageAgent) {
-  //   this.persistentStorageAgent = persistentStorageAgent;
-
-    
-  // }
-
 
   /**
    * Access the User object with the given name.
@@ -92,6 +86,15 @@ public class UserStore {
     }
     return null;
   }
+
+  public List getUsers(){
+    /*
+    Returns the total users in the UserStore for admin purposes
+    */
+    return users;
+  }
+
+
 
   /**
    * Access the User object with the given UUID.

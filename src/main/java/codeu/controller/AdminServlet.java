@@ -15,7 +15,15 @@
 package codeu.controller;
 
 import codeu.model.data.User;
+import codeu.model.data.Conversation;
+import codeu.model.data.Message;
 import codeu.model.store.basic.UserStore;
+import java.util.List;
+import codeu.model.store.basic.ConversationStore;
+import codeu.model.store.basic.MessageStore;
+
+
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,14 +38,20 @@ public class AdminServlet extends HttpServlet {
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
+  private ConversationStore convoStore;
+  private MessageStore messageStore;
+
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
    * server, not when running in a test.
    */
   @Override
   public void init() throws ServletException {
-    super.init();
-    setUserStore(UserStore.getInstance());
+	super.init();
+	setUserStore(UserStore.getInstance());
+
+	setConversationStore(ConversationStore.getInstance());
+	setMessageStore(MessageStore.getInstance());
   }
 
   /**
@@ -45,54 +59,69 @@ public class AdminServlet extends HttpServlet {
    * by the test framework or the servlet's init() function.
    */
   void setUserStore(UserStore userStore) {
-    this.userStore = userStore;
+	this.userStore = userStore;
   }
 
+  void setConversationStore(ConversationStore convoStore) {
+	this.convoStore = convoStore;
+  }
+
+  void setMessageStore(MessageStore messageStore) {
+	this.messageStore = messageStore;
+  }
   /**
-   * This function fires when a user requests the /login URL. It simply forwards the request to
+   * This function fires when a user requests the /ladmin URL. It simply forwards the request to
    * login.jsp.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
-    request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+		throws IOException, ServletException {
+	request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**
-   * This function fires when a user submits the login form. It gets the username and password from
-   * the submitted form data, checks for validity and if correct adds the username to the session so
-   * we know the user is logged in.
+   * This function fires when a user submits the refresh stats form (clicks the refresh stats button). It gets the totalUsers,
+   TotalConvos, and totalMessages each time to provide a hot-reload of what is happening.
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
-    String username = request.getParameter("username");
-    String password = request.getParameter("password");
+		throws IOException, ServletException {
 
-    if (!userStore.isUserRegistered(username)) {
-      request.setAttribute("error", "That username was not found.");
-      request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
-      return;
-    }
+	// 	A method allowing the admin to refresh stats on the fly!
 
-    User user = userStore.getUser(username);
+	List<User> totalUsers = userStore.getUsers();
+	List<Conversation> totalConvos = convoStore.getAllConversations();
+	List<Message> totalMessages = messageStore.getAllMessages();
 
-    if (!BCrypt.checkpw(password, user.getPasswordHash())) {
-      request.setAttribute("error", "Please enter a correct password.");
-      request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
-      return;
-    }
+	int numTotalUsers = totalUsers.size();
+	int numTotalConvos = totalConvos.size();
+	int numTotalMessages = totalMessages.size();
 
-    boolean admin = userStore.isUserAdmin(username);
+	request.getSession().setAttribute("numUsers", numTotalUsers);
+	request.getSession().setAttribute("numConvos", numTotalConvos);
+	request.getSession().setAttribute("numMessages", numTotalMessages);
+	// request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request,response);
+	response.sendRedirect("/admin");
 
-    if(admin){
-      request.getSession().setAttribute("user", username);
-      request.getSession().setAttribute("admin", username);
-      response.sendRedirect("/admin");
-    }
-    else{
-      request.getSession().setAttribute("user", (username));
-      response.sendRedirect("/conversations");
-    }
+	// public refreshStats(){
+		
+		
+	// }
+	// if(admin){
+	//   	request.getSession().setAttribute("user", username);
+	//   	request.getSession().setAttribute("admin", username);
+	//   	System.out.println("userstore is comin");
+	//   	System.out.println(userStore);
+	//   	System.out.println("did userstore work??? hmm");
+	//   	response.sendRedirect("/admin");
+	// }
+	// else{
+	//   	request.getSession().setAttribute("user", (username));
+	// 	response.sendRedirect("/conversations");
+	// }
+
+	// Begin the data statistics portion
+
+
   }
 }
