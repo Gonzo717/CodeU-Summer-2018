@@ -123,12 +123,13 @@ public class AdminServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException {
 		// 	A method allowing the admin to refresh stats on the fly!
-			refreshStats(request, response);
+			
 			System.out.println(request.getParameter("username"));
 			if(request.getParameter("username") != null){
 				addAdmin(request, response);
 			}
 			else{
+				refreshStats(request, response);
 				response.sendRedirect("/admin");
 			}
 
