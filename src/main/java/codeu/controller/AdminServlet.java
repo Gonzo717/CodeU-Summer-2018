@@ -19,10 +19,14 @@ import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.store.basic.UserStore;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
+import java.time.Instant;
 
-
+import java.time.temporal.ChronoUnit;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -81,7 +85,6 @@ public class AdminServlet extends HttpServlet {
 		throws IOException, ServletException {
 
 			String username = request.getParameter("username");
-			System.out.println(username);
 			if (!username.matches("[\\w*\\s*]*")) {
 	  			request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
 	  			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
@@ -104,15 +107,48 @@ public class AdminServlet extends HttpServlet {
 			List<User> totalUsers = userStore.getUsers();
 			List<Conversation> totalConvos = convoStore.getAllConversations();
 			List<Message> totalMessages = messageStore.getAllMessages();
+			List<String> administrators = userStore.getAdmins();
 
 			int numTotalUsers = totalUsers.size();
 			int numTotalConvos = totalConvos.size();
 			int numTotalMessages = totalMessages.size();
 
+			//Getting most active user
+			// List<Message> activeMessages = new ArrayList();
+			Map<String, Integer> msgFrequency = new HashMap<String, Integer>();
+			//Determining the bounds for what "recent" means
+			//In this case "recent" means at most 24 hours ago.
+			Instant lowerBound = Instant.now().minus(24, ChronoUnit.HOURS);
+			for(Message message: totalMessages){
+				if(message.getCreationTime().isAfter(lowerBound)){
+					//found an active message, now get the user
+			        String author = userStore.getUser(message.getAuthorId()).getName();
+			        if (msgFrequency.get(author) == null){
+			        	msgFrequency.put(author, 1);
+			        } else {
+			        	msgFrequency.put(author, msgFrequency.get(author) + 1);
+			        }
+				}
+			}
+			// now we have to get the user that corresponds with largest number
+			String mostActiveUser = null;
+			int mostMessages = 0; //Setting the minimum
+			for(Map.Entry<String, Integer> entry: msgFrequency.entrySet()) {
+				if(entry.getValue() > mostMessages){
+					mostActiveUser = entry.getKey();
+					mostMessages = entry.getValue();
+				}
+			}
+			if(mostActiveUser == null){
+				mostActiveUser = "There hasn't been an active user in the past 24 hours!";
+			}
+			// System.out.println(mostActiveUser);
 			request.getSession().setAttribute("numUsers", numTotalUsers);
 			request.getSession().setAttribute("numConvos", numTotalConvos);
 			request.getSession().setAttribute("numMessages", numTotalMessages);
-
+			request.getSession().setAttribute("mostActiveUser", mostActiveUser);
+			request.getSession().setAttribute("numAdministrators", administrators.size());
+			request.getSession().setAttribute("getAllAdmin", administrators);
 		}
 
   /**
@@ -123,12 +159,11 @@ public class AdminServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException {
 		// 	A method allowing the admin to refresh stats on the fly!
-			refreshStats(request, response);
-			System.out.println(request.getParameter("username"));
 			if(request.getParameter("username") != null){
 				addAdmin(request, response);
 			}
 			else{
+				refreshStats(request, response);
 				response.sendRedirect("/admin");
 			}
 
