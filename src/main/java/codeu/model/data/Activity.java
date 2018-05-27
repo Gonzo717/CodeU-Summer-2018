@@ -5,15 +5,14 @@ package codeu.model.data;
 import java.time.Instant;
 import java.util.UUID;
 
-/* Enum that specifies Activity Type
- * newUser - user has joined
- * newConvo - conversation has been made
- * newMessage - message has been sent
- */
-enum ActivityType{ newUser, newConvo, newMessage;}
-
 public class Activity {
-	public final ActivityType type;
+
+	/* String type
+ 	 * newUser - user has joined
+ 	 * newConvo - conversation has been made
+ 	 * newMessage - message has been sent
+ 	*/
+	public final String type;
 	public final UUID id;
 	public final Instant creation;
 	
@@ -24,7 +23,7 @@ public class Activity {
 	*	@param id is the ID of who ever made the activity
 	*	@param creation is the creation time of this activity
 	*/
-	public Activity(ActivityType type, UUID id, Instant creation) {
+	public Activity(String type, UUID id, Instant creation) {
 		this.type = type;
 		this.id = id;
 		this.creation = creation;
@@ -32,7 +31,7 @@ public class Activity {
 	}
 	
 	/* Returns the activity type */
-	public ActivityType getType() {
+	public String getType() {
 		return type;
 	}
 	

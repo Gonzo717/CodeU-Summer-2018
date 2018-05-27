@@ -8,13 +8,11 @@ import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
 
-enum ActivityType{ newUser, newConvo, newMessage;} 
-
 public class ActivityTest {
 
 	@Test
 	public void testCreateUser() {
-		ActivityType type = ActivityType.newUser;
+		String type = "newUser";
 		UUID id = UUID.randomUUID();
 		Instant creation = Instant.now();
 
@@ -26,7 +24,7 @@ public class ActivityTest {
 	
 	@Test
 	public void testCreateConvo() {
-		ActivityType type = ActivityType.newConvo;
+		String type = "newConvo";
 		UUID id = UUID.randomUUID();
 		Instant creation = Instant.now();
 
@@ -38,7 +36,7 @@ public class ActivityTest {
 	
 	@Test
 	public void testCreateMessage() {
-		ActivityType type = ActivityType.newMessage;
+		String type = "newMessage";
 		UUID id = UUID.randomUUID();
 		Instant creation = Instant.now();
 
