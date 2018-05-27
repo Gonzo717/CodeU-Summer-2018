@@ -171,7 +171,6 @@ public class PersistentDataStore {
   			Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
   		
   			Activity activity = new Activity(type, uuid, creationTime);
-  		
 				activities.add(activity);
   		} catch (Exception e) {
   			throw new PersistentDataStoreException(e);

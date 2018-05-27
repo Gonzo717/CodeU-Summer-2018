@@ -3,6 +3,7 @@ package codeu.model.store.persistence;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+import codeu.model.data.Activity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import java.time.Instant;
@@ -145,5 +146,45 @@ public class PersistentDataStoreTest {
     Assert.assertEquals(authorTwo, resultMessageTwo.getAuthorId());
     Assert.assertEquals(contentTwo, resultMessageTwo.getContent());
     Assert.assertEquals(creationTwo, resultMessageTwo.getCreationTime());
+  }
+  
+  @Test
+  public void testSaveAndLoadActivities() throws PersistentDataStoreException {
+    UUID idOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
+    UUID idTwo = UUID.fromString("10000001-2222-3333-4444-555555555555");
+    UUID idThree = UUID.fromString("10000002-2222-3333-4444-555555555555");
+    
+    Instant creationOne = Instant.ofEpochMilli(1000);
+    Instant creationTwo = Instant.ofEpochMilli(2000);
+    Instant creationThree = Instant.ofEpochMilli(3000);
+
+  	Activity userAct = new Activity( "newUser", idOne, creationOne);
+  	Activity convoAct = new Activity( "newConvo", idTwo, creationTwo);
+	  Activity msgAct = new Activity( "newMessage", idThree, creationThree);
+		
+		//save
+		persistentDataStore.writeThrough(userAct);
+		persistentDataStore.writeThrough(convoAct);
+		persistentDataStore.writeThrough(msgAct);
+		
+		//load
+		List<Activity> resultActivities = persistentDataStore.loadActivities();
+		
+		//confirm that what we saved matches what we loaded
+		Activity resultUserAct = resultActivities.get(0);
+		Assert.assertEquals("newUser", resultUserAct.getType());
+		Assert.assertEquals(idOne, resultUserAct.getId());
+		Assert.assertEquals(creationOne, resultUserAct.getCreationTime());
+		
+		Activity resultConvoAct = resultActivities.get(1);
+		Assert.assertEquals("newConvo", resultConvoAct.getType());
+		Assert.assertEquals(idTwo, resultConvoAct.getId());
+		Assert.assertEquals(creationTwo, resultConvoAct.getCreationTime());
+				
+		Activity resultMsgAct = resultActivities.get(2);
+		Assert.assertEquals("newMessage", resultMsgAct.getType());
+		Assert.assertEquals(idThree, resultMsgAct.getId());
+		Assert.assertEquals(creationThree, resultMsgAct.getCreationTime());
+		
   }
 }

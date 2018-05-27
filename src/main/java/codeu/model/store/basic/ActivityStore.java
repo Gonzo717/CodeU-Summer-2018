@@ -26,6 +26,15 @@ public class ActivityStore {
     }
     return instance;
   }
+
+  /*
+   * Instance getter function used for testing. Supply a mock for PersistentStorageAgent.
+   *
+   * @param persistentStorageAgent a mock used for testing
+   */
+  public static ActivityStore getTestInstance(PersistentStorageAgent persistentStorageAgent) {
+    return new ActivityStore(persistentStorageAgent);
+  }
   
   /*
    * The PersistentStorageAgent responsible for loading Activities from and saving Activities
