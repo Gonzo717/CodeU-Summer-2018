@@ -1,3 +1,5 @@
+/* Used Conversation.java a reference */
+
 package codeu.model.data;
 
 import java.time.Instant;
@@ -40,7 +42,7 @@ public class Activity {
 	}
 	
 	/* Returns the creation time of this activity */
-	public Instant getCreation() {
+	public Instant getCreationTime() {
 		return creation;
 	}
 
