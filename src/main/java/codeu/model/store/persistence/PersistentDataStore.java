@@ -17,6 +17,7 @@ package codeu.model.store.persistence;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+import codeu.model.data.Activity;
 import codeu.model.store.persistence.PersistentDataStoreException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -148,6 +149,36 @@ public class PersistentDataStore {
 
     return messages;
   }
+  
+  /**
+   * Loads all Activity objects from the Datastore service and returns them in a List, sorted in
+   * ascending order by creation time.
+   * @throws PersistentDataStoreException if an error was detected during the load from the
+   *			Datastore service
+   */
+   
+  public List<Activity> loadActivities() throws PersistentDataStoreException {
+  	List<Activity> activities = new ArrayList();
+  
+  	// Retrieve all activities from the datastore.
+  	Query query = new Query("chat-activities").addSort("creation_time", SortDirection.ASCENDING);
+  	PreparedQuery results = datastore.prepare(query);
+  
+  	for(Entity entity : results.asIterable()) {
+  		try {
+  			String type = (String) entity.getProperty("activity_type");
+  			UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
+  			Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+  		
+  			Activity activity = new Activity(type, uuid, creationTime);
+  		
+				activities.add(activity);
+  		} catch (Exception e) {
+  			throw new PersistentDataStoreException(e);
+  		}
+  	}
+  	return activities;
+  }
 
   /** Write a User object to the Datastore service. */
   public void writeThrough(User user) {
@@ -178,6 +209,15 @@ public class PersistentDataStore {
     conversationEntity.setProperty("title", conversation.getTitle());
     conversationEntity.setProperty("creation_time", conversation.getCreationTime().toString());
     datastore.put(conversationEntity);
+  }
+  
+  /** Write an Activity object to the Datastore service. */
+  public void writeThrough(Activity activity) {
+  	Entity activityEntity = new Entity("chat-activities", activity.getId().toString());
+  	activityEntity.setProperty("activity_type", activity.getType().toString());
+  	activityEntity.setProperty("uuid", activity.getId().toString());
+    activityEntity.setProperty("creation_time", activity.getCreationTime().toString());
+  	datastore.put(activityEntity);
   }
 }
 
