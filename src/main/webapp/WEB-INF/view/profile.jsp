@@ -28,6 +28,11 @@
 				<a href="/logout">Logout</a>
 			<% } %>
 		</nav>
-			<h1> This is a profile page </h1>
+		<h1> This is <%=request.getAttribute("currentProfile")%>'s profile page</h1>
+		<% if(request.getSession().getAttribute("user") != null) {%>
+			<% if(request.getSession().getAttribute("user").equals(request.getAttribute("currentProfile"))) { %>
+ 				<h2> This is your profile page</h1>
+ 			<% } %>
+		<% } %>
 	</body>
 </html>

@@ -20,15 +20,10 @@ public class ProfileServlet extends HttpServlet {
       throws IOException, ServletException {
 		String requestUrl = request.getRequestURI();
 		String currentProfile = requestUrl.substring("/user/".length());
-		String username = (String) request.getSession().getAttribute("user");
+		// String username = (String) request.getSession().getAttribute("user");
+		//User user = userStore.getUser(username);
 
-		if (currentProfile.equals(username)){
-			System.out.println(currentProfile);
-			System.out.println(username);
-			request.getRequestDispatcher("/WEB-INF/view/userprofile.jsp").forward(request, response);
-		}
-		else{
-			request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
-		}
-	}
+		request.setAttribute("currentProfile", currentProfile);
+		request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
+}
