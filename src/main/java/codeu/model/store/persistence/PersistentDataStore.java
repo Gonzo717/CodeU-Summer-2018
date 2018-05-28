@@ -158,7 +158,7 @@ public class PersistentDataStore {
    */
    
   public List<Activity> loadActivities() throws PersistentDataStoreException {
-  	List<Activity> activities = new ArrayList();
+  List<Activity> activities = new ArrayList();
   
   	// Retrieve all activities from the datastore.
   	Query query = new Query("chat-activities").addSort("creation_time", SortDirection.ASCENDING);
@@ -170,9 +170,9 @@ public class PersistentDataStore {
   	    UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
   	    Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
   	    Activity activity = new Activity(type, uuid, creationTime);
-	    activities.add(activity);
+	    	activities.add(activity);
   	  } catch (Exception e) {
-	    throw new PersistentDataStoreException(e);
+	    	throw new PersistentDataStoreException(e);
   	  }
   	}
   	return activities;
