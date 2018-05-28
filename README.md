@@ -2,7 +2,7 @@
 Built with lots of Frappuccinos and love by JavaChips
 This chat app started as a playground for us Google CodeU participants to practice our java and team working skills. We have decided to call this chat app Trill and hope to fill it with amazing features in the future!
 
-##Getting Started:
+## Getting Started:
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 To WebApp runs on Google's AppEngine service, to view the most updated deployed version of our app, click [here](https://javachips-204100.appspot.com/)
 
@@ -88,7 +88,7 @@ App Engine devserver.
 again.
 - Refresh your browser to see your changes!
 
-##Authors:
+## Authors:
 ..* Luis Clague -[clague17](https://github.com/clague17)
 ..* Crista Mondragon -[cmondragon15117](https://github.com/cmondragon15117)
 ..* Gonzalo Rosales -[Gonzo717](https://github.com/Gonzo717)
