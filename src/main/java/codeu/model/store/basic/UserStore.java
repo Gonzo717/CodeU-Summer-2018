@@ -71,7 +71,6 @@ public class UserStore {
     adminUsernames.add("Gonzalomeister");
   }
 
-
   /**
    * Access the User object with the given name.
    *
@@ -93,8 +92,6 @@ public class UserStore {
     */
     return users;
   }
-
-
 
   /**
    * Access the User object with the given UUID.
@@ -151,6 +148,7 @@ public class UserStore {
     adminUsernames.add(username);
   }
 
+  //The fact that this is a public method makes me skeptical
   public List getAdmins(){
     return adminUsernames;
   }

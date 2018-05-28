@@ -18,6 +18,7 @@
 <head>
 	<title>Trill</title>
 	<link rel="stylesheet" href="/css/main.css">
+  	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 </head>
 <body>
 	<nav> <%-- the menu navbar --%>
@@ -61,12 +62,17 @@
 				<% if(request.getSession().getAttribute("numMessages")!= null){ %>
 					<li><a>Total Messages: <%= request.getSession().getAttribute("numUsers") %></a></li>
 				<% } %>
+
+				<% if(request.getSession().getAttribute("numAdministrators")!= null){ %>
+					<li><a>Total Admin: <%= (request.getSession().getAttribute("numAdministrators")) %></a></li>
+				<% } %>
+
+				<% if(request.getSession().getAttribute("mostActiveUser")!= null){ %>
+					<li><a>Most Active User: <%= request.getSession().getAttribute("mostActiveUser") %></a></li>
+				<% } %>
 			</ul>
 		</div>
-		<div id="graphs">
-			<h3>A graph displaying new users as a function of time in months goes here!</h3>
-			<h3>A graph displaying new messages as a function of time in hours goes here!</h3>
-		</div>
+
 		<div id="addAdmins">
 			<h2>Feeling lonely?</h2>
 			<h3>Add more admins:</h3>
