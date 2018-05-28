@@ -17,7 +17,7 @@ public class ActivityFeedServlet extends HttpServlet {
   private ActivityStore activityStore;
 	
   void setActivityStore(ActivityStore activityStore) {
-		this.activityStore = activityStore;
+    this.activityStore = activityStore;
   }
 	
   @Override
