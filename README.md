@@ -89,6 +89,6 @@ again.
 - Refresh your browser to see your changes!
 
 ## Authors:
-..* Luis Clague -[clague17](https://github.com/clague17)
-..* Crista Mondragon -[cmondragon15117](https://github.com/cmondragon15117)
-..* Gonzalo Rosales -[Gonzo717](https://github.com/Gonzo717)
+  * Luis Clague -[clague17](https://github.com/clague17)
+  * Crista Mondragon -[cmondragon15117](https://github.com/cmondragon15117)
+  * Gonzalo Rosales -[Gonzo717](https://github.com/Gonzo717)
