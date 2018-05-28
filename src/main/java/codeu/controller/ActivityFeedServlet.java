@@ -12,20 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ActivityFeedServlet extends HttpServlet {
-	
+  
   /* Stores class that gives access to Activities */
   private ActivityStore activityStore;
-	
+  
   void setActivityStore(ActivityStore activityStore) {
     this.activityStore = activityStore;
   }
-	
+  
   @Override
   public void init() throws ServletException {
     super.init();
     setActivityStore(ActivityStore.getInstance());
   }
-	
+  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     List<Activity> activities = activityStore.getAllActivities();
