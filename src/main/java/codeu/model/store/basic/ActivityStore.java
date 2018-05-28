@@ -14,9 +14,9 @@ import java.util.List;
  */
 
 public class ActivityStore {
-	private static ActivityStore instance;
+  private static ActivityStore instance;
 	
-	/*
+  /*
    * Returns the singleton instance of ActivityStore that should be shared between all servlet
    * classes. Do not call this function from a test; use getTestInstance() instead.
    */
@@ -66,5 +66,4 @@ public class ActivityStore {
   public void setActivities(List<Activity> activity) {
     this.activities = activities;
   }
-
 }
