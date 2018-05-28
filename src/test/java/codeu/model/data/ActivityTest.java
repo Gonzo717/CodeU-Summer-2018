@@ -10,39 +10,39 @@ import org.junit.Test;
 
 public class ActivityTest {
 
-	@Test
-	public void testCreateUser() {
-		String type = "newUser";
-		UUID id = UUID.randomUUID();
-		Instant creation = Instant.now();
+  @Test
+  public void testCreateUser() {
+    String type = "newUser";
+    UUID id = UUID.randomUUID();
+    Instant creation = Instant.now();
 
-		Activity activity = new Activity(type, id, creation);
+    Activity activity = new Activity(type, id, creation);
     Assert.assertEquals(type, activity.getType());
-		Assert.assertEquals(id, activity.getId());
+    Assert.assertEquals(id, activity.getId());
     Assert.assertEquals(creation, activity.getCreationTime());
-	}
+  }	
+
+  @Test
+  public void testCreateConvo() {
+    String type = "newConvo";
+    UUID id = UUID.randomUUID();
+    Instant creation = Instant.now();
+
+    Activity activity = new Activity(type, id, creation);
+    Assert.assertEquals(type, activity.getType());
+    Assert.assertEquals(id, activity.getId());
+    Assert.assertEquals(creation, activity.getCreationTime());
+  }
 	
-	@Test
-	public void testCreateConvo() {
-		String type = "newConvo";
-		UUID id = UUID.randomUUID();
-		Instant creation = Instant.now();
+  @Test
+  public void testCreateMessage() {
+    String type = "newMessage";
+    UUID id = UUID.randomUUID();
+    Instant creation = Instant.now();
 
-		Activity activity = new Activity(type, id, creation);
+    Activity activity = new Activity(type, id, creation);
     Assert.assertEquals(type, activity.getType());
-		Assert.assertEquals(id, activity.getId());
+    Assert.assertEquals(id, activity.getId());
     Assert.assertEquals(creation, activity.getCreationTime());
-	}
-	
-	@Test
-	public void testCreateMessage() {
-		String type = "newMessage";
-		UUID id = UUID.randomUUID();
-		Instant creation = Instant.now();
-
-		Activity activity = new Activity(type, id, creation);
-    Assert.assertEquals(type, activity.getType());
-		Assert.assertEquals(id, activity.getId());
-    Assert.assertEquals(creation, activity.getCreationTime());
-	}
+  }
 }
