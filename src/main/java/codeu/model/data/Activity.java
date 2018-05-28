@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class Activity {
 
-	/* String type
+	/* String type - type helps differentiate what type of activity it is based on the following:
  	 * newUser - user has joined
  	 * newConvo - conversation has been made
  	 * newMessage - message has been sent
