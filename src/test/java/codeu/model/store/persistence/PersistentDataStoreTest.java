@@ -158,33 +158,32 @@ public class PersistentDataStoreTest {
     Instant creationTwo = Instant.ofEpochMilli(2000);
     Instant creationThree = Instant.ofEpochMilli(3000);
 
-  	Activity userAct = new Activity( "newUser", idOne, creationOne);
-  	Activity convoAct = new Activity( "newConvo", idTwo, creationTwo);
-	  Activity msgAct = new Activity( "newMessage", idThree, creationThree);
+    Activity userAct = new Activity( "newUser", idOne, creationOne);
+    Activity convoAct = new Activity( "newConvo", idTwo, creationTwo);
+    Activity msgAct = new Activity( "newMessage", idThree, creationThree);
 		
-		//save
-		persistentDataStore.writeThrough(userAct);
-		persistentDataStore.writeThrough(convoAct);
-		persistentDataStore.writeThrough(msgAct);
+    //save
+    persistentDataStore.writeThrough(userAct);
+    persistentDataStore.writeThrough(convoAct);
+    persistentDataStore.writeThrough(msgAct);
 		
-		//load
-		List<Activity> resultActivities = persistentDataStore.loadActivities();
+    //load
+    List<Activity> resultActivities = persistentDataStore.loadActivities();
 		
-		//confirm that what we saved matches what we loaded
-		Activity resultUserAct = resultActivities.get(0);
-		Assert.assertEquals("newUser", resultUserAct.getType());
-		Assert.assertEquals(idOne, resultUserAct.getId());
-		Assert.assertEquals(creationOne, resultUserAct.getCreationTime());
-		
-		Activity resultConvoAct = resultActivities.get(1);
-		Assert.assertEquals("newConvo", resultConvoAct.getType());
-		Assert.assertEquals(idTwo, resultConvoAct.getId());
-		Assert.assertEquals(creationTwo, resultConvoAct.getCreationTime());
+    //confirm that what we saved matches what we loaded
+    Activity resultUserAct = resultActivities.get(0);
+    Assert.assertEquals("newUser", resultUserAct.getType());
+    Assert.assertEquals(idOne, resultUserAct.getId());
+    Assert.assertEquals(creationOne, resultUserAct.getCreationTime());	
+	  
+    Activity resultConvoAct = resultActivities.get(1);
+    Assert.assertEquals("newConvo", resultConvoAct.getType());
+    Assert.assertEquals(idTwo, resultConvoAct.getId());
+    Assert.assertEquals(creationTwo, resultConvoAct.getCreationTime());
 				
-		Activity resultMsgAct = resultActivities.get(2);
-		Assert.assertEquals("newMessage", resultMsgAct.getType());
-		Assert.assertEquals(idThree, resultMsgAct.getId());
-		Assert.assertEquals(creationThree, resultMsgAct.getCreationTime());
-		
+    Activity resultMsgAct = resultActivities.get(2);
+    Assert.assertEquals("newMessage", resultMsgAct.getType());
+    Assert.assertEquals(idThree, resultMsgAct.getId());
+    Assert.assertEquals(creationThree, resultMsgAct.getCreationTime());
   }
 }
