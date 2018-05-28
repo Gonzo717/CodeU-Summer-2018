@@ -1,9 +1,12 @@
-# CodeU Example Project
+# Trill
+Built with lots of Frappuccinos and love by JavaChips
+This chat app started as a playground for us Google CodeU participants to practice our java and team working skills. We have decided to call this chat app Trill and hope to fill it with amazing features in the future!
 
-This is an example chat application. It's complete and functional, but leaves
-plenty of room for improvement.
+##Getting Started:
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+To WebApp runs on Google's AppEngine service, to view the most updated deployed version of our app, click [here](https://javachips-204100.appspot.com/)
 
-## Step 1: Download Java
+### Step 1: Download Java
 
 Check whether you already have Java installed by opening a console and typing:
 
@@ -22,7 +25,7 @@ installation. If you still don't see a version number, then update your `PATH`
 environment variable so it contains Java's `bin` directory. Follow [these
 directions](https://www.java.com/en/download/help/path.xml) to do so.
 
-## Step 2: Download Maven
+### Step 2: Download Maven
 
 This project uses [Maven](https://maven.apache.org/) to compile and run our
 code. Maven also manages dependencies, runs the dev server, and deploys to App
@@ -39,7 +42,7 @@ variable. Instructions for both can be found
 Open a console window and execute `mvn -v` to confirm that Maven is correctly
 installed.
 
-## Step 3: Install Git
+### Step 3: Install Git
 
 This project uses [Git](https://git-scm.com/) for source version control and
 [GitHub](https://github.com/) to host our repository.
@@ -54,11 +57,11 @@ git --version
 
 If you don't see a version number, then make sure Git is on your `PATH`.
 
-## Step 4: Setup your repository
+### Step 4: Setup your repository
 
 Follow the instructions in the first project to get your repository setup.
 
-## Step 5: Run a development server
+### Step 5: Run a development server
 
 In order to test changes locally, you'll want to run the server locally, on your
 own computer.
@@ -75,7 +78,7 @@ App Engine server.
 You should now be able to use a local version of the chat app by opening your
 browser to [http://localhost:8080](http://localhost:8080).
 
-## Step 6: Make a change!
+### Step 6: Make a change!
 
 - Bring down the existing server by pressing `ctrl+c` in the console running the
 App Engine devserver.
@@ -84,3 +87,8 @@ App Engine devserver.
 - Bring the devserver back up by executing `mvn clean appengine:devserver`
 again.
 - Refresh your browser to see your changes!
+
+##Authors:
+..* Luis Clague -[clague17](https://github.com/clague17)
+..* Crista Mondragon -[cmondragon15117](https://github.com/cmondragon15117)
+..* Gonzalo Rosales -[Gonzo717](https://github.com/Gonzo717)

@@ -12,23 +12,70 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 public class ProfileServlet extends HttpServlet {
-	//implement doGet so it knows where to go
+	/** Store class that gives access to Users. */
+	private UserStore userStore;
+	/**
+	 * Set up state for handling login-related requests. This method is only called when running in a
+	 * server, not when running in a test.
+	 */
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		setUserStore(UserStore.getInstance());
+	}
+
+	/**
+	 * Sets the UserStore used by this servlet. This function provides a common setup method for use
+	 * by the test framework or the servlet's init() function.
+	 */
+	void setUserStore(UserStore userStore) {
+		this.userStore = userStore;
+	}
 	@Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 		String requestUrl = request.getRequestURI();
 		String currentProfile = requestUrl.substring("/user/".length());
-		String username = (String) request.getSession().getAttribute("user");
-
-		if (currentProfile.equals(username)){
-			System.out.println(currentProfile);
-			System.out.println(username);
-			request.getRequestDispatcher("/WEB-INF/view/userprofile.jsp").forward(request, response);
+		User user = userStore.getUser(currentProfile);
+		String about;
+		if ((user !=  null) && (user.getAboutMe() != null)){
+			about = user.getAboutMe();
+		} else {
+			about = "This user hasn't made a profile yet :(";
 		}
-		else{
-			request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
-		}
-	}
+		request.setAttribute("about", about);
+		request.setAttribute("currentProfile", currentProfile);
+		request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
+
+	//doPost is called when a user submits an aboutMe form on the profile page
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException {
+				String username = (String) request.getSession().getAttribute("user");
+				if (username == null) {
+				 	//if user is not logged in, don't let them submit an about me form
+				 	response.sendRedirect("/login");
+				 	return;
+				 }
+
+				User user = userStore.getUser(username);
+				if (user == null){
+				 	//user is not logged in, redirect to login page
+				 	response.sendRedirect("/login");
+				 	return;
+				 }
+				//get aboutMe content submitted through the form
+				String aboutMeContent = request.getParameter("about me");
+				//removes any HTML from aboutMe content
+				String cleanedAboutMeContent = Jsoup.clean(aboutMeContent, Whitelist.none());
+				//update user to include aboutMe data
+				user.setAboutMe(cleanedAboutMeContent);
+				userStore.updateUser(user);
+				response.sendRedirect("/user/" + username);
+			}
+}
