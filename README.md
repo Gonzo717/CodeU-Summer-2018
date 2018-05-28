@@ -1,5 +1,5 @@
 # Trill
-Built with lots of Frappuccinos and love by JavaChips
+Built with lots of Frappuccinos and love by JavaChips.
 This chat app started as a playground for us Google CodeU participants to practice our java and team working skills. We have decided to call this chat app Trill and hope to fill it with amazing features in the future!
 
 ## Getting Started:
