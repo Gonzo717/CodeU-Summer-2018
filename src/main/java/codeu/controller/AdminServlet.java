@@ -144,7 +144,6 @@ public class AdminServlet extends HttpServlet {
 			if(mostActiveUser == null){
 				mostActiveUser = "There hasn't been an active user in the past 24 hours!";
 			}
-			// System.out.println(mostActiveUser);
 			request.getSession().setAttribute("numUsers", numTotalUsers);
 			request.getSession().setAttribute("numConvos", numTotalConvos);
 			request.getSession().setAttribute("numMessages", numTotalMessages);
@@ -219,20 +218,16 @@ public class AdminServlet extends HttpServlet {
 		throws IOException, ServletException {
 		// 	A method allowing the admin to refresh stats on the fly!
 			if(request.getParameter("username") != null){
-				System.out.println("this is happening");
 				addAdmin(request, response);
 			}
 			else if(request.getParameter("updateGame") != null){
-				System.out.println("Made a money move");
 				updateGame(request, response);
 			}
 			else if (request.getParameter("playGame") != null){
-				System.out.println("Game has started");
 				startGame(request, response);
 				// response.sendRedirect("/admin");
 			}
 			else{
-				System.out.println("this is happening");
 				refreshStats(request, response);
 				response.sendRedirect("/admin");
 			}
