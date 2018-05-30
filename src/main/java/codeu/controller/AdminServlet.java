@@ -14,6 +14,7 @@
 
 package codeu.controller;
 
+import codeu.model.data.Tictactoe;
 import codeu.model.data.User;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
@@ -43,6 +44,7 @@ public class AdminServlet extends HttpServlet {
   private UserStore userStore;
   private ConversationStore convoStore;
   private MessageStore messageStore;
+	// Setting the game
 
   /**
    * Set up state for handling login-related requests. This method is only called when running in a
@@ -151,6 +153,63 @@ public class AdminServlet extends HttpServlet {
 			request.getSession().setAttribute("getAllAdmin", administrators);
 		}
 
+	public void startGame(HttpServletRequest request, HttpServletResponse response)
+		throws IOException, ServletException {
+			request.getSession().setAttribute("TicTacToe", "playing");
+			Tictactoe theGame = new Tictactoe();
+			theGame.Game();
+			request.getSession().setAttribute("player", 1);
+			request.getSession().setAttribute("theGame", theGame);
+			//We dont want two grids showing up.
+			request.getSession().setAttribute("TicTacToe", null);
+
+			request.getSession().setAttribute("boardFull", null);
+			request.getSession().setAttribute("hasWon", null);
+			// response.sendRedirect("/admin");
+			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+		}
+
+	public void updateGame(HttpServletRequest request, HttpServletResponse response)
+		throws IOException, ServletException {
+			String move = (String) request.getParameter("board");
+			Tictactoe theGame = (Tictactoe) request.getSession().getAttribute("theGame");
+			int player = (int) request.getSession().getAttribute("player");
+			int row = Integer.parseInt(move.substring(0,1));
+			int col = Integer.parseInt(move.substring(1,2));
+
+			theGame.set(row, col, player);
+			// Check for winner/boardFull
+			int winner = theGame.checkWin();
+			boolean boardFull = false;
+			if(winner != 0){ // checkWin() returns 0 if there is no winner yet
+				if(winner == 1){
+					// winner is X
+					String playerWinner = "X"; 
+					request.getSession().setAttribute("hasWon", playerWinner);
+				} else if(winner == -1){
+					//winner is O
+					String playerWinner = "O";
+					request.getSession().setAttribute("hasWon", playerWinner);
+				}
+			} else if(theGame.isFull()){
+				// the game board is completely full
+				boardFull = true;
+				request.getSession().setAttribute("boardFull", boardFull);
+			} else{
+				// continue playing
+				if(player == 1){ //1 for X, -1 for O
+					request.getSession().setAttribute("player", -1);
+				} else if(player == -1){
+					request.getSession().setAttribute("player", 1);
+				}
+			}
+			//update the game
+			request.getSession().setAttribute("theGame", theGame);
+			//forward the request!
+			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+		}
+
+
   /**
    * This function fires when a user submits the refresh stats form (clicks the refresh stats button). It gets the totalUsers,
    TotalConvos, and totalMessages each time to provide a hot-reload of what is happening.
@@ -160,9 +219,20 @@ public class AdminServlet extends HttpServlet {
 		throws IOException, ServletException {
 		// 	A method allowing the admin to refresh stats on the fly!
 			if(request.getParameter("username") != null){
+				System.out.println("this is happening");
 				addAdmin(request, response);
 			}
+			else if(request.getParameter("updateGame") != null){
+				System.out.println("Made a money move");
+				updateGame(request, response);
+			}
+			else if (request.getParameter("playGame") != null){
+				System.out.println("Game has started");
+				startGame(request, response);
+				// response.sendRedirect("/admin");
+			}
 			else{
+				System.out.println("this is happening");
 				refreshStats(request, response);
 				response.sendRedirect("/admin");
 			}
