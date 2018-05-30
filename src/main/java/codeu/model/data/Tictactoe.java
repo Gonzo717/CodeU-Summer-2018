@@ -194,4 +194,113 @@ public class Tictactoe implements java.io.Serializable {
 
 		return 0;
 	}
+
+	// A helper method for computerMove()
+	private String done(int r, int c) {
+		set(r, c, -1);
+		return r + "" + c;
+	}
+
+    /**
+     * The computer makes its move and returns a string representation of its choice. The string
+     * consists of two digits, each between 0 and 2 inclusive, representing the row and column it
+     * chose to move in.
+     * 
+     * @return a String representation of the computer's move
+     */
+	public String computerMove() {
+		// Look to win in a row
+		for (int r = 0; r < 3; r++) {
+			if (rowSum[r] == -2) {
+				// Find the empty space
+				for (int c = 0; c < 3; c++) {
+					if (board[r][c] == 0) {
+						return done(r, c);
+					}
+				}
+			}
+		}
+
+		// Look to win in a col
+		for (int c = 0; c < 3; c++) {
+			if (colSum[c] == -2) {
+				// Find the empty space
+				for (int r = 0; r < 3; r++) {
+					if (board[r][c] == 0) {
+						return done(r, c);
+					}
+				}
+			}
+		}
+
+		// Look to win a diag
+		for (int d = 0; d < 2; d++) {
+			if (diagSum[d] == -2) {
+				// Find the empty space
+				for (int r = 0; r < 3; r++) {
+					int c = d == 0 ? r : 2 - r;
+					if (board[r][c] == 0) {
+						return done(r, c);
+					}
+				}
+			}
+		}
+
+		// Look to block a row
+		for (int r = 0; r < 3; r++) {
+			if (rowSum[r] == 2) {
+				// Find the empty space
+				for (int c = 0; c < 3; c++) {
+					if (board[r][c] == 0) {
+						return done(r, c);
+					}
+				}
+			}
+		}
+
+		// Look to block a col
+		for (int c = 0; c < 3; c++) {
+			if (colSum[c] == 2) {
+				// Find the empty space
+				for (int r = 0; r < 3; r++) {
+					if (board[r][c] == 0) {
+						return done(r, c);
+					}
+				}
+			}
+		}
+
+		// Look to block a diag
+		for (int d = 0; d < 2; d++) {
+			if (diagSum[d] == 2) {
+				// Find the empty space
+				for (int r = 0; r < 3; r++) {
+					int c = d == 0 ? r : 2 - r;
+					if (board[r][c] == 0) {
+						return done(r, c);
+					}
+				}
+			}
+		}
+
+		// Find the non-full row and col w/ least val
+		int bestR = -1;
+		int bestC = -1;
+		int minSum = 10;
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				if (board[r][c] == 0) {
+					int sum = rowSum[r] + colSum[c];
+					if (sum < minSum) {
+						minSum = sum;
+						bestR = r;
+						bestC = c;
+					}
+				}
+			}
+		}
+
+		return done(bestR, bestC);
+	}
+
 }
