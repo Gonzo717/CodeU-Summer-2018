@@ -14,11 +14,13 @@ public class ActivityTest {
   public void testCreateUser() {
     String type = "newUser";
     UUID id = UUID.randomUUID();
+    UUID owner = UUID.randomUUID();
     Instant creation = Instant.now();
 
-    Activity activity = new Activity(type, id, creation);
+    Activity activity = new Activity(type, id, owner, creation);
     Assert.assertEquals(type, activity.getType());
     Assert.assertEquals(id, activity.getId());
+		Assert.assertEquals(owner, activity.getOwner());
     Assert.assertEquals(creation, activity.getCreationTime());
   }	
 
@@ -26,11 +28,13 @@ public class ActivityTest {
   public void testCreateConvo() {
     String type = "newConvo";
     UUID id = UUID.randomUUID();
+    UUID owner = UUID.randomUUID();
     Instant creation = Instant.now();
 
-    Activity activity = new Activity(type, id, creation);
+    Activity activity = new Activity(type, id, owner, creation);
     Assert.assertEquals(type, activity.getType());
     Assert.assertEquals(id, activity.getId());
+		Assert.assertEquals(owner, activity.getOwner());
     Assert.assertEquals(creation, activity.getCreationTime());
   }
 	
@@ -38,11 +42,13 @@ public class ActivityTest {
   public void testCreateMessage() {
     String type = "newMessage";
     UUID id = UUID.randomUUID();
+    UUID owner = UUID.randomUUID();
     Instant creation = Instant.now();
 
-    Activity activity = new Activity(type, id, creation);
+    Activity activity = new Activity(type, id, owner, creation);
     Assert.assertEquals(type, activity.getType());
     Assert.assertEquals(id, activity.getId());
+    Assert.assertEquals(owner, activity.getOwner());
     Assert.assertEquals(creation, activity.getCreationTime());
   }
 }

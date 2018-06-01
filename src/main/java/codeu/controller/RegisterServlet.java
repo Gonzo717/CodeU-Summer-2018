@@ -12,12 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 
 import codeu.model.data.User;
+import codeu.model.data.Activity;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.ActivityStore;
 
 public class RegisterServlet extends HttpServlet {
 
   /** Store class that gives access to Users. */
   private UserStore userStore;
+    
+  /* Store class that gives acces Activities */
+	private ActivityStore activityStore;
 
   /**
    * Set up state for handling registration-related requests. This method is only called when
@@ -27,6 +32,8 @@ public class RegisterServlet extends HttpServlet {
   public void init() throws ServletException {
     super.init();
     setUserStore(UserStore.getInstance());
+    setActivityStore(ActivityStore.getInstance());
+    
   }
 
   /**
@@ -35,6 +42,14 @@ public class RegisterServlet extends HttpServlet {
    */
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
+  }
+  
+  /* 
+   * Sets the ActivityStore used by this servlet. This function provides a common setup method for
+   * use by the test framework or the servlet's init() function.
+   */
+  void setActivityStore(ActivityStore activityStore) {
+  	this.activityStore = activityStore;
   }
 
   @Override
@@ -66,6 +81,10 @@ public class RegisterServlet extends HttpServlet {
 
     User user = new User(UUID.randomUUID(), username, hashedPassword, Instant.now());
     userStore.addUser(user);
+    
+    // adds user activity to ActivityStore
+    Activity userAct = new Activity("newUser", UUID.randomUUID(), user.getId(), user.getCreationTime());
+    activityStore.addActivity(userAct);
 
     response.sendRedirect("/login");
   }

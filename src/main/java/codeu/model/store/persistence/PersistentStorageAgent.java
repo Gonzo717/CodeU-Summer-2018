@@ -95,10 +95,10 @@ public class PersistentStorageAgent {
    * Retrieve all Activity objects from the Datastore service. The returned list may be empty.
    *
    * @throws PersistentDataStoreException if an error was detected during the loard from the
-   *		Datastore service
+   *    Datastore service
    */
   public List<Activity> loadActivities() throws PersistentDataStoreException {
-  	return persistentDataStore.loadActivities();
+    return persistentDataStore.loadActivities();
   }
 
   /** Write a User object to the Datastore service. */
@@ -118,6 +118,6 @@ public class PersistentStorageAgent {
   
   /** Write an Activity object to the Datastore service. */
   public void writeThrough(Activity activity) {
-  	persistentDataStore.writeThrough(activity);
+    persistentDataStore.writeThrough(activity);
   }
 }
