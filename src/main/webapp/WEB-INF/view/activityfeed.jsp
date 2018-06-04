@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="codeu.model.data.Activity" %>
 <%@ page import="codeu.model.store.basic.ActivityStore" %>
+<%@ page import="codeu.model.store.basic.UserStore" %>
+
 <%
 List<Activity> activities = (List<Activity>) request.getAttribute("activities");    
 %>
@@ -43,17 +45,20 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
           if(activity != null) {
           	if(activity.getType().equals("newUser")) {
           	%>
-          		<li>New user has been created</li>
+          		<li><b><%=activity.getCreationTimeFormatted()%></b> New user has been created! Welcome, <%=UserStore.getInstance()
+          		.getUser(activity.getOwner()).getName()%></li>
           	<%
           	}
             else if(activity.getType().equals("newConvo")) {
             %>
-            	<li>New conversation has been created</li>
+            	<li><b><%=activity.getCreationTimeFormatted()%></b>New conversation has been created by <%=UserStore.getInstance()
+          		.getUser(activity.getOwner()).getName()%></li>
             <%
             }
             else if(activity.getType().equals("newMessage")) {
             %>
-							<li>New message has been sent</li>            
+							<li><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
+          		.getUser(activity.getOwner()).getName()%></li>            
             <%
             }
           }

@@ -4,6 +4,8 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class Activity {
 
@@ -51,5 +53,12 @@ public class Activity {
 	public Instant getCreationTime() {
 		return creation;
 	}
+	
+	public String getCreationTimeFormatted() {
+		DateTimeFormatter formatter = DateTimeFormatter
+        .ofPattern("h:m a dd/MM/yyyy ")
+        .withZone(ZoneId.systemDefault());
 
+		return formatter.format(creation);
+	}
 }
