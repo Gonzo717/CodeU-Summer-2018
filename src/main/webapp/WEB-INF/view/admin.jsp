@@ -13,6 +13,9 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 --%>
+
+<%@ page import="codeu.model.data.Tictactoe"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +24,9 @@
   	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 </head>
 <body>
+
+	<jsp:useBean id="theGame" class="codeu.model.data.Tictactoe" scope="session"/>
+
 	<nav> <%-- the menu navbar --%>
 		<a id="navTitle" href="/">Trill</a>
 		<a href="/conversations">Conversations</a>
@@ -95,7 +101,59 @@
 		      <button type="submit">Create</button>
 		    </form>
 		</div>
+		<!-- Game begins! -->
+		<div id="game" style="margin-bottom: 50px;">
+			<h2>Bored?</h2>
+			<h2>Play a game!</h2>
+			<!-- Creating game -->
+			<form action="/admin" method="POST">
+				<input type="submit" name="playGame" value="Tic Tac Toe">
+				<% 
+				if(request.getSession().getAttribute("TicTacToe") != null) { 
+					 %>
+					<table border=1>
+				    	<%for(int row = 0; row < 3; row++) { %>
+				    		<tr>
+				    		<%for(int col= 0; col < 3; col++){ %>
+				        			<td><input type=radio name=board value="<%=row%><%=col%>"/></td>
+				        	<% } %>
+				    	<%} %>
+				    		</tr>
+				<% } %>
+			<!-- Updating moves -->
+			</form>
+			<form action="admin" method="POST">
+				<% if(request.getSession().getAttribute("player") != null) { 
+					%>
+					<table border=1>
+						<%
+				    	for(int row = 0; row < 3; row++) { %>
+				    		<tr>
+				    		<%for (int col= 0; col < 3; col++){ %>
+				        		<%if(theGame.get(row, col) == 1){ %>
+				        			<td>X</td>
+				        		<% }else if(theGame.get(row, col) == -1){ %>
+				        			<td>O</td>
+				        		<% }else{ %>
+				        			<td><input type=radio name=board value="<%=row%><%=col%>"/></td>
+				        		<% } %>
+				    		<% } %>
+				    		</tr>
+				    	<% }  %>
+				<% if(request.getSession().getAttribute("boardFull") != null){ %>
+		        	<h3 style="color:red">The board is full and nobody won!</h3>
+		        	<h3>Click "Tic Tac Toe to play again"</h3>
+				<% } else if(request.getSession().getAttribute("hasWon") != null){ %>
+		        	<h3 style="color:green">Congrats! Player <%= request.getSession().getAttribute("hasWon") %> has won!</h3>
+		        	<h3>Click "Tic Tac Toe to play again"</h3>
+				<% } else { %> 
+				<input type="submit" name="updateGame" value="Make move">
+				<% } %>
+			<% } %>
+			</form>
+		</div>
 	</div>
+
 
 </body>
 </html>
