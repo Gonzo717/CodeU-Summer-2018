@@ -2,6 +2,9 @@
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
+<%
+List<Message> messages = (List<Message>) request.getAttribute("messages");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -9,9 +12,25 @@
 		<title>Profile Page</title>
 	  <link rel="stylesheet" href="/css/main.css" type="text/css">
 
+		<style>
+			#chat {
+				background-color: white;
+				height: 500px;
+				overflow-y: scroll
+			}
+		</style>
+
+		<script>
+			// scroll the chat div to the bottom
+			function scrollChat() {
+				var chatDiv = document.getElementById('chat');
+				chatDiv.scrollTop = chatDiv.scrollHeight;
+			};
+		</script>
 	</head>
 
-	<body>
+	<body onload="scrollChat()">
+
 		<nav>
 			<a id="navTitle" href="/">Trill</a>
 			<a href="/conversations">Conversations</a>
@@ -32,6 +51,7 @@
 				<a href="/logout">Logout</a>
 			<% } %>
 		</nav>
+
 		<div id="container">
 			<h1><%=request.getAttribute("currentProfile")%>'s Profile Page</h1>
 			<hr/>
@@ -51,6 +71,27 @@
 		<% } %>
 	</p>
 	</div>
-	<hr/>
-	</body>
+
+	<div id="container">
+		<hr/>
+		<% if(messages.size() != 0) { %>
+			<h2> <%=request.getAttribute("currentProfile")%>'s Sent Messages: </h2>
+			<div id="chat">
+				<ul>
+					<%
+					for (Message message : messages) {
+						%>
+						<li><strong><%= message.getFormattedTime().toString()%>:</strong> <%= message.getContent() %></li>
+						<%
+					}
+					%>
+				</ul>
+			</div>
+		<%} else{ %>
+			<h2> <%=request.getAttribute("currentProfile")%> Hasn't Sent Messages </h2>
+		<%}%>
+		<hr/>
+	</div>
+
+</body>
 </html>
