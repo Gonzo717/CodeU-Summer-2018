@@ -15,7 +15,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import codeu.model.data.User;
+import codeu.model.data.Activity;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.ActivityStore;
 
 public class RegisterServletTest {
 
@@ -23,6 +25,7 @@ public class RegisterServletTest {
   private HttpServletRequest mockRequest;
   private HttpServletResponse mockResponse;
   private RequestDispatcher mockRequestDispatcher;
+  private ActivityStore mockActivityStore;
 
   @Before
   public void setup() {
@@ -32,6 +35,9 @@ public class RegisterServletTest {
     mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
     Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/register.jsp"))
         .thenReturn(mockRequestDispatcher);
+        
+    mockActivityStore = Mockito.mock(ActivityStore.class);
+    registerServlet.setActivityStore(mockActivityStore);
   }
 
   @Test
@@ -54,24 +60,24 @@ public class RegisterServletTest {
 
   @Test
   public void testDoPost_NewUser() throws IOException, ServletException {
-    // Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
-//     Mockito.when(mockRequest.getParameter("password")).thenReturn("test password");
-// 
-//     UserStore mockUserStore = Mockito.mock(UserStore.class);
-//     Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(false);
-//     registerServlet.setUserStore(mockUserStore);
-// 
-//     registerServlet.doPost(mockRequest, mockResponse);
-// 
-//     ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
-// 
-//     Mockito.verify(mockUserStore).addUser(userArgumentCaptor.capture());
-//     Assert.assertEquals("test username", userArgumentCaptor.getValue().getName());
-//     Assert.assertThat(
-//         userArgumentCaptor.getValue().getPasswordHash(), CoreMatchers.containsString("$2a$10$"));
-//     Assert.assertEquals(60, userArgumentCaptor.getValue().getPasswordHash().length());
-// 
-//     Mockito.verify(mockResponse).sendRedirect("/login");
+    Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
+    Mockito.when(mockRequest.getParameter("password")).thenReturn("test password");
+
+    UserStore mockUserStore = Mockito.mock(UserStore.class);
+    Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(false);
+    registerServlet.setUserStore(mockUserStore);
+
+    registerServlet.doPost(mockRequest, mockResponse);
+
+    ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
+
+    Mockito.verify(mockUserStore).addUser(userArgumentCaptor.capture());
+    Assert.assertEquals("test username", userArgumentCaptor.getValue().getName());
+    Assert.assertThat(
+        userArgumentCaptor.getValue().getPasswordHash(), CoreMatchers.containsString("$2a$10$"));
+    Assert.assertEquals(60, userArgumentCaptor.getValue().getPasswordHash().length());
+
+    Mockito.verify(mockResponse).sendRedirect("/login");
   }
 
   @Test
