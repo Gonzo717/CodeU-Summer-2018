@@ -171,6 +171,11 @@ public class AdminServlet extends HttpServlet {
 	public void updateGame(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException {
 			String move = (String) request.getParameter("board");
+			if(move == null){
+				request.getSession().setAttribute("error", "Select a Tile");
+	  			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
+	  			return;
+			}
 			Tictactoe theGame = (Tictactoe) request.getSession().getAttribute("theGame");
 			int player = (int) request.getSession().getAttribute("player");
 			int row = Integer.parseInt(move.substring(0,1));

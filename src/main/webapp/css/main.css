@@ -23,7 +23,7 @@ body {
   background-color: #eeeeee;
 }
 
-nav {
+/*nav {
   background-color: #283593;
 }
 
@@ -33,7 +33,7 @@ nav a {
   font-size: 24px;
   margin: 15px;
   text-decoration: none;
-}
+}*/
 
 table {
   margin-left: auto;
@@ -56,6 +56,26 @@ table td{
   margin-right: auto;
   width: 800px;
 }
+
+/*#game input {
+  position: absolute;
+  opacity: 0;
+}*/
+
+.checkmark {
+  height: 400px;
+  width: 400px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/*#game:hover input ~ .checkmark{
+  background-color: #ccc;
+}
+*/
+/*#game input:checked ~ .checkmark {
+  background-color: #2196F3;
+}*/
 
 h1 {
   color: #757575;
