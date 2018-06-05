@@ -27,7 +27,21 @@ public class ActivityStoreTest {
   }
   
   /* Add Tests adding multiple users of all activity types */
+	@Test
+	public void testAddActivities() {
+		activityStore.addActivity(NEW_USER_ACTIVITY);
+		activityStore.addActivity(NEW_CONVO_ACTIVITY);
+		activityStore.addActivity(NEW_MSG_ACTIVITY);
+		
+		List<Activity> expectedActivities = activityStore.getAllActivities();
+		
+		assertEquals(expectedActivities.get(0), NEW_USER_ACTIVITY);
+		assertEquals(expectedActivities.get(1), NEW_CONVO_ACTIVITY);
+		assertEquals(expectedActivities.get(2), NEW_MSG_ACTIVITY);
 
+	
+	}
+	
   /* Check equivalence for activities */
   private void assertEquals(Activity expectedActivity, Activity actualActivity) {
     Assert.assertEquals(expectedActivity.getType(), actualActivity.getType());
