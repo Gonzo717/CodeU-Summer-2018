@@ -18,65 +18,65 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ActivityFeedServlet extends HttpServlet {
-  
-  /** Store class that gives access to Conversations. */
-  private ConversationStore conversationStore;
+	
+	/** Store class that gives access to Conversations. */
+	private ConversationStore conversationStore;
 
-  /** Store class that gives access to Messages. */
-  private MessageStore messageStore;
+	/** Store class that gives access to Messages. */
+	private MessageStore messageStore;
 
-  /** Store class that gives access to Users. */
-  private UserStore userStore;
-  
-  /* Stores class that gives access to Activities. */
-  private ActivityStore activityStore;
+	/** Store class that gives access to Users. */
+	private UserStore userStore;
+	
+	/* Stores class that gives access to Activities. */
+	private ActivityStore activityStore;
 
-  /*
-   * Sets the ConversationStore used by this servlet. This function provides a common setup method
-   * for use by the test framework or the servlet's init() function.
-   */
-  void setConversationStore(ConversationStore conversationStore) {
-    this.conversationStore = conversationStore;
-  }
+	/*
+	 * Sets the ConversationStore used by this servlet. This function provides a common setup method
+	 * for use by the test framework or the servlet's init() function.
+	 */
+	void setConversationStore(ConversationStore conversationStore) {
+		this.conversationStore = conversationStore;
+	}
 
-  /*
-   * Sets the MessageStore used by this servlet. This function provides a common setup method for
-   * use by the test framework or the servlet's init() function.
-   */
-  void setMessageStore(MessageStore messageStore) {
-    this.messageStore = messageStore;
-  }
+	/*
+	 * Sets the MessageStore used by this servlet. This function provides a common setup method for
+	 * use by the test framework or the servlet's init() function.
+	 */
+	void setMessageStore(MessageStore messageStore) {
+		this.messageStore = messageStore;
+	}
 
-  /*
-   * Sets the UserStore used by this servlet. This function provides a common setup method for use
-   * by the test framework or the servlet's init() function.
-   */
-  void setUserStore(UserStore userStore) {
-    this.userStore = userStore;
-  }
-  /*
-   * Sets the ActivityStore used by this servlet. This function provides a common setup method for
-   * use by the test framework or the servlet's init() function.
-   */
-  void setActivityStore(ActivityStore activityStore) {
-    this.activityStore = activityStore;
-  }
-  
-  @Override
-  public void init() throws ServletException {
-    super.init();
-    setConversationStore(ConversationStore.getInstance());
-    setMessageStore(MessageStore.getInstance());
-    setUserStore(UserStore.getInstance());
-    setActivityStore(ActivityStore.getInstance());
-  }
-  
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    
-    List<Activity> activities = activityStore.getAllActivities();
-    request.setAttribute("activities", activities);
-    request.getRequestDispatcher("/WEB-INF/view/activityfeed.jsp").forward(request, response);
-  }
-  
+	/*
+	 * Sets the UserStore used by this servlet. This function provides a common setup method for use
+	 * by the test framework or the servlet's init() function.
+	 */
+	void setUserStore(UserStore userStore) {
+		this.userStore = userStore;
+	}
+	/*
+	 * Sets the ActivityStore used by this servlet. This function provides a common setup method for
+	 * use by the test framework or the servlet's init() function.
+	 */
+	void setActivityStore(ActivityStore activityStore) {
+		this.activityStore = activityStore;
+	}
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		setConversationStore(ConversationStore.getInstance());
+		setMessageStore(MessageStore.getInstance());
+		setUserStore(UserStore.getInstance());
+		setActivityStore(ActivityStore.getInstance());
+	}
+	
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		
+		List<Activity> activities = activityStore.getAllActivities();
+		request.setAttribute("activities", activities);
+		request.getRequestDispatcher("/WEB-INF/view/activityfeed.jsp").forward(request, response);
+	}
+	
 }

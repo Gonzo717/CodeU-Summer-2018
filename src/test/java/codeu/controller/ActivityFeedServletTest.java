@@ -28,36 +28,36 @@ public class ActivityFeedServletTest {
 	private HttpServletResponse mockResponse;
 	
 	private RequestDispatcher mockRequestDispatcher;
-  private ConversationStore mockConversationStore;
-  private MessageStore mockMessageStore;
-  private UserStore mockUserStore;
-  private ActivityStore mockActivityStore;
-  
-  @Before
-  public void setup() {
-  	activityFeedServlet = new ActivityFeedServlet();
-  	mockRequest = Mockito.mock(HttpServletRequest.class);  	
-  	mockResponse = Mockito.mock(HttpServletResponse.class);
-  	mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
-  	Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/activityfeed.jsp"))
-  			.thenReturn(mockRequestDispatcher);
-  	
-  	mockConversationStore = Mockito.mock(ConversationStore.class);
-    activityFeedServlet.setConversationStore(mockConversationStore);
+	private ConversationStore mockConversationStore;
+	private MessageStore mockMessageStore;
+	private UserStore mockUserStore;
+	private ActivityStore mockActivityStore;
+	
+	@Before
+	public void setup() {
+		activityFeedServlet = new ActivityFeedServlet();
+		mockRequest = Mockito.mock(HttpServletRequest.class);		
+		mockResponse = Mockito.mock(HttpServletResponse.class);
+		mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
+		Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/activityfeed.jsp"))
+				.thenReturn(mockRequestDispatcher);
+		
+		mockConversationStore = Mockito.mock(ConversationStore.class);
+		activityFeedServlet.setConversationStore(mockConversationStore);
 
-    mockMessageStore = Mockito.mock(MessageStore.class);
-    activityFeedServlet.setMessageStore(mockMessageStore);
+		mockMessageStore = Mockito.mock(MessageStore.class);
+		activityFeedServlet.setMessageStore(mockMessageStore);
 
-    mockUserStore = Mockito.mock(UserStore.class);
-    activityFeedServlet.setUserStore(mockUserStore);
-    
-    mockActivityStore = Mockito.mock(ActivityStore.class);
-    activityFeedServlet.setActivityStore(mockActivityStore);
-  }
-  
-  @Test
-  public void testDoGet() throws IOException, ServletException {
-    activityFeedServlet.doGet(mockRequest, mockResponse);
-    Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
-  }
+		mockUserStore = Mockito.mock(UserStore.class);
+		activityFeedServlet.setUserStore(mockUserStore);
+		
+		mockActivityStore = Mockito.mock(ActivityStore.class);
+		activityFeedServlet.setActivityStore(mockActivityStore);
+	}
+	
+	@Test
+	public void testDoGet() throws IOException, ServletException {
+		activityFeedServlet.doGet(mockRequest, mockResponse);
+		Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+	}
 }
