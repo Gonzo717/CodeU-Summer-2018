@@ -16,6 +16,8 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 
 /** Class representing a message. Messages are sent by a User in a Conversation. */
 public class Message {
@@ -66,5 +68,12 @@ public class Message {
   /** Returns the creation time of this Message. */
   public Instant getCreationTime() {
     return creation;
+  }
+
+/** Returns the formatted time of this message in the form of dd/MM/yyy h:m (time zone). */
+  public String getFormattedTime() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy h:m a z").withZone(ZoneId.systemDefault());
+    return formatter.format(creation);
+
   }
 }

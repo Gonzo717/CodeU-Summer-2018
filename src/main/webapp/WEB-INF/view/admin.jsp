@@ -38,7 +38,7 @@
 		<a href="/admin">Admin</a>
 		<a href="/activityfeed">Activity Feed</a>
 		<% if(request.getSession().getAttribute("user") != null){ %>
-      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Profile Page</a>
+      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
     <% } %>
 		<a href="/about.jsp">About</a>
 		<% if(request.getSession().getAttribute("user") != null){ %>
@@ -108,8 +108,8 @@
 			<!-- Creating game -->
 			<form action="/admin" method="POST">
 				<input type="submit" name="playGame" value="Tic Tac Toe">
-				<% 
-				if(request.getSession().getAttribute("TicTacToe") != null) { 
+				<%
+				if(request.getSession().getAttribute("TicTacToe") != null) {
 					 %>
 					<table border=1>
 				    	<%for(int row = 0; row < 3; row++) { %>
@@ -123,7 +123,7 @@
 			<!-- Updating moves -->
 			</form>
 			<form action="admin" method="POST">
-				<% if(request.getSession().getAttribute("player") != null) { 
+				<% if(request.getSession().getAttribute("player") != null) {
 					%>
 					<table border=1>
 						<%
@@ -146,7 +146,7 @@
 				<% } else if(request.getSession().getAttribute("hasWon") != null){ %>
 		        	<h3 style="color:green">Congrats! Player <%= request.getSession().getAttribute("hasWon") %> has won!</h3>
 		        	<h3>Click "Tic Tac Toe to play again"</h3>
-				<% } else { %> 
+				<% } else { %>
 				<input type="submit" name="updateGame" value="Make move">
 				<% } %>
 			<% } %>
