@@ -16,57 +16,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CodeU Chat App</title>
+  <title>Trill</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
   <nav>
-    <a id="navTitle" href="/">CodeU Chat App</a>
+    <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
     <% } else{ %>
       <a href="/login">Login</a>
     <% } %>
-    
+
+    <% if(request.getSession().getAttribute("admin") != null){ %>
+      <a href="/admin">Admin</a>
+    <% } %>
     <!-- Add login checking for activity feed here -->
     <a href="/activityfeed">Activity Feed</a>
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
+    <% } %>
     <a href="/about.jsp">About</a>
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <a href="/logout">Logout</a>
+    <% } %>
   </nav>
 
   <div id="container">
     <div
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-      <h1>About the CodeU Chat App</h1>
+      <h1>About the Trill Chat App</h1>
       <p>
-        This is an example chat application designed to be a starting point
-        for your CodeU project team work. Here's some stuff to think about:
+        This chat app started as a playground for us Google CodeU participants to
+        practice our java and team working skills. We have decided to call this chat app
+        Trill and hope to fill it with amazing features in the future!
       </p>
+
+      <h1><Strong> Meet Team JavaChips:</strong></h1>
 
       <ul>
-        <li><strong>Algorithms and data structures:</strong> We've made the app
-            and the code as simple as possible. You will have to extend the
-            existing data structures to support your enhancements to the app,
-            and also make changes for performance and scalability as your app
-            increases in complexity.</li>
-        <li><strong>Look and feel:</strong> The focus of CodeU is on the Java
-          side of things, but if you're particularly interested you might use
-          HTML, CSS, and JavaScript to make the chat app prettier.</li>
-        <li><strong>Customization:</strong> Think about a group you care about.
-          What needs do they have? How could you help? Think about technical
-          requirements, privacy concerns, and accessibility and
-          internationalization.</li>
+        <li><strong>Gonzalo Rosales:</strong> Rising sophomore at Boston University
+          and is happy to finally be done with his discrete math class.
+          He is from Chicago and enjoys reading, playing the trumpet,
+          and riding his bike around the city. This summer he will also be teaching
+          kids how to code at Northwestern!</li>
+        <li><strong>Crista Mondragon:</strong> Rising sophomore at the University of
+          Illinois at Chicago. Unlike Gonzalo, she seems to be pretty good at discrete
+          and is actually a TA for the course. She is from the NW suburbs of Chicago
+          and enjoys listening to alt, rock, and many other types of music, as well as
+          working with robotics, teaching, and playing Overwatch.</li>
+        <li><strong>Luis Clague:</strong> Also a rising sophomore at Rice University.
+          Instead of sitting coding all day he mixes it up by playing soccer for Rice and
+          is a huge soccer fanatic. Other than working on this chat app, he will be doing
+          research on genome visualization and bioinformatics at the Baylor College of Medicine.
+          If that wasn't personal enough, his favorite color is blue.
+        </li>
       </ul>
 
-      <p>
-        This is your code now. Get familiar with it and get comfortable
-        working with your team to plan and make changes. Start by updating the
-        homepage and this about page to tell your users more about your team.
-        This page should also be used to describe the features and improvements
-        you've added.
-      </p>
     </div>
   </div>
 </body>

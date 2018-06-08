@@ -71,6 +71,13 @@ public class MessageStore {
     persistentStorageAgent.writeThrough(message);
   }
 
+  public List getAllMessages(){
+    /*
+    A simple getter method to return all the messages in MessageStore
+    */
+    return messages;
+  }
+
   /** Access the current set of Messages within the given Conversation. */
   public List<Message> getMessagesInConversation(UUID conversationId) {
 
@@ -85,8 +92,21 @@ public class MessageStore {
     return messagesInConversation;
   }
 
+  /** Returns all messages sent by a specific user in the form of an ArrayList. */
+  public List<Message> getMessagesByUser(UUID userId) {
+    List<Message>  messagesByUser = new ArrayList<>();
+
+    for (Message message : messages){
+      if (message.getAuthorId().equals(userId)){
+        messagesByUser.add(message);
+      }
+    }
+    return messagesByUser;
+  }
+
   /** Sets the List of Messages stored by this MessageStore. */
   public void setMessages(List<Message> messages) {
     this.messages = messages;
   }
+
 }

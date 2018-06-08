@@ -35,6 +35,18 @@ nav a {
   text-decoration: none;
 }
 
+table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+}
+
+table td{
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
+}
+
 #navTitle {
   font-size: 36px;
 }

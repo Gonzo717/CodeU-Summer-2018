@@ -22,17 +22,22 @@
 <body>
 
   <nav>
-    <a id="navTitle" href="/">CodeU Chat App</a>
+    <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
     <% } else{ %>
       <a href="/login">Login</a>
     <% } %>
-  	
+
+    <% if(request.getSession().getAttribute("admin") != null){ %>
+      <a href="/admin.jsp">Admin</a>
+    <% } %>
   	<!-- Add login checking for activity feed here -->
     <a href="/activityfeed">Activity Feed</a>
-    
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
+    <% } %>
     <a href="/about.jsp">About</a>
   </nav>
 

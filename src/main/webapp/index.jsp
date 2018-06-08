@@ -16,13 +16,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CodeU Chat App</title>
+  <title>Trill</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
-  <nav>
-    <a id="navTitle" href="/">CodeU Chat App</a>
+  <nav> <%-- the menu navbar --%>
+    <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
@@ -30,23 +30,32 @@
       <a href="/login">Login</a>
     <% } %>
     <!-- Add login checking for activity feed here -->
+    <% if(request.getSession().getAttribute("admin") != null){ %>
+      <a href="/admin">Admin</a>
+    <% } %>
     <a href="/activityfeed">Activity Feed</a>
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
+    <% } %>
     <a href="/about.jsp">About</a>
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <a href="/logout">Logout</a>
+    <% } %>
   </nav>
 
   <div id="container">
     <div
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-      <h1>CodeU Chat App</h1>
-      <h2>Welcome!</h2>
-
+      <h1>CodeU Summer 2018</h1>
+      <h2>Welcome to our glorious app</h2>
+      <h3>Powered by JavaChips</h3>
       <ul>
-        <li><a href="/login">Login</a> to get started.</li>
+        <li><a href="/login">Login</a> to begin chatting</li>
         <li>Go to the <a href="/conversations">conversations</a> page to
             create or join a conversation.</li>
         <li>View the <a href="/about.jsp">about</a> page to learn more about the
-            project.</li>
+            project and its devs.</li>
       </ul>
     </div>
   </div>

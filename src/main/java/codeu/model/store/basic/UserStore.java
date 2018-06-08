@@ -57,11 +57,18 @@ public class UserStore {
 
   /** The in-memory list of Users. */
   private List<User> users;
+  /** The in-memory list of Admins. */
+  private List<String> adminUsernames;
 
   /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
   private UserStore(PersistentStorageAgent persistentStorageAgent) {
     this.persistentStorageAgent = persistentStorageAgent;
     users = new ArrayList<>();
+
+    adminUsernames = new ArrayList<>();
+    adminUsernames.add("Claguemeister");
+    adminUsernames.add("Cristameister");
+    adminUsernames.add("Gonzalomeister");
   }
 
   /**
@@ -77,6 +84,13 @@ public class UserStore {
       }
     }
     return null;
+  }
+
+  public List getUsers(){
+    /*
+    Returns the total users in the UserStore for admin purposes
+    */
+    return users;
   }
 
   /**
@@ -119,6 +133,25 @@ public class UserStore {
     return false;
   }
 
+  /* Return true if the given username is known to be an admin. */
+  public boolean isUserAdmin(String username){
+    for(String name : adminUsernames){
+      if(name.equals(username)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+/* Adds another admin */
+  public void addAdmin(String username){
+    adminUsernames.add(username);
+  }
+
+  //The fact that this is a public method makes me skeptical
+  public List getAdmins(){
+    return adminUsernames;
+  }
   /**
    * Sets the List of Users stored by this UserStore. This should only be called once, when the data
    * is loaded from Datastore.
@@ -127,4 +160,3 @@ public class UserStore {
     this.users = users;
   }
 }
-

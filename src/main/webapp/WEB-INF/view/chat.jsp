@@ -44,10 +44,11 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     };
   </script>
 </head>
+<%-- onload within the actual conversations created --%>
 <body onload="scrollChat()">
 
   <nav>
-    <a id="navTitle" href="/">CodeU Chat App</a>
+    <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
       <% if (request.getSession().getAttribute("user") != null) { %>
     <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
@@ -55,8 +56,17 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
       <a href="/login">Login</a>
     <% } %>
   	<!-- Add login checking for activity feed here -->
+    <% if(request.getSession().getAttribute("admin") != null){ %>
+      <a href="/admin">Admin</a>
+    <% } %>
     <a href="/activityfeed">Activity Feed</a>
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
+    <% } %>
     <a href="/about.jsp">About</a>
+    <% if(request.getSession().getAttribute("user") != null){ %>
+      <a href="/logout">Logout</a>
+    <% } %>
   </nav>
 
   <div id="container">
@@ -73,7 +83,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         String author = UserStore.getInstance()
           .getUser(message.getAuthorId()).getName();
     %>
-      <li><strong><%= author %>:</strong> <%= message.getContent() %></li>
+      <li><strong><a href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
     <%
       }
     %>
