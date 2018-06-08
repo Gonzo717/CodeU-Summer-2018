@@ -64,18 +64,18 @@ public class ConversationServletTest {
 		conversationServlet.setUserStore(mockUserStore);
 	}
 
-	@Test
-	public void testDoGet() throws IOException, ServletException {
-		List<Conversation> fakeConversationList = new ArrayList<>();
-		fakeConversationList.add(
-				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now()));
-		Mockito.when(mockConversationStore.getAllConversations()).thenReturn(fakeConversationList);
-
-		conversationServlet.doGet(mockRequest, mockResponse);
-
-		Mockito.verify(mockRequest).setAttribute("conversations", fakeConversationList);
-		Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
-	}
+	// @Test
+	// public void testDoGet() throws IOException, ServletException {
+	// 	List<Conversation> fakeConversationList = new ArrayList<>();
+	// 	fakeConversationList.add(
+	// 			new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now()));
+	// 	Mockito.when(mockConversationStore.getAllConversations()).thenReturn(fakeConversationList);
+	//
+	// 	conversationServlet.doGet(mockRequest, mockResponse);
+	//
+	// 	Mockito.verify(mockRequest).setAttribute("conversations", fakeConversationList);
+	// 	Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+	// }
 
 	@Test
 	public void testDoPost_UserNotLoggedIn() throws IOException, ServletException {

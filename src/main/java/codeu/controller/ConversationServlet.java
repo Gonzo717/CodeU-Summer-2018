@@ -16,10 +16,14 @@ package codeu.controller;
 
 import codeu.model.data.Conversation;
 import codeu.model.data.User;
+import codeu.model.data.Group;
 import codeu.model.store.basic.ConversationStore;
+
+import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.ServletException;
@@ -36,6 +40,9 @@ public class ConversationServlet extends HttpServlet {
   /** Store class that gives access to Conversations. */
   private ConversationStore conversationStore;
 
+  /** Store class that gives access to Group Conversations. */
+  private GroupConversationStore groupConversationStore;
+
   /**
    * Set up state for handling conversation-related requests. This method is only called when
    * running in a server, not when running in a test.
@@ -45,6 +52,7 @@ public class ConversationServlet extends HttpServlet {
     super.init();
     setUserStore(UserStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
+	setGroupConversationStore(GroupConversationStore.getInstance());
   }
 
   /**
@@ -63,6 +71,10 @@ public class ConversationServlet extends HttpServlet {
     this.conversationStore = conversationStore;
   }
 
+  void setGroupConversationStore(GroupConversationStore groupConversationStore) {
+	  this.groupConversationStore = groupConversationStore;
+  }
+
   /**
    * This function fires when a user navigates to the conversations page. It gets all of the
    * conversations from the model and forwards to conversations.jsp for rendering the list.
@@ -71,7 +83,9 @@ public class ConversationServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     List<Conversation> conversations = conversationStore.getAllConversations();
+	List<Group> groups = groupConversationStore.getAllGroupConversations();
     request.setAttribute("conversations", conversations);
+	request.setAttribute("groups", groups);
     request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
   }
 
@@ -99,7 +113,13 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
-    String conversationTitle = request.getParameter("conversationTitle");
+	String conversationTitle;
+	if(request.getParameter("conversationTitle") == null){
+		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup";
+		System.out.println(conversationTitle); //welp i actually just want to sleep right now :/ if red bull would literally just CALL ME
+	}else{
+		conversationTitle = request.getParameter("conversationTitle");
+	}
     if (!conversationTitle.matches("[\\w*]*")) {
       request.setAttribute("error", "Please enter only letters and numbers.");
       request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
@@ -113,10 +133,19 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
-    Conversation conversation =
-        new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
-
-    conversationStore.addConversation(conversation);
-    response.sendRedirect("/chat/" + conversationTitle);
-  }
+	if(request.getParameter("groupMessage") != null){
+		ArrayList<User> users = new ArrayList<User>();
+		String name = (String) request.getSession().getAttribute("user");
+		users.add(userStore.getUser(name));
+    	Group group = new Group(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(),users);
+		// conversationStore.addConversation(conversation);
+		groupConversationStore.addGroup(group);
+		System.out.println(users);
+		response.sendRedirect("/chat/" + conversationTitle);
+	}else{
+		Conversation conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+		conversationStore.addConversation(conversation);
+		response.sendRedirect("/chat/" + conversationTitle);
+	}
+	}
 }

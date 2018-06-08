@@ -18,6 +18,7 @@ import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Group;
 import codeu.model.store.persistence.PersistentDataStoreException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -120,6 +121,41 @@ public class PersistentDataStore {
   }
 
   /**
+   * Loads all Group Conversation objects from the Datastore service and returns them in a List, sorted in
+   * ascending order by creation time.
+   *
+   * @throws PersistentDataStoreException if an error was detected during the load from the
+   *     Datastore service
+   */
+  public List<Group> loadGroupConversations() throws PersistentDataStoreException {
+
+    List<Group> groupConversations = new ArrayList<>();
+
+    // Retrieve all conversations from the datastore.
+    Query query = new Query("chat-groupConversations").addSort("creation_time", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
+        UUID ownerUuid = UUID.fromString((String) entity.getProperty("owner_uuid"));
+        String title = (String) entity.getProperty("title");
+        Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+		ArrayList<User> users = (ArrayList) entity.getProperty("users");
+		Group group = new Group(uuid, ownerUuid, title, creationTime, users);
+        groupConversations.add(group);
+      } catch (Exception e) {
+        // In a production environment, errors should be very rare. Errors which may
+        // occur include network errors, Datastore service errors, authorization errors,
+        // database entity definition mismatches, or service mismatches.
+        throw new PersistentDataStoreException(e);
+      }
+    }
+
+    return groupConversations;
+  }
+
+  /**
    * Loads all Message objects from the Datastore service and returns them in a List, sorted in
    * ascending order by creation time.
    *
@@ -153,21 +189,21 @@ public class PersistentDataStore {
 
     return messages;
   }
-  
+
   /**
    * Loads all Activity objects from the Datastore service and returns them in a List, sorted in
    * ascending order by creation time.
    * @throws PersistentDataStoreException if an error was detected during the load from the
    *			Datastore service
    */
-   
+
   public List<Activity> loadActivities() throws PersistentDataStoreException {
   List<Activity> activities = new ArrayList();
-  
+
   	// Retrieve all activities from the datastore.
   	Query query = new Query("chat-activities").addSort("creation_time", SortDirection.ASCENDING);
   	PreparedQuery results = datastore.prepare(query);
-  
+
   	for(Entity entity : results.asIterable()) {
   	  try {
   	    String type = (String) entity.getProperty("activity_type");
@@ -215,7 +251,7 @@ public class PersistentDataStore {
     conversationEntity.setProperty("creation_time", conversation.getCreationTime().toString());
     datastore.put(conversationEntity);
   }
-  
+
   /** Write an Activity object to the Datastore service. */
   public void writeThrough(Activity activity) {
     Entity activityEntity = new Entity("chat-activities", activity.getId().toString());

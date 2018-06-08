@@ -16,9 +16,12 @@
 <%@ page import="java.util.List" %>
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
+<%@ page import="codeu.model.data.Group" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
 <%
 Conversation conversation = (Conversation) request.getAttribute("conversation");
+System.out.println("HELLO");
+Group group = (Group) request.getAttribute("group");
 List<Message> messages = (List<Message>) request.getAttribute("messages");
 %>
 

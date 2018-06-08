@@ -67,6 +67,11 @@
         <button type="submit">Create</button>
       </form>
 
+	  <h1>Group Message</h1>
+      <form action="/conversations" method="POST">
+        <button type="submit" name="groupMessage">Create</button>
+      </form>
+
       <hr/>
     <% } %>
 
