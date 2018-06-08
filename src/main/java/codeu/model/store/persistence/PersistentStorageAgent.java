@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//    http://www.apache.org/licenses/LICENSE-2.0
+//		http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,92 +32,92 @@ import java.util.List;
  */
 public class PersistentStorageAgent {
 
-  private static PersistentStorageAgent instance;
+	private static PersistentStorageAgent instance;
 
-  private final PersistentDataStore persistentDataStore;
+	private final PersistentDataStore persistentDataStore;
 
-  /**
-   * Access the persistent storage agent, in order to perform object-level loads and/or stores. Do
-   * not call this function from a test; use getTestInstance() instead.
-   */
-  public static PersistentStorageAgent getInstance() {
-    if (instance == null) {
-      instance = new PersistentStorageAgent(new PersistentDataStore());
-    }
-    return instance;
-  }
+	/**
+	 * Access the persistent storage agent, in order to perform object-level loads and/or stores. Do
+	 * not call this function from a test; use getTestInstance() instead.
+	 */
+	public static PersistentStorageAgent getInstance() {
+		if (instance == null) {
+			instance = new PersistentStorageAgent(new PersistentDataStore());
+		}
+		return instance;
+	}
 
-  /**
-   * Instance getter function used for testing. Supply a mock for PersistentDataStore.
-   *
-   * @param mockPersistentDataStore a mock used for testing
-   */
-  static PersistentStorageAgent getTestInstance(PersistentDataStore mockPersistentDataStore) {
-    return new PersistentStorageAgent(mockPersistentDataStore);
-  }
+	/**
+	 * Instance getter function used for testing. Supply a mock for PersistentDataStore.
+	 *
+	 * @param mockPersistentDataStore a mock used for testing
+	 */
+	static PersistentStorageAgent getTestInstance(PersistentDataStore mockPersistentDataStore) {
+		return new PersistentStorageAgent(mockPersistentDataStore);
+	}
 
-  // Private constructor, accessible only through singleton interface
-  private PersistentStorageAgent(PersistentDataStore persistentDataStore) {
-    this.persistentDataStore = persistentDataStore;
-  }
+	// Private constructor, accessible only through singleton interface
+	private PersistentStorageAgent(PersistentDataStore persistentDataStore) {
+		this.persistentDataStore = persistentDataStore;
+	}
 
-  /**
-   * Retrieve all User objects from the Datastore service. The returned list may be empty.
-   *
-   * @throws PersistentDataStoreException if an error was detected during the load from the
-   *     Datastore service
-   */
-  public List<User> loadUsers() throws PersistentDataStoreException {
-    return persistentDataStore.loadUsers();
-  }
+	/**
+	 * Retrieve all User objects from the Datastore service. The returned list may be empty.
+	 *
+	 * @throws PersistentDataStoreException if an error was detected during the load from the
+	 *		 Datastore service
+	 */
+	public List<User> loadUsers() throws PersistentDataStoreException {
+		return persistentDataStore.loadUsers();
+	}
 
-  /**
-   * Retrieve all Conversation objects from the Datastore service. The returned list may be empty.
-   *
-   * @throws PersistentDataStoreException if an error was detected during the load from the
-   *     Datastore service
-   */
-  public List<Conversation> loadConversations() throws PersistentDataStoreException {
-    return persistentDataStore.loadConversations();
-  }
+	/**
+	 * Retrieve all Conversation objects from the Datastore service. The returned list may be empty.
+	 *
+	 * @throws PersistentDataStoreException if an error was detected during the load from the
+	 *		 Datastore service
+	 */
+	public List<Conversation> loadConversations() throws PersistentDataStoreException {
+		return persistentDataStore.loadConversations();
+	}
 
-  /**
-   * Retrieve all Message objects from the Datastore service. The returned list may be empty.
-   *
-   * @throws PersistentDataStoreException if an error was detected during the load from the
-   *     Datastore service
-   */
-  public List<Message> loadMessages() throws PersistentDataStoreException {
-    return persistentDataStore.loadMessages();
-  }
-  
-  /**
-   * Retrieve all Activity objects from the Datastore service. The returned list may be empty.
-   *
-   * @throws PersistentDataStoreException if an error was detected during the loard from the
-   *		Datastore service
-   */
-  public List<Activity> loadActivities() throws PersistentDataStoreException {
-  	return persistentDataStore.loadActivities();
-  }
+	/**
+	 * Retrieve all Message objects from the Datastore service. The returned list may be empty.
+	 *
+	 * @throws PersistentDataStoreException if an error was detected during the load from the
+	 *		 Datastore service
+	 */
+	public List<Message> loadMessages() throws PersistentDataStoreException {
+		return persistentDataStore.loadMessages();
+	}
+	
+	/**
+	 * Retrieve all Activity objects from the Datastore service. The returned list may be empty.
+	 *
+	 * @throws PersistentDataStoreException if an error was detected during the loard from the
+	 *		Datastore service
+	 */
+	public List<Activity> loadActivities() throws PersistentDataStoreException {
+		return persistentDataStore.loadActivities();
+	}
 
-  /** Write a User object to the Datastore service. */
-  public void writeThrough(User user) {
-    persistentDataStore.writeThrough(user);
-  }
+	/** Write a User object to the Datastore service. */
+	public void writeThrough(User user) {
+		persistentDataStore.writeThrough(user);
+	}
 
-  /** Write a Message object to the Datastore service. */
-  public void writeThrough(Conversation conversation) {
-    persistentDataStore.writeThrough(conversation);
-  }
+	/** Write a Message object to the Datastore service. */
+	public void writeThrough(Conversation conversation) {
+		persistentDataStore.writeThrough(conversation);
+	}
 
-  /** Write a Conversation object to the Datastore service. */
-  public void writeThrough(Message message) {
-    persistentDataStore.writeThrough(message);
-  }
-  
-  /** Write an Activity object to the Datastore service. */
-  public void writeThrough(Activity activity) {
-  	persistentDataStore.writeThrough(activity);
-  }
+	/** Write a Conversation object to the Datastore service. */
+	public void writeThrough(Message message) {
+		persistentDataStore.writeThrough(message);
+	}
+	
+	/** Write an Activity object to the Datastore service. */
+	public void writeThrough(Activity activity) {
+		persistentDataStore.writeThrough(activity);
+	}
 }
