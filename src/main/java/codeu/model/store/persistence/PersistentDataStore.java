@@ -242,6 +242,18 @@ public class PersistentDataStore {
     datastore.put(messageEntity);
   }
 
+  /** Write a Group object to the Datastore service. */
+  public void writeThrough(Group group) {
+    Entity groupEntity = new Entity("chat-conversations", group.getId().toString());
+    groupEntity.setProperty("uuid", group.getId().toString());
+    groupEntity.setProperty("owner_uuid", group.getOwnerId().toString());
+    groupEntity.setProperty("title", group.getTitle());
+    groupEntity.setProperty("creation_time", group.getCreationTime().toString());
+	groupEntity.setProperty("users", group.getAllUsers().toString());
+    datastore.put(groupEntity);
+  }
+
+
   /** Write a Conversation object to the Datastore service. */
   public void writeThrough(Conversation conversation) {
     Entity conversationEntity = new Entity("chat-conversations", conversation.getId().toString());

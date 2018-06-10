@@ -15,6 +15,7 @@
 package codeu.model.store.basic;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Group;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,9 @@ public class ConversationStore {
     conversations = new ArrayList<>();
   }
 
-/** Access the current set of conversations known to the application. */
+/** Access the current set of conversations known to the application.
+ *  Have to get rid of the Groups because they are erroneously being categorized as Conversations
+ */
   public List<Conversation> getAllConversations() {
     return conversations;
   }

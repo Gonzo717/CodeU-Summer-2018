@@ -71,26 +71,12 @@ public class GroupConversationStore {
     return groupConversations;
   }
 
- // public ArrayList<Group> getGroupMessages() {
-	// ArrayList<Group> groupMessages = new ArrayList<Group>();
-	//   for(int i = 0; i < conversations.size(); i++){
-	// 	  if(conversations.get(i) instanceof Group){
-	// 		  groupMessages.add(conversations.get(i));
-	// 	  }
-	//   }
-	//   return groupMessages;
- //  }
-
   /** Add a new conversation to the current set of conversations known to the application. */
   public void addGroup(Group groupConvo) {
 	groupConversations.add(groupConvo);
 	persistentStorageAgent.writeThrough(groupConvo);
   }
 
-  // public boolean groupExists(ArrayList<User> users){
-	//   Set<User> newGroup = new Set<User>(users);
-  //
-  // }
   /** Check whether a Conversation title is already known to the application. */
   public boolean isTitleTaken(String title) {
     // This approach will be pretty slow if we have many Conversations.
@@ -103,7 +89,7 @@ public class GroupConversationStore {
   }
 
   /** Find and return the Group Conversation with the given title. */
-  public Group getConversationWithTitle(String title) {
+  public Group getGroupConversationWithTitle(String title) {
     for (Group groupConversation : groupConversations) {
       if (groupConversation.getTitle().equals(title)) {
         return groupConversation;

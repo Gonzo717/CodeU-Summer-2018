@@ -82,6 +82,15 @@
 			</ul>
 		</div>
 
+		<div id="clearConversations">
+			<% if(request.getAttribute("success") != null){ %>
+		        <h2 style="color:green"><%= request.getAttribute("success") %></h2>
+		    <% } %>
+			<form action="/admin" method="POST">
+				<input type="submit" name="clearConversations" value="clearConversations">
+			</form>
+		</div>
+
 		<div id="addAdmins">
 			<h2>Feeling lonely?</h2>
 			<h3>Add more admins:</h3>
@@ -108,8 +117,8 @@
 			<!-- Creating game -->
 			<form action="/admin" method="POST">
 				<input type="submit" name="playGame" value="Tic Tac Toe">
-				<% 
-				if(request.getSession().getAttribute("TicTacToe") != null) { 
+				<%
+				if(request.getSession().getAttribute("TicTacToe") != null) {
 					 %>
 					<table border=1>
 				    	<%for(int row = 0; row < 3; row++) { %>
@@ -123,7 +132,7 @@
 			<!-- Updating moves -->
 			</form>
 			<form action="admin" method="POST">
-				<% if(request.getSession().getAttribute("player") != null) { 
+				<% if(request.getSession().getAttribute("player") != null) {
 					%>
 					<table border=1>
 						<%
@@ -146,7 +155,7 @@
 				<% } else if(request.getSession().getAttribute("hasWon") != null){ %>
 		        	<h3 style="color:green">Congrats! Player <%= request.getSession().getAttribute("hasWon") %> has won!</h3>
 		        	<h3>Click "Tic Tac Toe to play again"</h3>
-				<% } else { %> 
+				<% } else { %>
 				<input type="submit" name="updateGame" value="Make move">
 				<% } %>
 			<% } %>

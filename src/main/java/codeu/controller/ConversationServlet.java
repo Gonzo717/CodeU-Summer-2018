@@ -18,7 +18,6 @@ import codeu.model.data.Conversation;
 import codeu.model.data.User;
 import codeu.model.data.Group;
 import codeu.model.store.basic.ConversationStore;
-
 import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
@@ -72,7 +71,7 @@ public class ConversationServlet extends HttpServlet {
   }
 
   void setGroupConversationStore(GroupConversationStore groupConversationStore) {
-	  this.groupConversationStore = groupConversationStore;
+	this.groupConversationStore = groupConversationStore;
   }
 
   /**
@@ -106,6 +105,8 @@ public class ConversationServlet extends HttpServlet {
     }
 
     User user = userStore.getUser(username);
+	request.getSession().setAttribute("id", user.getId());
+
     if (user == null) {
       // user was not found, don't let them create a conversation
       System.out.println("User not found: " + username);
@@ -115,8 +116,12 @@ public class ConversationServlet extends HttpServlet {
 
 	String conversationTitle;
 	if(request.getParameter("conversationTitle") == null){
+		int counter = 0;
 		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup";
-		System.out.println(conversationTitle); //welp i actually just want to sleep right now :/ if red bull would literally just CALL ME
+		while(conversationStore.isTitleTaken(conversationTitle)){
+			counter++;
+			conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup" + counter;
+		}
 	}else{
 		conversationTitle = request.getParameter("conversationTitle");
 	}
@@ -133,16 +138,22 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
-	if(request.getParameter("groupMessage") != null){
+	if (groupConversationStore.isTitleTaken(conversationTitle)){
+	  response.sendRedirect("/chat/" + conversationTitle);
+	  return;
+	}
+
+	if(request.getParameter("group") != null){
+		//create a Private Group Message
 		ArrayList<User> users = new ArrayList<User>();
 		String name = (String) request.getSession().getAttribute("user");
 		users.add(userStore.getUser(name));
-    	Group group = new Group(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(),users);
-		// conversationStore.addConversation(conversation);
+    	Group group = new Group(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(), users);
+		request.setAttribute("group", group);
 		groupConversationStore.addGroup(group);
-		System.out.println(users);
 		response.sendRedirect("/chat/" + conversationTitle);
-	}else{
+	}else if(request.getParameter("conversation") != null){
+		System.out.println("This demarcates a conversation");
 		Conversation conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
 		conversationStore.addConversation(conversation);
 		response.sendRedirect("/chat/" + conversationTitle);

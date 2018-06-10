@@ -18,13 +18,16 @@ import java.util.UUID;
 
 //what makes up a group?
 // We are going to save a list of allowed users. Initially the list will only be
-// populated by the creator, then a
+// populated by the creator, then the creator (later designated admins, etc) can
+// add more users of their choosing.
 
-public class Group extends Conversation {
+public class Group {
+
 	private final ArrayList<User> users;
+	private final Conversation conversation;
 
 	public Group(UUID id, UUID owner, String title, Instant creation, ArrayList<User> users){
-		super(id, owner, title, creation);
+		this.conversation = new Conversation(id, owner, title, creation);
 		this.users = users;
 	}
 
@@ -42,10 +45,11 @@ public class Group extends Conversation {
 	}
 
 	//returns true if the user is allowed to view this group message
-	public boolean accessAllowed(User user){
+	public boolean isAccessAllowed(UUID id){
 		//should I do by User or by Username?
 		for(User iterableUser : users){
-			if(iterableUser.equals(user)){
+			if(iterableUser.getId() ==  id) {
+				System.out.println("True");
 				return true;
 			}
 		}
@@ -53,7 +57,23 @@ public class Group extends Conversation {
 	}
 
 	public String getTitle(){
-		return title;
+		return conversation.getTitle();
+	}
+
+	public UUID getId(){
+		return conversation.getId();
+	}
+
+	public UUID getOwnerId(){
+		return conversation.getOwnerId();
+	}
+
+	public Instant getCreationTime(){
+		return conversation.getCreationTime();
+	}
+
+	public Conversation getConversation(){
+		return conversation;
 	}
 
 	public ArrayList getAllUsers(){

@@ -15,9 +15,11 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Group;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.store.basic.ConversationStore;
+import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
@@ -34,6 +36,9 @@ import org.jsoup.safety.Whitelist;
 /** Servlet class responsible for the chat page. */
 public class ChatServlet extends HttpServlet {
 
+  /** Store class that gives access to Group Conversations. */
+  private GroupConversationStore groupConversationStore;
+
   /** Store class that gives access to Conversations. */
   private ConversationStore conversationStore;
 
@@ -47,6 +52,7 @@ public class ChatServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     super.init();
+	setGroupConversationStore(GroupConversationStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
     setMessageStore(MessageStore.getInstance());
     setUserStore(UserStore.getInstance());
@@ -58,6 +64,14 @@ public class ChatServlet extends HttpServlet {
    */
   void setConversationStore(ConversationStore conversationStore) {
     this.conversationStore = conversationStore;
+  }
+
+  /**
+   * Sets the groupConversationStore used by this servlet. This function provides a common setup method
+   * for use by the test framework or the servlet's init() function.
+   */
+  void setGroupConversationStore(GroupConversationStore groupConversationStore) {
+	this.groupConversationStore = groupConversationStore;
   }
 
   /**
@@ -87,20 +101,33 @@ public class ChatServlet extends HttpServlet {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
 
+	String requestURLL = (String) requestUrl;
+
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
-    if (conversation == null) {
-      // couldn't find conversation, redirect to conversation list
-      System.out.println("Conversation was null: " + conversationTitle);
-      response.sendRedirect("/conversations");
-      return;
-    }
+	Group group = groupConversationStore.getGroupConversationWithTitle(conversationTitle);
+	// System.out.println(requestURLL);
+	// System.out.println(group.getAllUsers());
+	// if (group == null){
+	// 	System.out.println("Group conversation was null " + conversationTitle);
+	// 	response.sendRedirect("/conversations");
+	// }else if(conversation == null){
+    //   // couldn't find conversation, redirect to conversation list
+	// 	System.out.println("Conversation was null: " + conversationTitle);
+	// 	response.sendRedirect("/conversations");
+	// 	return;
+    //}
+	if(conversation != null){
+		UUID conversationId = conversation.getId();
+		List<Message> messages = messageStore.getMessagesInConversation(conversationId);
+		request.setAttribute("messages", messages);
+		request.setAttribute("conversation", conversation);
+	} else if(group != null){
+		UUID groupId = group.getId();
+		List<Message> messages = messageStore.getMessagesInConversation(groupId);
+		request.setAttribute("messages", messages);
+		request.setAttribute("group", group);
+	}
 
-    UUID conversationId = conversation.getId();
-
-    List<Message> messages = messageStore.getMessagesInConversation(conversationId);
-
-    request.setAttribute("conversation", conversation);
-    request.setAttribute("messages", messages);
     request.getRequestDispatcher("/WEB-INF/view/chat.jsp").forward(request, response);
   }
 

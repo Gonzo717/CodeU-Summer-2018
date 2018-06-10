@@ -15,6 +15,8 @@
 --%>
 <%@ page import="java.util.List" %>
 <%@ page import="codeu.model.data.Conversation" %>
+<%@ page import="codeu.model.data.Group" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -62,16 +64,15 @@
           <div class="form-group">
             <label class="form-control-label">Title:</label>
           <input type="text" name="conversationTitle">
-        </div>
+          </div>
 
-        <button type="submit">Create</button>
+        <button type="submit" name="conversation" value="conversation">Create</button>
       </form>
 
-	  <h1>Group Message</h1>
-      <form action="/conversations" method="POST">
-        <button type="submit" name="groupMessage">Create</button>
-      </form>
-
+	  <form action="/conversations" method="POST">
+		  <h1>Group Message</h1>
+		  <button type="submit" name="group" value="group">PRIVATE OF THE GROUPS</button>
+	   </form>
       <hr/>
     <% } %>
 
@@ -80,12 +81,14 @@
     <%
     List<Conversation> conversations =
       (List<Conversation>) request.getAttribute("conversations");
+	List<Group> groups =
+	  (List<Group>) request.getAttribute("groups");
     if(conversations == null || conversations.isEmpty()){
     %>
       <p>Create a conversation to get started.</p>
     <%
     }
-    else{
+    else if(conversations != null){
     %>
       <ul class="mdl-list">
     <%
@@ -99,7 +102,22 @@
       </ul>
     <%
     }
+	%>
+	</hr>
+	<h1>Private Messages</h1>
+	<% if(groups != null){
+	%>
+		<ul class="mdl-list">
+    <%
+        for(Group group : groups){
     %>
+        <li><a href="/chat/<%= group.getTitle() %>">
+          <%= group.getTitle() %></a></li>
+    <%
+        }
+    %>
+        </ul>
+	<% } %>
     <hr/>
   </div>
 </body>
