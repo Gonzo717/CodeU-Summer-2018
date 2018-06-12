@@ -71,7 +71,7 @@ public class ChatServletTest {
 
 		mockUserStore = Mockito.mock(UserStore.class);
 		chatServlet.setUserStore(mockUserStore);
-		
+
 		mockActivityStore = Mockito.mock(ActivityStore.class);
 		chatServlet.setActivityStore(mockActivityStore);
 	}
@@ -206,14 +206,14 @@ public class ChatServletTest {
 				.thenReturn(fakeConversation);
 
 		Mockito.when(mockRequest.getParameter("message"))
-				.thenReturn("Contains <b>html</b> and <script>JavaScript</script> content.");
+				.thenReturn("Contains <b>html</b> and <script>JavaScript</script>content.");
 
 		chatServlet.doPost(mockRequest, mockResponse);
 
 		ArgumentCaptor<Message> messageArgumentCaptor = ArgumentCaptor.forClass(Message.class);
 		Mockito.verify(mockMessageStore).addMessage(messageArgumentCaptor.capture());
 		Assert.assertEquals(
-				"Contains html and	content.", messageArgumentCaptor.getValue().getContent());
+				"Contains html and content.", messageArgumentCaptor.getValue().getContent());
 
 		Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
 	}
