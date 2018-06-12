@@ -38,7 +38,7 @@
 		<a href="/admin">Admin</a>
 		<a href="/activityfeed">Activity Feed</a>
 		<% if(request.getSession().getAttribute("user") != null){ %>
-      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Profile Page</a>
+      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
     <% } %>
 		<a href="/about.jsp">About</a>
 		<% if(request.getSession().getAttribute("user") != null){ %>

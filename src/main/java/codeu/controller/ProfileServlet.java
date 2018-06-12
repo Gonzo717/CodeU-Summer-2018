@@ -1,13 +1,14 @@
 package codeu.controller;
 
-import codeu.model.data.Conversation;
 import codeu.model.data.User;
-import codeu.model.store.basic.ConversationStore;
+import codeu.model.data.Message;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.MessageStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.time.Instant;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 public class ProfileServlet extends HttpServlet {
+	/** Store class that gives access to Messages. */
+	private MessageStore messageStore;
 	/** Store class that gives access to Users. */
 	private UserStore userStore;
 	/**
@@ -26,6 +29,7 @@ public class ProfileServlet extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		setUserStore(UserStore.getInstance());
+		setMessageStore(MessageStore.getInstance());
 	}
 
 	/**
@@ -35,20 +39,41 @@ public class ProfileServlet extends HttpServlet {
 	void setUserStore(UserStore userStore) {
 		this.userStore = userStore;
 	}
+
+	/**
+   * Sets the MessageStore used by this servlet. This function provides a common setup method for
+   * use by the test framework or the servlet's init() function.
+   */
+  void setMessageStore(MessageStore messageStore) {
+    this.messageStore = messageStore;
+  }
+
 	@Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
 		String requestUrl = request.getRequestURI();
 		String currentProfile = requestUrl.substring("/user/".length());
 		User user = userStore.getUser(currentProfile);
-		String about;
-		if ((user !=  null) && (user.getAboutMe() != null)){
-			about = user.getAboutMe();
+		String about = "";
+
+		if (user == null){
+			request.setAttribute("error", "THAT USER DOESN'T EXIST! ENTER A VALID USERNAME");
+			request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+			return;
 		} else {
-			about = "This user hasn't made a profile yet :(";
+			if (user.getAboutMe() != null){
+				about = user.getAboutMe();
+			}else{
+				about = "This user hasn't made a profile yet :(";
+			}
 		}
+
+		//creates arrayList of all messages sent by user whose profile is being displayed
+		List<Message> messages = messageStore.getMessagesByUser(user.getId());
+
 		request.setAttribute("about", about);
 		request.setAttribute("currentProfile", currentProfile);
+		request.setAttribute("messages", messages);
 		request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
 

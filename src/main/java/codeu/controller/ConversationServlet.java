@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//    http://www.apache.org/licenses/LICENSE-2.0
+//		http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,10 @@ import codeu.model.data.Conversation;
 import codeu.model.data.User;
 import codeu.model.data.Group;
 import codeu.model.store.basic.ConversationStore;
+import codeu.mode.data.Activity;
 import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -162,6 +164,11 @@ public class ConversationServlet extends HttpServlet {
 		System.out.println("This demarcates a conversation");
 		Conversation conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
 		conversationStore.addConversation(conversation);
+
+		// adds convo activity to ActivityStore
+		Activity convoAct = new Activity("newConvo", UUID.randomUUID(), user.getId(), conversation.getCreationTime());
+		activityStore.addActivity(convoAct);
+
 		response.sendRedirect("/chat/" + conversationTitle);
 	}
 	}
