@@ -82,47 +82,45 @@ public class PersistentStorageAgent {
 		return persistentDataStore.loadConversations();
 	}
 
-<<<<<<< HEAD
-  /**
-   * Retrieve all Group Conversation objects from the Datastore service. The returned list may be empty.
-   *
-   * @throws PersistentDataStoreException if an error was detected during the load from the
-   *     Datastore service
-   */
-  public List<Group> loadGroupConversations() throws PersistentDataStoreException {
-    return persistentDataStore.loadGroupConversations();
-  }
+	/**
+	* Retrieve all Group Conversation objects from the Datastore service. The returned list may be empty.
+	*
+	* @throws PersistentDataStoreException if an error was detected during the load from the
+	*     Datastore service
+	*/
+	public List<Group> loadGroupConversations() throws PersistentDataStoreException {
+		return persistentDataStore.loadGroupConversations();
+	}
 
-  /**
-   * Retrieve all Message objects from the Datastore service. The returned list may be empty.
-   *
-   * @throws PersistentDataStoreException if an error was detected during the load from the
-   *     Datastore service
-   */
-  public List<Message> loadMessages() throws PersistentDataStoreException {
-    return persistentDataStore.loadMessages();
-  }
+	/**
+	* Retrieve all Message objects from the Datastore service. The returned list may be empty.
+	*
+	* @throws PersistentDataStoreException if an error was detected during the load from the
+	*     Datastore service
+	*/
+	public List<Message> loadMessages() throws PersistentDataStoreException {
+		return persistentDataStore.loadMessages();
+	}
 
-  /**
-   * Retrieve all Activity objects from the Datastore service. The returned list may be empty.
-   *
-   * @throws PersistentDataStoreException if an error was detected during the loard from the
-   *		Datastore service
-   */
-  public List<Activity> loadActivities() throws PersistentDataStoreException {
-  	return persistentDataStore.loadActivities();
-  }
-=======
+	/**
+	* Retrieve all Activity objects from the Datastore service. The returned list may be empty.
+	*
+	* @throws PersistentDataStoreException if an error was detected during the loard from the
+	*		Datastore service
+	*/
+	public List<Activity> loadActivities() throws PersistentDataStoreException {
+		return persistentDataStore.loadActivities();
+  	}
 	/**
 	 * Retrieve all Message objects from the Datastore service. The returned list may be empty.
 	 *
 	 * @throws PersistentDataStoreException if an error was detected during the load from the
 	 *		 Datastore service
 	 */
-	public List<Message> loadMessages() throws PersistentDataStoreException {
-		return persistentDataStore.loadMessages();
+	 public List<Message> loadMessages() throws PersistentDataStoreException {
+		 return persistentDataStore.loadMessages();
 	}
-	
+
 	/**
 	 * Retrieve all Activity objects from the Datastore service. The returned list may be empty.
 	 *
@@ -132,47 +130,29 @@ public class PersistentStorageAgent {
 	public List<Activity> loadActivities() throws PersistentDataStoreException {
 		return persistentDataStore.loadActivities();
 	}
->>>>>>> 8f5f49e2bb034536082b0ff912e77f33042444d2
 
 	/** Write a User object to the Datastore service. */
 	public void writeThrough(User user) {
 		persistentDataStore.writeThrough(user);
 	}
 
-<<<<<<< HEAD
-  /** Write a Conversation object to the Datastore service. */
-  public void writeThrough(Conversation conversation) {
-    persistentDataStore.writeThrough(conversation);
-  }
-
-  /** Write a Group Conversation object to the Datastore service. */
-  public void writeThrough(Group groupConversation) {
-	persistentDataStore.writeThrough(groupConversation);
-  }
-
-  /** Write a Conversation object to the Datastore service. */
-  public void writeThrough(Message message) {
-    persistentDataStore.writeThrough(message);
-  }
-
-  /** Write an Activity object to the Datastore service. */
-  public void writeThrough(Activity activity) {
-  	persistentDataStore.writeThrough(activity);
-  }
-=======
-	/** Write a Message object to the Datastore service. */
+	/** Write a Conversation object to the Datastore service. */
 	public void writeThrough(Conversation conversation) {
 		persistentDataStore.writeThrough(conversation);
+	}
+
+  /** Write a Group Conversation object to the Datastore service. */
+	public void writeThrough(Group groupConversation) {
+		persistentDataStore.writeThrough(groupConversation);
 	}
 
 	/** Write a Conversation object to the Datastore service. */
 	public void writeThrough(Message message) {
 		persistentDataStore.writeThrough(message);
 	}
-	
+
 	/** Write an Activity object to the Datastore service. */
 	public void writeThrough(Activity activity) {
 		persistentDataStore.writeThrough(activity);
 	}
->>>>>>> 8f5f49e2bb034536082b0ff912e77f33042444d2
 }
