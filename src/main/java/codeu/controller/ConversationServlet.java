@@ -83,6 +83,11 @@ public class ConversationServlet extends HttpServlet {
       throws IOException, ServletException {
     List<Conversation> conversations = conversationStore.getAllConversations();
 	List<Group> groups = groupConversationStore.getAllGroupConversations();
+	System.out.println("printing out the group titles");
+	for(int i = 0; i < groups.size(); i++){
+		System.out.println(groups.get(i).getTitle());
+	}
+	System.out.println(groups);
     request.setAttribute("conversations", conversations);
 	request.setAttribute("groups", groups);
     request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
@@ -114,7 +119,7 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
-	String conversationTitle;
+	String conversationTitle = "";
 	if(request.getParameter("conversationTitle") == null){
 		int counter = 0;
 		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup";
@@ -125,6 +130,7 @@ public class ConversationServlet extends HttpServlet {
 	}else{
 		conversationTitle = request.getParameter("conversationTitle");
 	}
+
     if (!conversationTitle.matches("[\\w*]*")) {
       request.setAttribute("error", "Please enter only letters and numbers.");
       request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
@@ -147,7 +153,7 @@ public class ConversationServlet extends HttpServlet {
 		//create a Private Group Message
 		ArrayList<User> users = new ArrayList<User>();
 		String name = (String) request.getSession().getAttribute("user");
-		users.add(userStore.getUser(name));
+		users.add(user);
     	Group group = new Group(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(), users);
 		request.setAttribute("group", group);
 		groupConversationStore.addGroup(group);

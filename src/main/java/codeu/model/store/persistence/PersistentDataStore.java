@@ -132,15 +132,15 @@ public class PersistentDataStore {
     List<Group> groupConversations = new ArrayList<>();
 
     // Retrieve all conversations from the datastore.
-    Query query = new Query("chat-groupConversations").addSort("creation_time", SortDirection.ASCENDING);
+    Query query = new Query("chat-group").addSort("creation_time", SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
       try {
-        UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
-        UUID ownerUuid = UUID.fromString((String) entity.getProperty("owner_uuid"));
-        String title = (String) entity.getProperty("title");
-        Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+        UUID uuid = UUID.fromString((String) entity.getProperty("UUID"));
+        UUID ownerUuid = UUID.fromString((String) entity.getProperty("owner_UUID"));
+        String title = (String) entity.getProperty("Title");
+        Instant creationTime = Instant.parse((String) entity.getProperty("creation"));
 		ArrayList<User> users = (ArrayList) entity.getProperty("users");
 		Group group = new Group(uuid, ownerUuid, title, creationTime, users);
         groupConversations.add(group);
@@ -244,11 +244,11 @@ public class PersistentDataStore {
 
   /** Write a Group object to the Datastore service. */
   public void writeThrough(Group group) {
-    Entity groupEntity = new Entity("chat-conversations", group.getId().toString());
-    groupEntity.setProperty("uuid", group.getId().toString());
-    groupEntity.setProperty("owner_uuid", group.getOwnerId().toString());
-    groupEntity.setProperty("title", group.getTitle());
-    groupEntity.setProperty("creation_time", group.getCreationTime().toString());
+    Entity groupEntity = new Entity("chat-group", group.getId().toString());
+    groupEntity.setProperty("UUID", group.getId().toString());
+    groupEntity.setProperty("owner", group.getOwnerId().toString());
+    groupEntity.setProperty("Title", group.getTitle());
+    groupEntity.setProperty("creation", group.getCreationTime().toString());
 	groupEntity.setProperty("users", group.getAllUsers().toString());
     datastore.put(groupEntity);
   }

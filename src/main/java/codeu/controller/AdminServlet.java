@@ -210,7 +210,7 @@ public class AdminServlet extends HttpServlet {
 
 	public void clearConversations(HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException {
-			convoStore.clearConversations();
+			// convoStore.clearConversations();
 			request.setAttribute("success", "All conversations successfully deleted.");
 	}
 

@@ -24,15 +24,22 @@ import java.util.UUID;
 public class Group {
 
 	private final ArrayList<User> users;
-	private final Conversation conversation;
+	private final UUID id;
+	private final UUID owner;
+	private final String title;
+	private final Instant creation;
+	// private final Conversation conversation;
 
 	public Group(UUID id, UUID owner, String title, Instant creation, ArrayList<User> users){
-		this.conversation = new Conversation(id, owner, title, creation);
+		// this.conversation = new Conversation(id, owner, title, creation);
+		this.id = id;
+		this.owner = owner;
+		this.title = title;
+		this.creation = creation;
 		this.users = users;
 	}
 
 	public void addUser(User user){
-		//should I do by User or by username?
 		users.add(user);
 	}
 
@@ -57,27 +64,30 @@ public class Group {
 	}
 
 	public String getTitle(){
-		return conversation.getTitle();
+		// return conversation.getTitle();
+		return title;
 	}
 
 	public UUID getId(){
-		return conversation.getId();
+		// return conversation.getId();
+		return id;
 	}
 
 	public UUID getOwnerId(){
-		return conversation.getOwnerId();
+		// return conversation.getOwnerId();
+		return owner;
 	}
 
 	public Instant getCreationTime(){
-		return conversation.getCreationTime();
+		// return conversation.getCreationTime();
+		return creation;
 	}
 
-	public Conversation getConversation(){
-		return conversation;
-	}
+	// public Conversation getConversation(){
+	// 	return conversation;
+	// }
 
 	public ArrayList getAllUsers(){
-		// Im just going to return all Usernames
 		return users;
 	}
 }

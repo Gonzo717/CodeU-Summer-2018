@@ -72,9 +72,9 @@ public class GroupConversationStore {
   }
 
   /** Add a new conversation to the current set of conversations known to the application. */
-  public void addGroup(Group groupConvo) {
-	groupConversations.add(groupConvo);
-	persistentStorageAgent.writeThrough(groupConvo);
+  public void addGroup(Group group) {
+	groupConversations.add(group);
+	persistentStorageAgent.writeThrough(group);
   }
 
   /** Check whether a Conversation title is already known to the application. */

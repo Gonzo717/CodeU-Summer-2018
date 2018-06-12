@@ -91,7 +91,7 @@
     else if(conversations != null){
     %>
       <ul class="mdl-list">
-    <%
+    <% //Display 10 conversations at a time
       for(Conversation conversation : conversations){
     %>
       <li><a href="/chat/<%= conversation.getTitle() %>">

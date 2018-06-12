@@ -67,7 +67,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 </head>
 <%-- onload within the actual conversations created --%>
 <body onload="scrollChat()">
-
   <nav>
     <a id="navTitle" href="/">Trill</a>
     <a href="/conversations">Conversations</a>
@@ -92,7 +91,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
   <div id="container">
   <% if(group != null){ // This IS ONLY FOR GROUP MESSAGES (PRIVATE)%>
-	<% if(group.isAccessAllowed(id)){ //only if allowed, then display chat
+	<% if(group.isAccessAllowed(id) && name != null){ //only if allowed and signed in, then display chat
 		%>
 		<h1><%= group.getTitle() %>
 		<a href="" style="float:right">+</a>
@@ -128,6 +127,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 	<% } else{ %>
 		<script>
 		window.alert("You are not part of this Group");
+		window.location.replace("/conversations");		
 		</script>
   <% } %>
 

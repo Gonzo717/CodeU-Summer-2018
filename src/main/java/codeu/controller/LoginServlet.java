@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
-		
+
 	}
 
 	/**
@@ -90,12 +90,10 @@ public class LoginServlet extends HttpServlet {
 
 			request.getSession().setAttribute("user", username);
 			request.getSession().setAttribute("admin", username);
-
 			response.sendRedirect("/admin");
 		}
 		else{
 			request.getSession().setAttribute("user", (username));
-			System.out.println("we are not admins");
 			response.sendRedirect("/conversations");
 		}
 
