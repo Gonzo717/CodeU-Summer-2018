@@ -54,11 +54,18 @@ public class ProfileServlet extends HttpServlet {
 		String requestUrl = request.getRequestURI();
 		String currentProfile = requestUrl.substring("/user/".length());
 		User user = userStore.getUser(currentProfile);
-		String about;
-		if ((user !=  null) && (user.getAboutMe() != null)){
-			about = user.getAboutMe();
+		String about = "";
+
+		if (user == null){
+			request.setAttribute("error", "THAT USER DOESN'T EXIST! ENTER A VALID USERNAME");
+			request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+			return;
 		} else {
-			about = "This user hasn't made a profile yet :(";
+			if (user.getAboutMe() != null){
+				about = user.getAboutMe();
+			}else{
+				about = "This user hasn't made a profile yet :(";
+			}
 		}
 
 		//creates arrayList of all messages sent by user whose profile is being displayed
