@@ -50,12 +50,16 @@ public class ChatServlet extends HttpServlet {
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
+  /** Store class that gives access to Activities. */
+  private ActivityStore activityStore;
+
   /** Set up state for handling chat requests. */
   @Override
   public void init() throws ServletException {
     super.init();
 	setGroupConversationStore(GroupConversationStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
+	setActivityStore(ActivityStore.getInstance());
     setMessageStore(MessageStore.getInstance());
     setUserStore(UserStore.getInstance());
   }
@@ -74,6 +78,14 @@ public class ChatServlet extends HttpServlet {
    */
   void setGroupConversationStore(GroupConversationStore groupConversationStore) {
 	this.groupConversationStore = groupConversationStore;
+  }
+
+  /**
+   * Sets the ActivityStore used by this servlet. This function provides a common setup method
+   * for use by the test framework or the servlet's init() function.
+   */
+  void setActivityStore(ActivityStore activityStore) {
+	this.activityStore = activityStore;
   }
 
   /**

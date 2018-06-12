@@ -17,6 +17,7 @@ package codeu.controller;
 import codeu.model.data.User;
 import codeu.model.store.basic.UserStore;
 import java.io.IOException;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -77,6 +78,7 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		User user = userStore.getUser(username);
+		UUID uuid = user.getId();
 
 		if (!BCrypt.checkpw(password, user.getPasswordHash())) {
 			request.setAttribute("error", "Please enter a correct password.");
@@ -90,10 +92,12 @@ public class LoginServlet extends HttpServlet {
 
 			request.getSession().setAttribute("user", username);
 			request.getSession().setAttribute("admin", username);
+			request.getSession().setAttribute("uuid", uuid);
 			response.sendRedirect("/admin");
 		}
 		else{
 			request.getSession().setAttribute("user", (username));
+			request.getSession().setAttribute("uuid", uuid);
 			response.sendRedirect("/conversations");
 		}
 

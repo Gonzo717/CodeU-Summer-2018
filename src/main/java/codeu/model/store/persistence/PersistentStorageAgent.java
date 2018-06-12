@@ -93,16 +93,6 @@ public class PersistentStorageAgent {
 	}
 
 	/**
-	* Retrieve all Message objects from the Datastore service. The returned list may be empty.
-	*
-	* @throws PersistentDataStoreException if an error was detected during the load from the
-	*     Datastore service
-	*/
-	public List<Message> loadMessages() throws PersistentDataStoreException {
-		return persistentDataStore.loadMessages();
-	}
-
-	/**
 	* Retrieve all Activity objects from the Datastore service. The returned list may be empty.
 	*
 	* @throws PersistentDataStoreException if an error was detected during the loard from the
@@ -119,16 +109,6 @@ public class PersistentStorageAgent {
 	 */
 	 public List<Message> loadMessages() throws PersistentDataStoreException {
 		 return persistentDataStore.loadMessages();
-	}
-
-	/**
-	 * Retrieve all Activity objects from the Datastore service. The returned list may be empty.
-	 *
-	 * @throws PersistentDataStoreException if an error was detected during the loard from the
-	 *		Datastore service
-	 */
-	public List<Activity> loadActivities() throws PersistentDataStoreException {
-		return persistentDataStore.loadActivities();
 	}
 
 	/** Write a User object to the Datastore service. */

@@ -18,7 +18,7 @@ import codeu.model.data.Conversation;
 import codeu.model.data.User;
 import codeu.model.data.Group;
 import codeu.model.store.basic.ConversationStore;
-import codeu.mode.data.Activity;
+import codeu.model.data.Activity;
 import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ActivityStore;
@@ -44,6 +44,9 @@ public class ConversationServlet extends HttpServlet {
   /** Store class that gives access to Group Conversations. */
   private GroupConversationStore groupConversationStore;
 
+  /** Store class that gives access to Activity */
+  private ActivityStore activityStore;
+
   /**
    * Set up state for handling conversation-related requests. This method is only called when
    * running in a server, not when running in a test.
@@ -54,6 +57,7 @@ public class ConversationServlet extends HttpServlet {
     setUserStore(UserStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
 	setGroupConversationStore(GroupConversationStore.getInstance());
+	setActivityStore(ActivityStore.getInstance());
   }
 
   /**
@@ -72,8 +76,13 @@ public class ConversationServlet extends HttpServlet {
     this.conversationStore = conversationStore;
   }
 
+
   void setGroupConversationStore(GroupConversationStore groupConversationStore) {
 	this.groupConversationStore = groupConversationStore;
+  }
+
+  void setActivityStore(ActivityStore activityStore) {
+	this.activityStore = activityStore;
   }
 
   /**
@@ -125,10 +134,10 @@ public class ConversationServlet extends HttpServlet {
 	if(request.getParameter("conversationTitle") == null){
 		int counter = 0;
 		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup";
-		while(conversationStore.isTitleTaken(conversationTitle)){
-			counter++;
-			conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup" + counter;
-		}
+		// while(conversationStore.isTitleTaken(conversationTitle)){
+		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup" + counter;
+		counter++;
+		// }
 	}else{
 		conversationTitle = request.getParameter("conversationTitle");
 	}

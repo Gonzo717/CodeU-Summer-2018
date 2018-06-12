@@ -14,8 +14,10 @@
   limitations under the License.
 --%>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.UUID" %>
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Group" %>
+
 
 
 <!DOCTYPE html>
@@ -104,19 +106,24 @@
     }
 	%>
 	</hr>
-	<h1>Private Messages</h1>
-	<% if(groups != null){
-	%>
-		<ul class="mdl-list">
-    <%
-        for(Group group : groups){
-    %>
-        <li><a href="/chat/<%= group.getTitle() %>">
-          <%= group.getTitle() %></a></li>
-    <%
-        }
-    %>
-        </ul>
+	<% if(request.getSession().getAttribute("uuid") != null){ // check if signed in!
+		UUID id = (UUID) request.getSession().getAttribute("uuid"); %>
+		<h1>Private Messages</h1>
+		<% if(groups != null){
+		%>
+			<ul class="mdl-list">
+	    <%
+	        for(Group group : groups){
+				if(group.isAccessAllowed(id)){ //only display the private conversation that the user is a part of
+	    %>
+	        <li><a href="/chat/<%= group.getTitle() %>">
+	          <%= group.getTitle() %></a></li>
+	    <%
+	        	}
+			}
+	    %>
+	        </ul>
+		<% } %>
 	<% } %>
     <hr/>
   </div>

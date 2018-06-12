@@ -24,18 +24,18 @@
 Conversation conversation = (Conversation) request.getAttribute("conversation");
 Group group = (Group) request.getAttribute("group");
 UUID id = (UUID) request.getSession().getAttribute("id");
-System.out.println("The id that chat.jsp has:");
-System.out.println(id);
+List<User> allowedUsers = (List<User>) group.getAllUsers();
+
 String title = "placeholder";
-if (group == null){
+if (group != null){
 	//Just doing some housekeeping with the rest of the code
-	title = conversation.getTitle();
-	System.out.println("Group is null");
+	title = group.getTitle();
+	System.out.println("Group");
 	System.out.println(conversation);
 }
-if(conversation == null){
-	title = group.getTitle();
-	System.out.println("conversation is null");
+if(conversation != null){
+	title = conversation.getTitle();
+	System.out.println("conversation");
 }
 //need to distinguish between conversation or group
 String name = (String) request.getSession().getAttribute("user");
@@ -94,6 +94,40 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 	<% if(group.isAccessAllowed(id) && name != null){ //only if allowed and signed in, then display chat
 		%>
 		<h1><%= group.getTitle() %>
+
+		<script>
+		function displayAllowedUsers() {
+			var view = document.getElementById("display-allowed-users");
+			if (view.style.display === "block") {
+				view.style.display = "none";
+			} else {
+				view.style.display = "block";
+			}
+		}
+		</script>
+
+		<button onclick=displayAllowedUsers()>Show Members</button>
+		<style>
+		#display-allowed-users{
+			font-size: 16;
+			width: 85%;
+			display: none;
+		}
+		</style>
+		<div id="display-allowed-users">
+			<ul>
+			<%for (User user:allowedUsers){
+				String username = user.getName(); %>
+				<li><a href="/user/<%=username%>"><%= username %></a>
+			<% } %>
+			</ul>
+			<div id="addMembers">
+				<%  List<User> users = UserStore.getInstance().getUsers();
+					for(User user: users){ %>
+						<a><%user.getName();%></a>
+				<% 	} %>
+			</div>
+		</div>
 		<a href="" style="float:right">+</a>
 		<a href="" style="float: right">&#8635;</a></h1>
 		<hr/>
@@ -102,8 +136,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 		  <ul>
 		<%
 		  for (Message message : messages) {
-			String author = UserStore.getInstance()
-			  .getUser(message.getAuthorId()).getName();
+			String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
 		%>
 		  <li><strong><a href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
 		<%
@@ -125,9 +158,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 		<% } %>
 
 	<% } else{ %>
-		<script>
+		<script> //access denied, being redirected
 		window.alert("You are not part of this Group");
-		window.location.replace("/conversations");		
+		window.location.replace("/conversations");
 		</script>
   <% } %>
 
@@ -135,7 +168,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 	<%-- Now display the conversation  --%>
 	<%if(conversation != null && group == null){ %>
 	    <h1><%= conversation.getTitle() %>
-		<a href="" style="float:right">+</a>
 		<a href="" style="float: right">&#8635;</a></h1>
 	    <hr/>
 

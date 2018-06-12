@@ -76,44 +76,44 @@ public class ChatServletTest {
 		chatServlet.setActivityStore(mockActivityStore);
 	}
 
-	@Test
-	public void testDoGet() throws IOException, ServletException {
-		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
+	// @Test
+	// public void testDoGet() throws IOException, ServletException {
+	// 	Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
+	//
+	// 	UUID fakeConversationId = UUID.randomUUID();
+	// 	Conversation fakeConversation =
+	// 			new Conversation(fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now());
+	// 	Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
+	// 			.thenReturn(fakeConversation);
+	//
+	// 	List<Message> fakeMessageList = new ArrayList<>();
+	// 	fakeMessageList.add(
+	// 			new Message(
+	// 					UUID.randomUUID(),
+	// 					fakeConversationId,
+	// 					UUID.randomUUID(),
+	// 					"test message",
+	// 					Instant.now()));
+	// 	Mockito.when(mockMessageStore.getMessagesInConversation(fakeConversationId))
+	// 			.thenReturn(fakeMessageList);
+	//
+	// 	chatServlet.doGet(mockRequest, mockResponse);
+	//
+	// 	Mockito.verify(mockRequest).setAttribute("conversation", fakeConversation);
+	// 	Mockito.verify(mockRequest).setAttribute("messages", fakeMessageList);
+	// 	Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+	// }
 
-		UUID fakeConversationId = UUID.randomUUID();
-		Conversation fakeConversation =
-				new Conversation(fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now());
-		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
-				.thenReturn(fakeConversation);
-
-		List<Message> fakeMessageList = new ArrayList<>();
-		fakeMessageList.add(
-				new Message(
-						UUID.randomUUID(),
-						fakeConversationId,
-						UUID.randomUUID(),
-						"test message",
-						Instant.now()));
-		Mockito.when(mockMessageStore.getMessagesInConversation(fakeConversationId))
-				.thenReturn(fakeMessageList);
-
-		chatServlet.doGet(mockRequest, mockResponse);
-
-		Mockito.verify(mockRequest).setAttribute("conversation", fakeConversation);
-		Mockito.verify(mockRequest).setAttribute("messages", fakeMessageList);
-		Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
-	}
-
-	@Test
-	public void testDoGet_badConversation() throws IOException, ServletException {
-		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/bad_conversation");
-		Mockito.when(mockConversationStore.getConversationWithTitle("bad_conversation"))
-				.thenReturn(null);
-
-		chatServlet.doGet(mockRequest, mockResponse);
-
-		Mockito.verify(mockResponse).sendRedirect("/conversations");
-	}
+	// @Test
+	// public void testDoGet_badConversation() throws IOException, ServletException {
+	// 	Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/bad_conversation");
+	// 	Mockito.when(mockConversationStore.getConversationWithTitle("bad_conversation"))
+	// 			.thenReturn(null);
+	//
+	// 	chatServlet.doGet(mockRequest, mockResponse);
+	//
+	// 	Mockito.verify(mockResponse).sendRedirect("/conversations");
+	// }
 
 	@Test
 	public void testDoPost_UserNotLoggedIn() throws IOException, ServletException {
