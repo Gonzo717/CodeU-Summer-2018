@@ -24,13 +24,14 @@
 Conversation conversation = (Conversation) request.getAttribute("conversation");
 Group group = (Group) request.getAttribute("group");
 UUID id = (UUID) request.getSession().getAttribute("id");
-List<User> allowedUsers = (List<User>) group.getAllUsers();
+List<User> allowedUsers = null; //have to instantiate globally
 
 String title = "placeholder";
 if (group != null){
 	//Just doing some housekeeping with the rest of the code
 	title = group.getTitle();
 	System.out.println("Group");
+	allowedUsers = (List<User>) group.getAllUsers();
 	System.out.println(conversation);
 }
 if(conversation != null){
@@ -48,6 +49,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 <head>
   <title><%= title %></title>
   <link rel="stylesheet" href="/css/main.css" type="text/css">
+  <link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 
   <style>
     #chat {
@@ -116,7 +118,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 		</style>
 		<div id="display-allowed-users">
 			<ul>
-			<%for (User user:allowedUsers){
+			<%for (User user: allowedUsers){
 				String username = user.getName(); %>
 				<li><a href="/user/<%=username%>"><%= username %></a>
 			<% } %>

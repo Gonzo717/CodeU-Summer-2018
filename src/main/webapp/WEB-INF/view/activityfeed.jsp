@@ -4,15 +4,16 @@
 <%@ page import="codeu.model.store.basic.UserStore" %>
 
 <%
-List<Activity> activities = (List<Activity>) request.getAttribute("activities");		
+List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 %>
 <!DOCTYPE>
 <html>
 	<head>
 		<link rel="stylesheet" href="/css/main.css" type="text/css">
+		<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 
 	</head>
-	
+
 	<body>
 		<nav>
 			<a id="navTitle" href="/">Trill</a>
@@ -35,7 +36,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 				<a href="/logout">Logout</a>
 			<% } %>
 		</nav>
-		
+
 		<div id="container">
 			<h1>
 				Activity Feed
@@ -44,7 +45,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 			<%
 			if(activities == null || activities.isEmpty()) {
 			%>
-				<p>No activities, start exploring!</p>			
+				<p>No activities, start exploring!</p>
 			<%
 			} else {
 			%>
@@ -67,7 +68,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 						else if(activity.getType().equals("newMessage")) {
 						%>
 							<li><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
-							.getUser(activity.getOwner()).getName()%></li>						
+							.getUser(activity.getOwner()).getName()%></li>
 						<%
 						}
 					}
@@ -76,7 +77,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 				</ul>
 			<%
 			}
-			%>	
+			%>
 			<hr/>
 		</div>
 	</body>
