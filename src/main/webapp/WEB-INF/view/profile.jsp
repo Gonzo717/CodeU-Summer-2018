@@ -53,45 +53,50 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 		</nav>
 
 		<div id="container">
-			<h1><%=request.getAttribute("currentProfile")%>'s Profile Page</h1>
+		<% if(request.getAttribute("error") != null){ %>
+				<h1 style="color:red"><%= request.getAttribute("error")%></h1>
+		<% }else{%>
+
+					<h1><%=request.getAttribute("currentProfile")%>'s Profile Page</h1>
+					<hr/>
+					<h2>About <%=request.getAttribute("currentProfile")%>:</h2>
+					<P>
+					<%=request.getAttribute("about")%>
+					<% if(request.getSession().getAttribute("user") != null) {%>
+						<% if(request.getSession().getAttribute("user").equals(request.getAttribute("currentProfile"))) { %>
+							<h3> Want to edit your about page? (only you can see this)</h3>
+							<form action="/user/<%=request.getAttribute("currentProfile")%>" method="POST">
+								<div class="form-group">
+									<textarea  name="about me" id="about me" rows="10" cols="100" placeholder="Tell me about yourself" style="font-size:14pt"></textarea>
+									<br>
+									<input type="Submit">
+								</div>
+ 						<% } %>
+					<% } %>
+			</p>
+		</div>
+
+		<div id="container">
 			<hr/>
-			<h2>About <%=request.getAttribute("currentProfile")%>:</h2>
-			<P>
-			<%=request.getAttribute("about")%>
-			<% if(request.getSession().getAttribute("user") != null) {%>
-				<% if(request.getSession().getAttribute("user").equals(request.getAttribute("currentProfile"))) { %>
-					<h3> Want to edit your about page? (only you can see this)</h3>
-					<form action="/user/<%=request.getAttribute("currentProfile")%>" method="POST">
-						<div class="form-group">
-							<textarea  name="about me" id="about me" rows="10" cols="100" placeholder="Tell me about yourself" style="font-size:14pt"></textarea>
-							<br>
-							<input type="Submit">
-						</div>
- 			<% } %>
-		<% } %>
-	</p>
-	</div>
-
-	<div id="container">
-		<hr/>
-		<% if(messages.size() != 0) { %>
-			<h2> <%=request.getAttribute("currentProfile")%>'s Sent Messages: </h2>
-			<div id="chat">
-				<ul>
-					<%
-					for (Message message : messages) {
-						%>
-						<li><strong><%= message.getFormattedTime().toString()%>:</strong> <%= message.getContent() %></li>
+			<% if(messages.size() != 0) { %>
+				<h2> <%=request.getAttribute("currentProfile")%>'s Sent Messages: </h2>
+				<div id="chat">
+					<ul>
 						<%
-					}
-					%>
-				</ul>
+						for (Message message : messages) {
+							%>
+								<li><strong><%= message.getFormattedTime().toString()%>:</strong> <%= message.getContent() %></li>
+							<%
+						}
+						%>
+					</ul>
+				</div>
+				<%} else{ %>
+					<h2> <%=request.getAttribute("currentProfile")%> Hasn't Sent Messages </h2>
+				<%}%>
+				<hr/>
 			</div>
-		<%} else{ %>
-			<h2> <%=request.getAttribute("currentProfile")%> Hasn't Sent Messages </h2>
-		<%}%>
-		<hr/>
-	</div>
-
-</body>
+			
+	<% } %>
+	</body>
 </html>

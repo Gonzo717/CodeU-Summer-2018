@@ -193,11 +193,7 @@ public class ChatServletTest {
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
 		User fakeUser =
-				new User(
-						UUID.randomUUID(),
-						"test_username",
-						"$2a$10$eDhncK/4cNH2KE.Y51AWpeL8/5znNBQLuAFlyJpSYNODR/SJQ/Fg6",
-						Instant.now());
+				new User( UUID.randomUUID(), "test_username", "$2a$10$eDhncK/4cNH2KE.Y51AWpeL8/5znNBQLuAFlyJpSYNODR/SJQ/Fg6", Instant.now());
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
 		Conversation fakeConversation =
