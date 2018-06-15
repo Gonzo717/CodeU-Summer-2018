@@ -30,13 +30,10 @@ String title = "placeholder";
 if (group != null){
 	//Just doing some housekeeping with the rest of the code
 	title = group.getTitle();
-	System.out.println("Group");
 	allowedUsers = (List<User>) group.getAllUsers();
-	System.out.println(conversation);
 }
 if(conversation != null){
 	title = conversation.getTitle();
-	System.out.println("conversation");
 }
 //need to distinguish between conversation or group
 String name = (String) request.getSession().getAttribute("user");
@@ -95,7 +92,8 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
   <% if(group != null){ // This IS ONLY FOR GROUP MESSAGES (PRIVATE)%>
 	<% if(group.isAccessAllowed(id) && name != null){ //only if allowed and signed in, then display chat
 		%>
-		<h1><%= group.getTitle() %>
+		<h1> <%= group.getTitle() %>
+		</h1>
 
 		<script>
 		function displayAllowedUsers() {
@@ -111,26 +109,60 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 		<button onclick=displayAllowedUsers()>Show Members</button>
 		<style>
 		#display-allowed-users{
-			font-size: 16;
+			font-size: 8;
+			font-weight: lighter;
 			width: 85%;
+			text-decoration: none;
 			display: none;
+			list-style-type: none;
 		}
+		#display-allowed-users a{
+			text-decoration: none;
+			list-style-type: none;
+		}
+		#addMembers{
+			font-size: 8;
+			font-weight: lighter;
+			text-decoration: none;
+			width: auto;
+			list-style-type: none;
+			/* display: block; */
+		}
+		#addMembers a{
+			text-decoration: none;
+			list-style-type: none;
+		}
+
 		</style>
 		<div id="display-allowed-users">
+			<h4>Current Members</h4>
 			<ul>
 			<%for (User user: allowedUsers){
 				String username = user.getName(); %>
 				<li><a href="/user/<%=username%>"><%= username %></a>
 			<% } %>
 			</ul>
+		<hr/>
+			<h4>Add more members</h4>
 			<div id="addMembers">
+				<form action="/chat/<%= group.getTitle() %>" method="POST">
 				<%  List<User> users = UserStore.getInstance().getUsers();
-					for(User user: users){ %>
-						<a><%user.getName();%></a>
+					int counter = 0;
+					for(User user: users){
+						String addUsername = user.getName();
+						counter++; %>
+						<input type="checkbox" name="<%=counter%>" value="<%=addUsername%>" id="addMembers" style="font-size:12;"><a href="/user/<%=addUsername%>"><label for="addMembers" style="font-size: 12;"><%= addUsername %></label></a>
+						<% //TODO: make this more efficient for pete's sake :(
+						request.getSession().setAttribute("checkedUserCounter", counter); %>
+						<br>
+						<%-- <li><a href="/user/<%=user.getName()%>"><%= user.getName() %></a> --%>
 				<% 	} %>
+			<hr/>
+				<input type="submit" name="addUsers" value="Add Checked Members">
+				<input type="submit" name="removeUsers" value="Remove Checked Members">
+				</form>
 			</div>
 		</div>
-		<a href="" style="float:right">+</a>
 		<a href="" style="float: right">&#8635;</a></h1>
 		<hr/>
 

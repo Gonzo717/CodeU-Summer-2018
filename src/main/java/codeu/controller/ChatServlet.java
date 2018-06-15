@@ -16,6 +16,7 @@ package codeu.controller;
 
 import codeu.model.data.Conversation;
 import codeu.model.data.Group;
+import java.util.ArrayList;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
@@ -119,17 +120,7 @@ public class ChatServlet extends HttpServlet {
 
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
 	Group group = groupConversationStore.getGroupConversationWithTitle(conversationTitle);
-	// System.out.println(requestURLL);
-	// System.out.println(group.getAllUsers());
-	// if (group == null){
-	// 	System.out.println("Group conversation was null " + conversationTitle);
-	// 	response.sendRedirect("/conversations");
-	// }else if(conversation == null){
-    //   // couldn't find conversation, redirect to conversation list
-	// 	System.out.println("Conversation was null: " + conversationTitle);
-	// 	response.sendRedirect("/conversations");
-	// 	return;
-    //}
+
 	if(conversation != null){
 		UUID conversationId = conversation.getId();
 		List<Message> messages = messageStore.getMessagesInConversation(conversationId);
@@ -157,7 +148,6 @@ public class ChatServlet extends HttpServlet {
 
     String username = (String) request.getSession().getAttribute("user");
     if (username == null) {
-      System.out.println(request.getSession().getAttribute("user"));
       // user is not logged in, don't let them add a message
       response.sendRedirect("/login");
       return;
@@ -171,34 +161,67 @@ public class ChatServlet extends HttpServlet {
     }
 
     String requestUrl = request.getRequestURI();
-    String conversationTitle = requestUrl.substring("/chat/".length());
 
+	// define some things
+
+    String conversationTitle = requestUrl.substring("/chat/".length());
+	Group group = groupConversationStore.getGroupConversationWithTitle(conversationTitle);
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
-    if (conversation == null) {
-      // couldn't find conversation, redirect to conversation list
+
+    if (conversation == null && group == null) {
+      // couldn't find conversation or group, redirect to conversation list
       response.sendRedirect("/conversations");
       return;
     }
 
     String messageContent = request.getParameter("message");
+	//This block signals that the user wants to manipulate the members in the Group (add/remove)
 
-    // this removes any HTML from the message content
-    String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
+	if(messageContent == null && conversation == null){
+		// because the user didn't type a message, he wants to change the members in the Group
 
-    Message message =
-        new Message(
-            UUID.randomUUID(),
-            conversation.getId(),
-            user.getId(),
-            cleanedMessageContent,
-            Instant.now());
+		int checkedUsers = (int) request.getSession().getAttribute("checkedUserCounter");
 
-    messageStore.addMessage(message);
+		// getting the Users from the chat.jsp
+		ArrayList<String> mutableUsers = new ArrayList<String>();
+		for(int i = 0; i < checkedUsers; i++){
+			String counter = Integer.toString(i);
+			mutableUsers.add(request.getParameter(counter));
+			System.out.println(request.getParameter(counter));
+		}
+		// Now do something with it!
+		for(int i = 0; i < mutableUsers.size(); i++){
+			if(mutableUsers.get(i) != null){
+				// checks if the user is already allowed, do nothing; if not then add permission
+				User allowUser = userStore.getUser(mutableUsers.get(i));
+				group.addUser(allowUser);
+			}
+		}
+		System.out.println(group.getAllUsers());
 
-	Activity msgAct = new Activity("newMessage", UUID.randomUUID(), user.getId(), message.getCreationTime());
-	activityStore.addActivity(msgAct);
+    	response.sendRedirect("/chat/" + conversationTitle);
+
+	} else if(messageContent != null){
+		//then parse the message and do all that jazz
+		// this removes any HTML from the message content
+	    String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
+
+	    Message message =
+	        new Message(
+	            UUID.randomUUID(),
+	            conversation.getId(),
+	            user.getId(),
+	            cleanedMessageContent,
+	            Instant.now());
+
+	    messageStore.addMessage(message);
+
+		Activity msgAct = new Activity("newMessage", UUID.randomUUID(), user.getId(), message.getCreationTime());
+		activityStore.addActivity(msgAct);
+
+		response.sendRedirect("/chat/" + conversationTitle);
+	}
 
     // redirect to a GET request
-    response.sendRedirect("/chat/" + conversationTitle);
   }
 }

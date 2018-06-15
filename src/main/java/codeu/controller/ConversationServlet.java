@@ -94,11 +94,6 @@ public class ConversationServlet extends HttpServlet {
       throws IOException, ServletException {
     List<Conversation> conversations = conversationStore.getAllConversations();
 	List<Group> groups = groupConversationStore.getAllGroupConversations();
-	System.out.println("printing out the group titles");
-	for(int i = 0; i < groups.size(); i++){
-		System.out.println(groups.get(i).getTitle());
-	}
-	System.out.println(groups);
     request.setAttribute("conversations", conversations);
 	request.setAttribute("groups", groups);
     request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);

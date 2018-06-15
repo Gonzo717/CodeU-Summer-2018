@@ -39,16 +39,17 @@ public class Group {
 		this.users = users;
 	}
 
-	public void addUser(User user){
-		users.add(user);
+	public void addUser(User newUser){
+		int size = users.size();
+		for(int i = 0; i < size; i++){
+			if(!(users.get(i).getId() == newUser.getId())){
+				users.add(newUser);
+			}
+		}
 	}
 
 	public void removeUser(User user){
 		users.remove(user);
-	}
-
-	public boolean isGroup(){
-		return true;
 	}
 
 	//returns true if the user is allowed to view this group message
@@ -56,7 +57,7 @@ public class Group {
 		//should I do by User or by Username?
 		for(User iterableUser : users){
 			if(iterableUser.getId() ==  id) {
-				System.out.println("True");
+				System.out.println("true");
 				return true;
 			}
 		}
