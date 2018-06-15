@@ -24,6 +24,7 @@ import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -157,7 +158,7 @@ public class ConversationServlet extends HttpServlet {
 
 	if(request.getParameter("group") != null){
 		//create a Private Group Message
-		ArrayList<User> users = new ArrayList<User>();
+		HashSet<User> users = new HashSet<User>();
 		String name = (String) request.getSession().getAttribute("user");
 		users.add(user);
     	Group group = new Group(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(), users);

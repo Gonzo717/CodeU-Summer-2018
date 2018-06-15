@@ -2,6 +2,7 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
    /**
@@ -23,14 +24,15 @@ import java.util.UUID;
 
 public class Group {
 
-	private final ArrayList<User> users;
+	//using HashSet instead of ArrayList for ease of use and for strictly unique elements
+	private final HashSet<User> users;
 	private final UUID id;
 	private final UUID owner;
 	private final String title;
 	private final Instant creation;
 	// private final Conversation conversation;
 
-	public Group(UUID id, UUID owner, String title, Instant creation, ArrayList<User> users){
+	public Group(UUID id, UUID owner, String title, Instant creation, HashSet<User> users){
 		// this.conversation = new Conversation(id, owner, title, creation);
 		this.id = id;
 		this.owner = owner;
@@ -40,12 +42,8 @@ public class Group {
 	}
 
 	public void addUser(User newUser){
-		int size = users.size();
-		for(int i = 0; i < size; i++){
-			if(!(users.get(i).getId() == newUser.getId())){
-				users.add(newUser);
-			}
-		}
+		//because it is a set, I can just add it without checking if present
+		users.add(newUser);
 	}
 
 	public void removeUser(User user){
@@ -88,7 +86,7 @@ public class Group {
 	// 	return conversation;
 	// }
 
-	public ArrayList getAllUsers(){
+	public HashSet getAllUsers(){
 		return users;
 	}
 }

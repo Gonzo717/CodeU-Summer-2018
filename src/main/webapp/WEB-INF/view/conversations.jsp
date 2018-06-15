@@ -74,7 +74,7 @@
 
 	  <form action="/conversations" method="POST">
 		  <h1>Group Message</h1>
-		  <button type="submit" name="group" value="group">PRIVATE OF THE GROUPS</button>
+		  <button type="submit" name="group" value="group">Private Group</button>
 	   </form>
       <hr/>
     <% } %>

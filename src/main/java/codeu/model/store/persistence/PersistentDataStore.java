@@ -28,6 +28,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -141,7 +142,7 @@ public class PersistentDataStore {
         UUID ownerUuid = UUID.fromString((String) entity.getProperty("owner_UUID"));
         String title = (String) entity.getProperty("Title");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation"));
-		ArrayList<User> users = (ArrayList) entity.getProperty("users");
+		HashSet<User> users = (HashSet) entity.getProperty("users");
 		Group group = new Group(uuid, ownerUuid, title, creationTime, users);
         groupConversations.add(group);
       } catch (Exception e) {

@@ -17,6 +17,7 @@ package codeu.controller;
 import codeu.model.data.Conversation;
 import codeu.model.data.Group;
 import java.util.ArrayList;
+import java.util.HashSet;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
@@ -183,17 +184,17 @@ public class ChatServlet extends HttpServlet {
 		int checkedUsers = (int) request.getSession().getAttribute("checkedUserCounter");
 
 		// getting the Users from the chat.jsp
-		ArrayList<String> mutableUsers = new ArrayList<String>();
+		HashSet<String> mutableUsers = new HashSet<String>();
 		for(int i = 0; i < checkedUsers; i++){
 			String counter = Integer.toString(i);
 			mutableUsers.add(request.getParameter(counter));
 			System.out.println(request.getParameter(counter));
 		}
 		// Now do something with it!
-		for(int i = 0; i < mutableUsers.size(); i++){
-			if(mutableUsers.get(i) != null){
+		for(String userName: mutableUsers){
+			if(userName != null){
 				// checks if the user is already allowed, do nothing; if not then add permission
-				User allowUser = userStore.getUser(mutableUsers.get(i));
+				User allowUser = userStore.getUser(userName);
 				group.addUser(allowUser);
 			}
 		}
@@ -204,16 +205,25 @@ public class ChatServlet extends HttpServlet {
 	} else if(messageContent != null){
 		//then parse the message and do all that jazz
 		// this removes any HTML from the message content
+		Message message = null;
 	    String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
-
-	    Message message =
-	        new Message(
-	            UUID.randomUUID(),
-	            conversation.getId(),
-	            user.getId(),
-	            cleanedMessageContent,
-	            Instant.now());
-
+		if(group != null){
+		    message =
+		        new Message(
+		            UUID.randomUUID(),
+		            group.getId(),
+		            user.getId(),
+		            cleanedMessageContent,
+		            Instant.now());
+		} else if (conversation != null){
+			message =
+		        new Message(
+		            UUID.randomUUID(),
+		            conversation.getId(),
+		            user.getId(),
+		            cleanedMessageContent,
+		            Instant.now());
+		}
 	    messageStore.addMessage(message);
 
 		Activity msgAct = new Activity("newMessage", UUID.randomUUID(), user.getId(), message.getCreationTime());

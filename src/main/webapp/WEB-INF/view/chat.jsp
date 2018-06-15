@@ -14,6 +14,7 @@
   limitations under the License.
 --%>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.HashSet" %>
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.User" %>
 <%@ page import="codeu.model.data.Message" %>
@@ -24,13 +25,13 @@
 Conversation conversation = (Conversation) request.getAttribute("conversation");
 Group group = (Group) request.getAttribute("group");
 UUID id = (UUID) request.getSession().getAttribute("id");
-List<User> allowedUsers = null; //have to instantiate globally
+HashSet<User> allowedUsers = null; //have to instantiate globally
 
 String title = "placeholder";
 if (group != null){
 	//Just doing some housekeeping with the rest of the code
 	title = group.getTitle();
-	allowedUsers = (List<User>) group.getAllUsers();
+	allowedUsers = (HashSet<User>) group.getAllUsers();
 }
 if(conversation != null){
 	title = conversation.getTitle();
@@ -111,7 +112,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 		#display-allowed-users{
 			font-size: 8;
 			font-weight: lighter;
-			width: 85%;
+			width: 100%;
 			text-decoration: none;
 			display: none;
 			list-style-type: none;
@@ -160,6 +161,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 			<hr/>
 				<input type="submit" name="addUsers" value="Add Checked Members">
 				<input type="submit" name="removeUsers" value="Remove Checked Members">
+				<a href="" style="float: right">&#8635;</a></h1>
 				</form>
 			</div>
 		</div>
