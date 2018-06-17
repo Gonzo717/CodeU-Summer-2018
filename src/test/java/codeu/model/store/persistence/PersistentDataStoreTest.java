@@ -147,17 +147,17 @@ public class PersistentDataStoreTest {
 		Assert.assertEquals(contentTwo, resultMessageTwo.getContent());
 		Assert.assertEquals(creationTwo, resultMessageTwo.getCreationTime());
 	}
-	
+
 	@Test
 	public void testSaveAndLoadActivities() throws PersistentDataStoreException {
 		UUID idOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
 		UUID idTwo = UUID.fromString("10000001-2222-3333-4444-555555555555");
 		UUID idThree = UUID.fromString("10000002-2222-3333-4444-555555555555");
-		
+
 		UUID idFour = UUID.fromString("10000003-2222-3333-4444-555555555555");
 		UUID idFive = UUID.fromString("10000004-2222-3333-4444-555555555555");
 		UUID idSix = UUID.fromString("10000005-2222-3333-4444-555555555555");
-		
+
 		Instant creationOne = Instant.ofEpochMilli(1000);
 		Instant creationTwo = Instant.ofEpochMilli(2000);
 		Instant creationThree = Instant.ofEpochMilli(3000);
@@ -165,29 +165,29 @@ public class PersistentDataStoreTest {
 		Activity userAct = new Activity( "newUser", idOne, idFour, creationOne);
 		Activity convoAct = new Activity( "newConvo", idTwo, idFive, creationTwo);
 		Activity msgAct = new Activity( "newMessage", idThree, idSix, creationThree);
-		
+
 		//save
 		persistentDataStore.writeThrough(userAct);
 		persistentDataStore.writeThrough(convoAct);
 		persistentDataStore.writeThrough(msgAct);
-	
+
 		//load
 		List<Activity> resultActivities = persistentDataStore.loadActivities();
-		
+
 		//confirm that what we saved matches what we loaded
-		Activity resultUserAct = resultActivities.get(0);
+		Activity resultUserAct = resultActivities.get(2);
 		Assert.assertEquals("newUser", resultUserAct.getType());
 		Assert.assertEquals(idOne, resultUserAct.getId());
 		Assert.assertEquals(idFour, resultUserAct.getOwner());
-		Assert.assertEquals(creationOne, resultUserAct.getCreationTime());	
-		
+		Assert.assertEquals(creationOne, resultUserAct.getCreationTime());
+
 		Activity resultConvoAct = resultActivities.get(1);
 		Assert.assertEquals("newConvo", resultConvoAct.getType());
 		Assert.assertEquals(idTwo, resultConvoAct.getId());
 		Assert.assertEquals(idFive, resultConvoAct.getOwner());
 		Assert.assertEquals(creationTwo, resultConvoAct.getCreationTime());
-				
-		Activity resultMsgAct = resultActivities.get(2);
+
+		Activity resultMsgAct = resultActivities.get(0);
 		Assert.assertEquals("newMessage", resultMsgAct.getType());
 		Assert.assertEquals(idThree, resultMsgAct.getId());
 		Assert.assertEquals(idSix, resultMsgAct.getOwner());

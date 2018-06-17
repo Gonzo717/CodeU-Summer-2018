@@ -4,7 +4,7 @@
 <%@ page import="codeu.model.store.basic.UserStore" %>
 
 <%
-List<Activity> activities = (List<Activity>) request.getAttribute("activities");		
+List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 %>
 <!DOCTYPE>
 <html>
@@ -12,7 +12,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 		<link rel="stylesheet" href="/css/main.css" type="text/css">
 
 	</head>
-	
+
 	<body>
 		<nav>
 			<a id="navTitle" href="/">Trill</a>
@@ -35,48 +35,48 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 				<a href="/logout">Logout</a>
 			<% } %>
 		</nav>
-		
-		<div id="container">
-			<h1>
-				Activity Feed
-			</h1>
-			<hr/>
+		<h1 id="container">
+			Activity Feed
+		</h1>
+		<hr/>
+		<div id="infinitescroll">
 			<%
 			if(activities == null || activities.isEmpty()) {
 			%>
-				<p>No activities, start exploring!</p>			
+				<p>No activities, start exploring!</p>
 			<%
 			} else {
 			%>
-				<ul class="mdl-list">
 				<%
 				for(Activity activity : activities) {
 					if(activity != null) {
 						if(activity.getType().equals("newUser")) {
 						%>
-							<li><b><%=activity.getCreationTimeFormatted()%></b> New user has been created! Welcome, <%=UserStore.getInstance()
-							.getUser(activity.getOwner()).getName()%></li>
+							<span><b><%=activity.getCreationTimeFormatted()%></b> New user has been created! Welcome, <%=UserStore.getInstance()
+							.getUser(activity.getOwner()).getName()%></span>
+							<hr/>
 						<%
 						}
 						else if(activity.getType().equals("newConvo")) {
 						%>
-							<li><b><%=activity.getCreationTimeFormatted()%></b>New conversation has been created by <%=UserStore.getInstance()
-							.getUser(activity.getOwner()).getName()%></li>
+							<span><b><%=activity.getCreationTimeFormatted()%></b>New conversation has been created by <%=UserStore.getInstance()
+							.getUser(activity.getOwner()).getName()%></span>
+							<hr/>
 						<%
 						}
 						else if(activity.getType().equals("newMessage")) {
 						%>
-							<li><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
-							.getUser(activity.getOwner()).getName()%></li>						
+							<span><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
+							.getUser(activity.getOwner()).getName()%></span>
+							<hr/>
 						<%
 						}
 					}
 				}
 				%>
-				</ul>
 			<%
 			}
-			%>	
+			%>
 			<hr/>
 		</div>
 	</body>

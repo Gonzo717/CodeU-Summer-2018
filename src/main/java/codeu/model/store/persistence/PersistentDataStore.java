@@ -149,21 +149,21 @@ public class PersistentDataStore {
 
 		return messages;
 	}
-	
+
 	/**
 	 * Loads all Activity objects from the Datastore service and returns them in a List, sorted in
 	 * ascending order by creation time.
 	 * @throws PersistentDataStoreException if an error was detected during the load from the
 	 *			Datastore service
 	 */
-	 
+
 	public List<Activity> loadActivities() throws PersistentDataStoreException {
 	List<Activity> activities = new ArrayList<>();
-	
+
 		// Retrieve all activities from the datastore.
-		Query query = new Query("chat-activities").addSort("creation_time", SortDirection.ASCENDING);
+		Query query = new Query("chat-activities").addSort("creation_time", SortDirection.DESCENDING);
 		PreparedQuery results = datastore.prepare(query);
-	
+
 		for(Entity entity : results.asIterable()) {
 			try {
 				String type = (String) entity.getProperty("activity_type");
@@ -209,7 +209,7 @@ public class PersistentDataStore {
 		conversationEntity.setProperty("creation_time", conversation.getCreationTime().toString());
 		datastore.put(conversationEntity);
 	}
-	
+
 	/** Write an Activity object to the Datastore service. */
 	public void writeThrough(Activity activity) {
 		Entity activityEntity = new Entity("chat-activities", activity.getId().toString());
@@ -220,4 +220,3 @@ public class PersistentDataStore {
 		datastore.put(activityEntity);
 	}
 }
-
