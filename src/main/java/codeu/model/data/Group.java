@@ -47,7 +47,9 @@ public class Group {
 	}
 
 	public void removeUser(User user){
-		users.remove(user);
+		boolean removed = users.remove(user);
+		System.out.println(removed);
+		System.out.println("user was removed");
 	}
 
 	//returns true if the user is allowed to view this group message
@@ -55,7 +57,6 @@ public class Group {
 		//should I do by User or by Username?
 		for(User iterableUser : users){
 			if(iterableUser.getId() ==  id) {
-				System.out.println("true");
 				return true;
 			}
 		}

@@ -117,7 +117,6 @@ public class ConversationServlet extends HttpServlet {
     }
 
     User user = userStore.getUser(username);
-	request.getSession().setAttribute("id", user.getId());
 
     if (user == null) {
       // user was not found, don't let them create a conversation

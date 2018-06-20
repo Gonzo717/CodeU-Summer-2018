@@ -164,7 +164,6 @@ public class ChatServlet extends HttpServlet {
     String requestUrl = request.getRequestURI();
 
 	// define some things
-
     String conversationTitle = requestUrl.substring("/chat/".length());
 	Group group = groupConversationStore.getGroupConversationWithTitle(conversationTitle);
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
@@ -180,22 +179,46 @@ public class ChatServlet extends HttpServlet {
 
 	if(messageContent == null && conversation == null){
 		// because the user didn't type a message, he wants to change the members in the Group
-
-		int checkedUsers = (int) request.getSession().getAttribute("checkedUserCounter");
-
-		// getting the Users from the chat.jsp
+		boolean addUsers = false;
+		boolean removeUsers = false;
+		int checkedUsers = 0;
+		if(request.getParameter("addUsers") != null){
+			System.out.println("we received the request to addUsers:");
+			addUsers = true;
+			checkedUsers = (int) request.getSession().getAttribute("addUserCounter");//the number of checked users
+		}
+		else if(request.getParameter("removeUsers") != null){
+			removeUsers = true;
+			checkedUsers = (int) request.getSession().getAttribute("removeUserCounter");//the number of checked users
+		}
+		// getting the actual Users from number of ints checked in the chat.jsp
 		HashSet<String> mutableUsers = new HashSet<String>();
-		for(int i = 0; i < checkedUsers; i++){
+		for(int i = 0; i <= checkedUsers; i++){
+			System.out.println(checkedUsers);
 			String counter = Integer.toString(i);
-			mutableUsers.add(request.getParameter(counter));
+			System.out.println("printing the username:");
 			System.out.println(request.getParameter(counter));
+			mutableUsers.add(request.getParameter(counter));
 		}
 		// Now do something with it!
+		System.out.println(mutableUsers);
 		for(String userName: mutableUsers){
 			if(userName != null){
 				// checks if the user is already allowed, do nothing; if not then add permission
-				User allowUser = userStore.getUser(userName);
-				group.addUser(allowUser);
+				User allowedUser = userStore.getUser(userName);
+				System.out.println(userName);
+				if(addUsers){
+					group.addUser(allowedUser);
+					System.out.println("added user");
+				}
+				else if(removeUsers){
+					if (!(group.getOwnerId() == allowedUser.getId())){
+						group.removeUser(allowedUser);
+						System.out.println("removed user");
+					} else{
+						System.out.println("can't remove the owner bruv!");
+					}
+				}
 			}
 		}
 		System.out.println(group.getAllUsers());

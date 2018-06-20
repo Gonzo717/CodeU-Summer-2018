@@ -115,7 +115,8 @@
 			<ul class="mdl-list">
 	    <%
 	        for(Group group : groups){
-				if(group.isAccessAllowed(id)){ //only display the private conversation that the user is a part of
+				if(group.isAccessAllowed(id)){
+			//only display the private conversation that the user is a part of
 	    %>
 	        <li><a href="/chat/<%= group.getTitle() %>">
 	          <%= group.getTitle() %></a></li>

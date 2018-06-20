@@ -79,6 +79,8 @@ public class LoginServlet extends HttpServlet {
 
 		User user = userStore.getUser(username);
 		UUID uuid = user.getId();
+		request.getSession().setAttribute("id", uuid);
+
 
 		if (!BCrypt.checkpw(password, user.getPasswordHash())) {
 			request.setAttribute("error", "Please enter a correct password.");
