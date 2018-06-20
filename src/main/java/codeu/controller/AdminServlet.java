@@ -208,13 +208,6 @@ public class AdminServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 		}
 
-	public void clearConversations(HttpServletRequest request, HttpServletResponse response)
-		throws IOException, ServletException {
-			// convoStore.clearConversations();
-			request.setAttribute("success", "All conversations successfully deleted.");
-	}
-
-
   /**
    * This function fires when a user submits the refresh stats form (clicks the refresh stats button). It gets the totalUsers,
    TotalConvos, and totalMessages each time to provide a hot-reload of what is happening.
