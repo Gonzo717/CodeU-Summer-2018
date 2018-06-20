@@ -47,6 +47,14 @@ table td{
   width: 50px;
 }
 
+#infinitescroll {
+  height: 500px;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: scroll;
+}
+
 #navTitle {
   font-size: 36px;
 }

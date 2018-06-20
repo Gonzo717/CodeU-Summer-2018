@@ -36,12 +36,11 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 				<a href="/logout">Logout</a>
 			<% } %>
 		</nav>
-
-		<div id="container">
-			<h1>
-				Activity Feed
-			</h1>
-			<hr/>
+		<h1 id="container">
+			Activity Feed
+		</h1>
+		<hr/>
+		<div id="infinitescroll">
 			<%
 			if(activities == null || activities.isEmpty()) {
 			%>
@@ -49,32 +48,33 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 			<%
 			} else {
 			%>
-				<ul class="mdl-list">
 				<%
 				for(Activity activity : activities) {
 					if(activity != null) {
 						if(activity.getType().equals("newUser")) {
 						%>
-							<li><b><%=activity.getCreationTimeFormatted()%></b> New user has been created! Welcome, <%=UserStore.getInstance()
-							.getUser(activity.getOwner()).getName()%></li>
+							<span><b><%=activity.getCreationTimeFormatted()%></b> New user has been created! Welcome, <%=UserStore.getInstance()
+							.getUser(activity.getOwner()).getName()%></span>
+							<hr/>
 						<%
 						}
 						else if(activity.getType().equals("newConvo")) {
 						%>
-							<li><b><%=activity.getCreationTimeFormatted()%></b>New conversation has been created by <%=UserStore.getInstance()
-							.getUser(activity.getOwner()).getName()%></li>
+							<span><b><%=activity.getCreationTimeFormatted()%></b>New conversation has been created by <%=UserStore.getInstance()
+							.getUser(activity.getOwner()).getName()%></span>
+							<hr/>
 						<%
 						}
 						else if(activity.getType().equals("newMessage")) {
 						%>
-							<li><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
-							.getUser(activity.getOwner()).getName()%></li>
+							<span><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
+							.getUser(activity.getOwner()).getName()%></span>
+							<hr/>
 						<%
 						}
 					}
 				}
 				%>
-				</ul>
 			<%
 			}
 			%>
