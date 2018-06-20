@@ -26,6 +26,13 @@
 	<style>
 	.content-grid {
 	  max-width: 960px;
+	  display: inline-block;
+	}
+	.page-content{
+		margin-top: 50px;
+		margin-left: 8.33%;
+	    margin-right: 8.33%;
+	    width: 800px;
 	}
 	#view-source {
 	  position: fixed;
@@ -81,10 +88,10 @@
 					<i class="material-icons">more_vert</i>
 				</button>
 				<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-					<li class="mdl-menu__item">5.0 Lollipop</li>
-					<li class="mdl-menu__item">4.4 KitKat</li>
-					<li disabled class="mdl-menu__item">4.3 Jelly Bean</li>
-					<li class="mdl-menu__item">Android History</li>
+					<li class="mdl-menu__item">Add something here!</li>
+					<li class="mdl-menu__item">Perhaps another?</li>
+					<li disabled class="mdl-menu__item">Another one</li>
+					<li class="mdl-menu__item">Anotha 1</li>
 				</ul>
 			</div>
 		</div>
@@ -92,31 +99,13 @@
 
 	<jsp:useBean id="theGame" class="codeu.model.data.Tictactoe" scope="session"/>
 
-<!-- 	<nav> <%-- the menu navbar --%>
-		<a id="navTitle" href="/">Trill</a>
-		<a href="/conversations">Conversations</a>
-		<% if(request.getSession().getAttribute("user") != null){ %>
-			<a>Hello <%= request.getSession().getAttribute("user") %>!</a>
-		<% } else{ %>
-			<a href="/login">Login</a>
-		<% } %>
-		<a href="/admin">Admin</a>
-		<a href="/activityfeed">Activity Feed</a>
-		<% if(request.getSession().getAttribute("user") != null){ %>
-	  <a href ="/user/<%=request.getSession().getAttribute("user")%>">Profile Page</a>
-	<% } %>
-		<a href="/about.jsp">About</a>
-		<% if(request.getSession().getAttribute("user") != null){ %>
-			<a href="/logout">Logout</a>
-		<% } %>
-	</nav> -->
-	<div class="mdl-layout__content">
+	<main class="mdl-layout__content">
 	<a name="top"></a>
-		<div class="mdl-grid">
+		<div class="page-content">
+			<div class="content-grid mdl-grid">
 			<!-- <div id="container"> -->
-				<div class="mdl-cell">
+				<div class="mdl-cell--stretch">
 					<div id="stats">
-						<!-- style="width:85%; margin-left:auto; margin-right:auto; margin-top: 50px;"> -->
 						<h2>Checkout these wonderful site statistics!</h2>
 						<ul>
 							<% if(request.getSession().getAttribute("numUsers")!= null){ %>
@@ -146,9 +135,8 @@
 							</button>
 						</form>
 					</div>
-				</div>
 
-				<div class="mdl-cell">
+
 					<div id="addAdmins">
 						<h2>Feeling lonely?</h2>
 						<h3>Add more admins:</h3>
@@ -197,76 +185,78 @@
 						</script>
 					</form>
 
-				</div>
 				<!-- Game begins! -->
-				<div class="mdl-cell--middle">
-					<div id="game">
-						<h2>Bored?</h2>
-						<h2>Play a game!</h2>
-						<!-- Creating game -->
-						<form action="/admin" method="POST">
-						<!-- Accent-colored raised button with ripple -->
-							<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="playGame" value="Tic Tac Toe">
-							  Tic Tac Toe
-							</button>
-							<%
-							if(request.getSession().getAttribute("TicTacToe") != null) {
-								 %>
-								<table border=1>
-									<%for(int row = 0; row < 3; row++) { %>
-										<tr>
-										<%for(int col= 0; col < 3; col++){ %>
-											<span class="checkmark">
-											<td>
 
-											<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" type="radio" name="board" value="<%=row%><%=col%>">
-												<i class="material-icons">add</i>
-											</button>
-											</td>
-											</span>
-										<% } %>
-									<%} %>
-										</tr>
-							<% } %>
-						</form>
-						<!-- Updating moves -->
-						<% if(request.getSession().getAttribute("error") != null){%>
-							<h3 style="color:red">Please select a tile</h3>
+				<div id="game">
+					<h2>Bored?</h2>
+					<h2>Play a game!</h2>
+					<!-- Creating game -->
+					<form action="/admin" method="POST">
+					<!-- Accent-colored raised button with ripple -->
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="playGame" value="Tic Tac Toe">
+						  Tic Tac Toe
+						</button>
+						<%
+						if(request.getSession().getAttribute("TicTacToe") != null) {
+							 %>
+							<table border=1>
+								<%for(int row = 0; row < 3; row++) { %>
+									<tr>
+									<%for(int col= 0; col < 3; col++){ %>
+										<span class="checkmark">
+										<td>
+
+										<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" type="radio" name="board" value="<%=row%><%=col%>">
+											<i class="material-icons">add</i>
+										</button>
+										</td>
+										</span>
+									<% } %>
+								<%} %>
+									</tr>
 						<% } %>
-						<form action="admin" method="POST">
-							<% if(request.getSession().getAttribute("player") != null) {
-								%>
-								<table border=1>
-									<%
-									for(int row = 0; row < 3; row++) { %>
-										<tr>
-										<%for (int col= 0; col < 3; col++){ %>
-											<%if(theGame.get(row, col) == 1){ %>
-												<td>X</td>
-											<% }else if(theGame.get(row, col) == -1){ %>
-												<td>O</td>
-											<% }else{ %>
-												<td><input type=radio name=board value="<%=row%><%=col%>"/></td>
-											<% } %>
+					</form>
+					<!-- Updating moves -->
+					<% if(request.getSession().getAttribute("error") != null){%>
+						<h3 style="color:red">Please select a tile</h3>
+					<% request.getSession().setAttribute("error", null);
+						} %>
+					<form action="admin" method="POST">
+						<% if(request.getSession().getAttribute("player") != null) {
+							%>
+							<table border=1>
+								<%
+								for(int row = 0; row < 3; row++) { %>
+									<tr>
+									<%for (int col= 0; col < 3; col++){ %>
+										<%if(theGame.get(row, col) == 1){ %>
+											<td>X</td>
+										<% }else if(theGame.get(row, col) == -1){ %>
+											<td>O</td>
+										<% }else{ %>
+											<td><input type=radio name=board value="<%=row%><%=col%>"/></td>
 										<% } %>
-										</tr>
-									<% }  %>
-							<% if(request.getSession().getAttribute("boardFull") != null){ %>
-								<h3 style="color:red">The board is full and nobody won!</h3>
-								<h3>Click "Tic Tac Toe to play again"</h3>
-							<% } else if(request.getSession().getAttribute("hasWon") != null){ %>
-								<h3 style="color:green">Congrats! Player <%= request.getSession().getAttribute("hasWon") %> has won!</h3>
-								<h3>Click "Tic Tac Toe to play again"</h3>
-							<% } else { %>
-							<input type="submit" name="updateGame" value="Make move">
-							<% } %>
+									<% } %>
+									</tr>
+								<% }  %>
+						<% if(request.getSession().getAttribute("boardFull") != null){ %>
+							<h3 style="color:red">The board is full and nobody won!</h3>
+							<h3>Click "Tic Tac Toe to play again"</h3>
+						<% } else if(request.getSession().getAttribute("hasWon") != null){ %>
+							<h3 style="color:green">Congrats! Player <%= request.getSession().getAttribute("hasWon") %> has won!</h3>
+							<h3>Click "Tic Tac Toe to play again"</h3>
+						<% } else { %>
+						<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="updateGame" value="Make Move">
+						  Make Move
+						</button>
+						<%-- <input type="submit" name="updateGame" value="Make move"> --%>
 						<% } %>
-						</form>
-					</div>
+					<% } %>
+					</form>
 				</div>
-		<!-- </div> -->
 		</div>
-	</div>
+		</div>
+	</main>
 
 </body>
 </html>
