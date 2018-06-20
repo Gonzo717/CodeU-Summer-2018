@@ -166,7 +166,6 @@ public class ConversationServlet extends HttpServlet {
 		response.sendRedirect("/chat/" + conversationTitle);
 	}else if(request.getParameter("conversation") != null){
 		//Create a public Conversation
-		System.out.println("This demarcates a conversation");
 		Conversation conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
 		conversationStore.addConversation(conversation);
 
