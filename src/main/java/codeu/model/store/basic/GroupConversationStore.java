@@ -14,8 +14,9 @@
 
 package codeu.model.store.basic;
 
-import codeu.model.data.Conversation;
 import codeu.model.data.Group;
+import codeu.model.data.User;
+import codeu.model.data.Conversation;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +26,18 @@ import java.util.List;
  * saves to PersistentStorageAgent. It's a singleton so all servlet classes can access the same
  * instance.
  */
-public class ConversationStore {
+public class GroupConversationStore {
 
   /** Singleton instance of ConversationStore. */
-  private static ConversationStore instance;
+  private static GroupConversationStore instance;
 
   /**
    * Returns the singleton instance of ConversationStore that should be shared between all servlet
    * classes. Do not call this function from a test; use getTestInstance() instead.
    */
-  public static ConversationStore getInstance() {
+  public static GroupConversationStore getInstance() {
     if (instance == null) {
-      instance = new ConversationStore(PersistentStorageAgent.getInstance());
+      instance = new GroupConversationStore(PersistentStorageAgent.getInstance());
     }
     return instance;
   }
@@ -46,61 +47,59 @@ public class ConversationStore {
    *
    * @param persistentStorageAgent a mock used for testing
    */
-  public static ConversationStore getTestInstance(PersistentStorageAgent persistentStorageAgent) {
-    return new ConversationStore(persistentStorageAgent);
+  public static GroupConversationStore getTestInstance(PersistentStorageAgent persistentStorageAgent) {
+    return new GroupConversationStore(persistentStorageAgent);
   }
 
   /**
-   * The PersistentStorageAgent responsible for loading Conversations from and saving Conversations
+   * The PersistentStorageAgent responsible for loading GroupConversations from and saving GroupConversations
    * to Datastore.
    */
   private PersistentStorageAgent persistentStorageAgent;
 
   /** The in-memory list of Conversations. */
-  private List<Conversation> conversations;
+  private List<Group> groupConversations;
 
   /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
-  private ConversationStore(PersistentStorageAgent persistentStorageAgent) {
+  private GroupConversationStore(PersistentStorageAgent persistentStorageAgent) {
     this.persistentStorageAgent = persistentStorageAgent;
-    conversations = new ArrayList<>();
+    groupConversations = new ArrayList<>();
   }
 
-/** Access the current set of conversations known to the application.
- *  Have to get rid of the Groups because they are erroneously being categorized as Conversations
- */
-  public List<Conversation> getAllConversations() {
-    return conversations;
+/** Access the current set of conversations known to the application. */
+  public List<Group> getAllGroupConversations() {
+    return groupConversations;
   }
 
   /** Add a new conversation to the current set of conversations known to the application. */
-  public void addConversation(Conversation conversation) {
-    conversations.add(conversation);
-    persistentStorageAgent.writeThrough(conversation);
+  public void addGroup(Group group) {
+	groupConversations.add(group);
+	persistentStorageAgent.writeThrough(group);
   }
 
   /** Check whether a Conversation title is already known to the application. */
   public boolean isTitleTaken(String title) {
     // This approach will be pretty slow if we have many Conversations.
-    for (Conversation conversation : conversations) {
-      if (conversation.getTitle().equals(title)) {
+    for (Group group : groupConversations) {
+      if (group.getTitle().equals(title)) {
         return true;
       }
     }
     return false;
   }
 
-  /** Find and return the Conversation with the given title. */
-  public Conversation getConversationWithTitle(String title) {
-    for (Conversation conversation : conversations) {
-      if (conversation.getTitle().equals(title)) {
-        return conversation;
+  /** Find and return the Group Conversation with the given title. */
+  public Group getGroupConversationWithTitle(String title) {
+    for (Group groupConversation : groupConversations) {
+      if (groupConversation.getTitle().equals(title)) {
+        return groupConversation;
       }
     }
     return null;
   }
 
   /** Sets the List of Conversations stored by this ConversationStore. */
-  public void setConversations(List<Conversation> conversations) {
-    this.conversations = conversations;
+  public void setGroupConversations(List<Group> groupConversations) {
+    this.groupConversations = groupConversations;
   }
 }

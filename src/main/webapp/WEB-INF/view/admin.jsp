@@ -209,8 +209,8 @@
 							<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="playGame" value="Tic Tac Toe">
 							  Tic Tac Toe
 							</button>
-							<% 
-							if(request.getSession().getAttribute("TicTacToe") != null) { 
+							<%
+							if(request.getSession().getAttribute("TicTacToe") != null) {
 								 %>
 								<table border=1>
 									<%for(int row = 0; row < 3; row++) { %>
@@ -234,7 +234,7 @@
 							<h3 style="color:red">Please select a tile</h3>
 						<% } %>
 						<form action="admin" method="POST">
-							<% if(request.getSession().getAttribute("player") != null) { 
+							<% if(request.getSession().getAttribute("player") != null) {
 								%>
 								<table border=1>
 									<%
@@ -257,7 +257,7 @@
 							<% } else if(request.getSession().getAttribute("hasWon") != null){ %>
 								<h3 style="color:green">Congrats! Player <%= request.getSession().getAttribute("hasWon") %> has won!</h3>
 								<h3>Click "Tic Tac Toe to play again"</h3>
-							<% } else { %> 
+							<% } else { %>
 							<input type="submit" name="updateGame" value="Make move">
 							<% } %>
 						<% } %>

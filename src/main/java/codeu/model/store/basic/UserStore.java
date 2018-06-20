@@ -86,7 +86,7 @@ public class UserStore {
     return null;
   }
 
-  public List getUsers(){
+  public List<User> getUsers(){
     /*
     Returns the total users in the UserStore for admin purposes
     */

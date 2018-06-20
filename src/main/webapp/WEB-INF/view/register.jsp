@@ -18,6 +18,8 @@
 <head>
   <title>Register</title>
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
+
 </head>
 <body>
 

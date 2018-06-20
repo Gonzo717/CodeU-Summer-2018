@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//    http://www.apache.org/licenses/LICENSE-2.0
+//		http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,11 +15,17 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Group;
+import java.util.ArrayList;
+import java.util.HashSet;
 import codeu.model.data.Message;
 import codeu.model.data.User;
+import codeu.model.data.Activity;
 import codeu.model.store.basic.ConversationStore;
+import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
@@ -34,6 +40,9 @@ import org.jsoup.safety.Whitelist;
 /** Servlet class responsible for the chat page. */
 public class ChatServlet extends HttpServlet {
 
+  /** Store class that gives access to Group Conversations. */
+  private GroupConversationStore groupConversationStore;
+
   /** Store class that gives access to Conversations. */
   private ConversationStore conversationStore;
 
@@ -43,11 +52,16 @@ public class ChatServlet extends HttpServlet {
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
+  /** Store class that gives access to Activities. */
+  private ActivityStore activityStore;
+
   /** Set up state for handling chat requests. */
   @Override
   public void init() throws ServletException {
     super.init();
+	setGroupConversationStore(GroupConversationStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
+	setActivityStore(ActivityStore.getInstance());
     setMessageStore(MessageStore.getInstance());
     setUserStore(UserStore.getInstance());
   }
@@ -58,6 +72,22 @@ public class ChatServlet extends HttpServlet {
    */
   void setConversationStore(ConversationStore conversationStore) {
     this.conversationStore = conversationStore;
+  }
+
+  /**
+   * Sets the groupConversationStore used by this servlet. This function provides a common setup method
+   * for use by the test framework or the servlet's init() function.
+   */
+  void setGroupConversationStore(GroupConversationStore groupConversationStore) {
+	this.groupConversationStore = groupConversationStore;
+  }
+
+  /**
+   * Sets the ActivityStore used by this servlet. This function provides a common setup method
+   * for use by the test framework or the servlet's init() function.
+   */
+  void setActivityStore(ActivityStore activityStore) {
+	this.activityStore = activityStore;
   }
 
   /**
@@ -86,21 +116,21 @@ public class ChatServlet extends HttpServlet {
       throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
-
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
-    if (conversation == null) {
-      // couldn't find conversation, redirect to conversation list
-      System.out.println("Conversation was null: " + conversationTitle);
-      response.sendRedirect("/conversations");
-      return;
-    }
+	Group group = groupConversationStore.getGroupConversationWithTitle(conversationTitle);
 
-    UUID conversationId = conversation.getId();
+	if(conversation != null){
+		UUID conversationId = conversation.getId();
+		List<Message> messages = messageStore.getMessagesInConversation(conversationId);
+		request.setAttribute("messages", messages);
+		request.setAttribute("conversation", conversation);
+	} else if(group != null){
+		UUID groupId = group.getId();
+		List<Message> messages = messageStore.getMessagesInConversation(groupId);
+		request.setAttribute("messages", messages);
+		request.setAttribute("group", group);
+	}
 
-    List<Message> messages = messageStore.getMessagesInConversation(conversationId);
-
-    request.setAttribute("conversation", conversation);
-    request.setAttribute("messages", messages);
     request.getRequestDispatcher("/WEB-INF/view/chat.jsp").forward(request, response);
   }
 
@@ -116,7 +146,6 @@ public class ChatServlet extends HttpServlet {
 
     String username = (String) request.getSession().getAttribute("user");
     if (username == null) {
-      System.out.println(request.getSession().getAttribute("user"));
       // user is not logged in, don't let them add a message
       response.sendRedirect("/login");
       return;
@@ -130,31 +159,90 @@ public class ChatServlet extends HttpServlet {
     }
 
     String requestUrl = request.getRequestURI();
-    String conversationTitle = requestUrl.substring("/chat/".length());
 
+	// define some things
+    String conversationTitle = requestUrl.substring("/chat/".length());
+	Group group = groupConversationStore.getGroupConversationWithTitle(conversationTitle);
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
-    if (conversation == null) {
-      // couldn't find conversation, redirect to conversation list
+
+    if (conversation == null && group == null) {
+      // couldn't find conversation or group, redirect to conversation list
       response.sendRedirect("/conversations");
       return;
     }
 
     String messageContent = request.getParameter("message");
+	//This block signals that the user wants to manipulate the members in the Group (add/remove)
 
-    // this removes any HTML from the message content
-    String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
+	if(messageContent == null && conversation == null){
+		// because the user didn't type a message, he wants to change the members in the Group
+		boolean addUsers = false;
+		boolean removeUsers = false;
+		int checkedUsers = 0;
+		if(request.getParameter("addUsers") != null){
+			addUsers = true;
+			checkedUsers = (int) request.getSession().getAttribute("addUserCounter");//the number of checked users
+		}
+		else if(request.getParameter("removeUsers") != null){
+			removeUsers = true;
+			checkedUsers = (int) request.getSession().getAttribute("removeUserCounter");//the number of checked users
+		}
+		// getting the actual Users from number of ints checked in the chat.jsp
+		HashSet<String> mutableUsers = new HashSet<String>();
+		for(int i = 0; i <= checkedUsers; i++){
+			String counter = Integer.toString(i);
+			mutableUsers.add(request.getParameter(counter));
+		}
+		// Now do something with it!
+		for(String userName: mutableUsers){
+			if(userName != null){
+				// checks if the user is already allowed, do nothing; if not then add permission
+				User allowedUser = userStore.getUser(userName);
+				if(addUsers){
+					group.addUser(allowedUser);
+				}
+				else if(removeUsers){
+					if (!(group.getOwnerId() == allowedUser.getId())){
+						group.removeUser(allowedUser);
+					} else{
+						System.out.println("can't remove the owner bruv!");
+					}
+				}
+			}
+		}
 
-    Message message =
-        new Message(
-            UUID.randomUUID(),
-            conversation.getId(),
-            user.getId(),
-            cleanedMessageContent,
-            Instant.now());
+    	response.sendRedirect("/chat/" + conversationTitle);
 
-    messageStore.addMessage(message);
+	} else if(messageContent != null){
+		//then parse the message and do all that jazz
+		// this removes any HTML from the message content
+		Message message = null;
+	    String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
+		if(group != null){
+		    message =
+		        new Message(
+		            UUID.randomUUID(),
+		            group.getId(),
+		            user.getId(),
+		            cleanedMessageContent,
+		            Instant.now());
+		} else if (conversation != null){
+			message =
+		        new Message(
+		            UUID.randomUUID(),
+		            conversation.getId(),
+		            user.getId(),
+		            cleanedMessageContent,
+		            Instant.now());
+		}
+	    messageStore.addMessage(message);
+
+		Activity msgAct = new Activity("newMessage", UUID.randomUUID(), user.getId(), message.getCreationTime());
+		activityStore.addActivity(msgAct);
+
+		response.sendRedirect("/chat/" + conversationTitle);
+	}
 
     // redirect to a GET request
-    response.sendRedirect("/chat/" + conversationTitle);
   }
 }

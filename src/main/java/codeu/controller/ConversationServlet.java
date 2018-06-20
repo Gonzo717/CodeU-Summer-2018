@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//    http://www.apache.org/licenses/LICENSE-2.0
+//		http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,10 +16,16 @@ package codeu.controller;
 
 import codeu.model.data.Conversation;
 import codeu.model.data.User;
+import codeu.model.data.Group;
 import codeu.model.store.basic.ConversationStore;
+import codeu.model.data.Activity;
+import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.UserStore;
+import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.ServletException;
@@ -36,6 +42,12 @@ public class ConversationServlet extends HttpServlet {
   /** Store class that gives access to Conversations. */
   private ConversationStore conversationStore;
 
+  /** Store class that gives access to Group Conversations. */
+  private GroupConversationStore groupConversationStore;
+
+  /** Store class that gives access to Activity */
+  private ActivityStore activityStore;
+
   /**
    * Set up state for handling conversation-related requests. This method is only called when
    * running in a server, not when running in a test.
@@ -45,6 +57,8 @@ public class ConversationServlet extends HttpServlet {
     super.init();
     setUserStore(UserStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
+	setGroupConversationStore(GroupConversationStore.getInstance());
+	setActivityStore(ActivityStore.getInstance());
   }
 
   /**
@@ -63,6 +77,15 @@ public class ConversationServlet extends HttpServlet {
     this.conversationStore = conversationStore;
   }
 
+
+  void setGroupConversationStore(GroupConversationStore groupConversationStore) {
+	this.groupConversationStore = groupConversationStore;
+  }
+
+  void setActivityStore(ActivityStore activityStore) {
+	this.activityStore = activityStore;
+  }
+
   /**
    * This function fires when a user navigates to the conversations page. It gets all of the
    * conversations from the model and forwards to conversations.jsp for rendering the list.
@@ -71,7 +94,9 @@ public class ConversationServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     List<Conversation> conversations = conversationStore.getAllConversations();
+	List<Group> groups = groupConversationStore.getAllGroupConversations();
     request.setAttribute("conversations", conversations);
+	request.setAttribute("groups", groups);
     request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
   }
 
@@ -92,6 +117,7 @@ public class ConversationServlet extends HttpServlet {
     }
 
     User user = userStore.getUser(username);
+
     if (user == null) {
       // user was not found, don't let them create a conversation
       System.out.println("User not found: " + username);
@@ -99,7 +125,18 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
-    String conversationTitle = request.getParameter("conversationTitle");
+	String conversationTitle = "";
+	if(request.getParameter("conversationTitle") == null){
+		int counter = 0;
+		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup";
+		// while(conversationStore.isTitleTaken(conversationTitle)){
+		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup" + counter;
+		counter++;
+		// }
+	}else{
+		conversationTitle = request.getParameter("conversationTitle");
+	}
+
     if (!conversationTitle.matches("[\\w*]*")) {
       request.setAttribute("error", "Please enter only letters and numbers.");
       request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
@@ -113,10 +150,30 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
-    Conversation conversation =
-        new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+	if (groupConversationStore.isTitleTaken(conversationTitle)){
+	  response.sendRedirect("/chat/" + conversationTitle);
+	  return;
+	}
 
-    conversationStore.addConversation(conversation);
-    response.sendRedirect("/chat/" + conversationTitle);
-  }
+	if(request.getParameter("group") != null){
+		//create a Private Group Message
+		HashSet<User> users = new HashSet<User>();
+		String name = (String) request.getSession().getAttribute("user");
+		users.add(user);
+    	Group group = new Group(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(), users);
+		request.setAttribute("group", group);
+		groupConversationStore.addGroup(group);
+		response.sendRedirect("/chat/" + conversationTitle);
+	}else if(request.getParameter("conversation") != null){
+		//Create a public Conversation
+		Conversation conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
+		conversationStore.addConversation(conversation);
+
+		// adds convo activity to ActivityStore
+		Activity convoAct = new Activity("newConvo", UUID.randomUUID(), user.getId(), conversation.getCreationTime());
+		activityStore.addActivity(convoAct);
+
+		response.sendRedirect("/chat/" + conversationTitle);
+	}
+	}
 }

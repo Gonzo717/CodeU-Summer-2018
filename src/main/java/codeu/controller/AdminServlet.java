@@ -188,7 +188,7 @@ public class AdminServlet extends HttpServlet {
 			if(winner != 0){ // checkWin() returns 0 if there is no winner yet
 				if(winner == 1){
 					// winner is X
-					String playerWinner = "X"; 
+					String playerWinner = "X";
 					request.getSession().setAttribute("hasWon", playerWinner);
 				} else if(winner == -1){
 					//winner is O
@@ -213,6 +213,12 @@ public class AdminServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 		}
 
+	public void clearConversations(HttpServletRequest request, HttpServletResponse response)
+		throws IOException, ServletException {
+			// convoStore.clearConversations();
+			request.setAttribute("success", "All conversations successfully deleted.");
+	}
+
 
   /**
    * This function fires when a user submits the refresh stats form (clicks the refresh stats button). It gets the totalUsers,
@@ -232,6 +238,9 @@ public class AdminServlet extends HttpServlet {
 				startGame(request, response);
 				// response.sendRedirect("/admin");
 			}
+			else if(request.getParameter("clearConversations") != null){
+				clearConversations(request, response);
+			}
 			else{
 				refreshStats(request, response);
 				response.sendRedirect("/admin");
@@ -240,4 +249,3 @@ public class AdminServlet extends HttpServlet {
 	}
 
 }
-

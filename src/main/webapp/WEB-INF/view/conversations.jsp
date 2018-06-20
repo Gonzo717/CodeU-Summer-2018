@@ -14,13 +14,18 @@
   limitations under the License.
 --%>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.UUID" %>
 <%@ page import="codeu.model.data.Conversation" %>
+<%@ page import="codeu.model.data.Group" %>
+
+
 
 <!DOCTYPE html>
 <html>
 <head>
   <title>Conversations</title>
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 </head>
 <body>
 
@@ -39,7 +44,7 @@
     <!-- Add login checking for activity feed here -->
     <a href="/activityfeed">Activity Feed</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
-      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Profile Page</a>
+      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
     <% } %>
     <a href="/about.jsp">About</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
@@ -62,11 +67,15 @@
           <div class="form-group">
             <label class="form-control-label">Title:</label>
           <input type="text" name="conversationTitle">
-        </div>
+          </div>
 
-        <button type="submit">Create</button>
+        <button type="submit" name="conversation" value="conversation">Create</button>
       </form>
 
+	  <form action="/conversations" method="POST">
+		  <h1>Group Message</h1>
+		  <button type="submit" name="group" value="group">Private Group</button>
+	   </form>
       <hr/>
     <% } %>
 
@@ -75,15 +84,17 @@
     <%
     List<Conversation> conversations =
       (List<Conversation>) request.getAttribute("conversations");
+	List<Group> groups =
+	  (List<Group>) request.getAttribute("groups");
     if(conversations == null || conversations.isEmpty()){
     %>
       <p>Create a conversation to get started.</p>
     <%
     }
-    else{
+    else if(conversations != null){
     %>
       <ul class="mdl-list">
-    <%
+    <% //Display 10 conversations at a time
       for(Conversation conversation : conversations){
     %>
       <li><a href="/chat/<%= conversation.getTitle() %>">
@@ -94,7 +105,28 @@
       </ul>
     <%
     }
-    %>
+	%>
+	</hr>
+	<% if(request.getSession().getAttribute("uuid") != null){ // check if signed in!
+		UUID id = (UUID) request.getSession().getAttribute("uuid"); %>
+		<h1>Private Messages</h1>
+		<% if(groups != null){
+		%>
+			<ul class="mdl-list">
+	    <%
+	        for(Group group : groups){
+				if(group.isAccessAllowed(id)){
+			//only display the private conversation that the user is a part of
+	    %>
+	        <li><a href="/chat/<%= group.getTitle() %>">
+	          <%= group.getTitle() %></a></li>
+	    <%
+	        	}
+			}
+	    %>
+	        </ul>
+		<% } %>
+	<% } %>
     <hr/>
   </div>
 </body>
