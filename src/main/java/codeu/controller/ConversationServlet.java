@@ -57,8 +57,8 @@ public class ConversationServlet extends HttpServlet {
     super.init();
     setUserStore(UserStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
-	setGroupConversationStore(GroupConversationStore.getInstance());
-	setActivityStore(ActivityStore.getInstance());
+    setGroupConversationStore(GroupConversationStore.getInstance());
+    setActivityStore(ActivityStore.getInstance());
   }
 
   /**
@@ -129,10 +129,8 @@ public class ConversationServlet extends HttpServlet {
 	if(request.getParameter("conversationTitle") == null){
 		int counter = 0;
 		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup";
-		// while(conversationStore.isTitleTaken(conversationTitle)){
 		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup" + counter;
 		counter++;
-		// }
 	}else{
 		conversationTitle = request.getParameter("conversationTitle");
 	}
