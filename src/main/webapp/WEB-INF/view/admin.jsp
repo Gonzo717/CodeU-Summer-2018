@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-deep_orange.min.css">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	<style>
 	.content-grid {
@@ -84,7 +84,7 @@
 				<span class="android-mobile-title mdl-layout-title">
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 				</span>
-				<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
+				<%-- <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
 					<i class="material-icons">more_vert</i>
 				</button>
 				<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
@@ -92,7 +92,7 @@
 					<li class="mdl-menu__item">Perhaps another?</li>
 					<li disabled class="mdl-menu__item">Another one</li>
 					<li class="mdl-menu__item">Anotha 1</li>
-				</ul>
+				</ul> --%>
 			</div>
 		</div>
 	</div>
@@ -101,7 +101,7 @@
 
 	<main class="mdl-layout__content">
 	<a name="top"></a>
-		<div class="page-content">
+		<div class="container page-content">
 			<div class="content-grid mdl-grid">
 			<!-- <div id="container"> -->
 				<div class="mdl-cell--stretch">
@@ -156,14 +156,8 @@
 							<label class="mdl-textfield__label" for="sample3">Username...</label>
 						</div>
 
-
-						<button id="demo-show-snackbar" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Add Admin</button>
-						<div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
-						  <div class="mdl-snackbar__text"></div>
-						  <button class="mdl-snackbar__action" type="button"></button>
-						</div>
 						<script>
-						(function() {
+						(function addAdmin() {
 							'use strict';
 							var snackbarContainer = document.querySelector('#demo-snackbar-example');
 							var showSnackbarButton = document.querySelector('#demo-show-snackbar');
@@ -183,6 +177,12 @@
 						});
 						}());
 						</script>
+
+						<button id="demo-show-snackbar" class="mdl-button mdl-js-button mdl-button--raised" type="submit" onclick="addAdmin()">Add Admin</button>
+						<div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
+						  <div class="mdl-snackbar__text"></div>
+						  <button class="mdl-snackbar__action" type="button">click this?</button>
+						</div>
 					</form>
 
 				<!-- Game begins! -->
