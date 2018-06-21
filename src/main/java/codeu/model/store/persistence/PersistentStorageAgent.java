@@ -18,6 +18,7 @@ import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Group;
 
 import codeu.model.store.persistence.PersistentDataStore;
 import java.util.List;
@@ -82,23 +83,32 @@ public class PersistentStorageAgent {
 	}
 
 	/**
+	* Retrieve all Group Conversation objects from the Datastore service. The returned list may be empty.
+	*
+	* @throws PersistentDataStoreException if an error was detected during the load from the
+	*     Datastore service
+	*/
+	public List<Group> loadGroupConversations() throws PersistentDataStoreException {
+		return persistentDataStore.loadGroupConversations();
+	}
+
+	/**
+	* Retrieve all Activity objects from the Datastore service. The returned list may be empty.
+	*
+	* @throws PersistentDataStoreException if an error was detected during the loard from the
+	*		Datastore service
+	*/
+	public List<Activity> loadActivities() throws PersistentDataStoreException {
+		return persistentDataStore.loadActivities();
+  	}
+	/**
 	 * Retrieve all Message objects from the Datastore service. The returned list may be empty.
 	 *
 	 * @throws PersistentDataStoreException if an error was detected during the load from the
 	 *		 Datastore service
 	 */
-	public List<Message> loadMessages() throws PersistentDataStoreException {
-		return persistentDataStore.loadMessages();
-	}
-	
-	/**
-	 * Retrieve all Activity objects from the Datastore service. The returned list may be empty.
-	 *
-	 * @throws PersistentDataStoreException if an error was detected during the loard from the
-	 *		Datastore service
-	 */
-	public List<Activity> loadActivities() throws PersistentDataStoreException {
-		return persistentDataStore.loadActivities();
+	 public List<Message> loadMessages() throws PersistentDataStoreException {
+		 return persistentDataStore.loadMessages();
 	}
 
 	/** Write a User object to the Datastore service. */
@@ -106,16 +116,21 @@ public class PersistentStorageAgent {
 		persistentDataStore.writeThrough(user);
 	}
 
-	/** Write a Message object to the Datastore service. */
+	/** Write a Conversation object to the Datastore service. */
 	public void writeThrough(Conversation conversation) {
 		persistentDataStore.writeThrough(conversation);
+	}
+
+  /** Write a Group Conversation object to the Datastore service. */
+	public void writeThrough(Group groupConversation) {
+		persistentDataStore.writeThrough(groupConversation);
 	}
 
 	/** Write a Conversation object to the Datastore service. */
 	public void writeThrough(Message message) {
 		persistentDataStore.writeThrough(message);
 	}
-	
+
 	/** Write an Activity object to the Datastore service. */
 	public void writeThrough(Activity activity) {
 		persistentDataStore.writeThrough(activity);

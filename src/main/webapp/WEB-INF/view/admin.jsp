@@ -82,6 +82,15 @@
 			</ul>
 		</div>
 
+		<div id="clearConversations">
+			<% if(request.getAttribute("success") != null){ %>
+		        <h2 style="color:green"><%= request.getAttribute("success") %></h2>
+		    <% } %>
+			<form action="/admin" method="POST">
+				<input type="submit" name="clearConversations" value="clearConversations">
+			</form>
+		</div>
+
 		<div id="addAdmins">
 			<h2>Feeling lonely?</h2>
 			<h3>Add more admins:</h3>

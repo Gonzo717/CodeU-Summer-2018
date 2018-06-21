@@ -183,7 +183,7 @@ public class AdminServlet extends HttpServlet {
 			if(winner != 0){ // checkWin() returns 0 if there is no winner yet
 				if(winner == 1){
 					// winner is X
-					String playerWinner = "X"; 
+					String playerWinner = "X";
 					request.getSession().setAttribute("hasWon", playerWinner);
 				} else if(winner == -1){
 					//winner is O
@@ -208,7 +208,6 @@ public class AdminServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
 		}
 
-
   /**
    * This function fires when a user submits the refresh stats form (clicks the refresh stats button). It gets the totalUsers,
    TotalConvos, and totalMessages each time to provide a hot-reload of what is happening.
@@ -225,7 +224,6 @@ public class AdminServlet extends HttpServlet {
 			}
 			else if (request.getParameter("playGame") != null){
 				startGame(request, response);
-				// response.sendRedirect("/admin");
 			}
 			else{
 				refreshStats(request, response);
@@ -235,4 +233,3 @@ public class AdminServlet extends HttpServlet {
 	}
 
 }
-

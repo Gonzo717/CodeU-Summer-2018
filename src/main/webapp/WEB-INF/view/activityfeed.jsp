@@ -10,6 +10,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 <html>
 	<head>
 		<link rel="stylesheet" href="/css/main.css" type="text/css">
+		<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 
 	</head>
 

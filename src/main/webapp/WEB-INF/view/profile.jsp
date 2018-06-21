@@ -11,6 +11,8 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 	<head>
 		<title>Profile Page</title>
 	  <link rel="stylesheet" href="/css/main.css" type="text/css">
+	  <link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
+
 
 		<style>
 			#chat {
@@ -96,7 +98,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				<%}%>
 				<hr/>
 			</div>
-			
+
 	<% } %>
 	</body>
 </html>

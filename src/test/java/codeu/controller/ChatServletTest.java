@@ -19,6 +19,7 @@ import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
 import codeu.model.store.basic.ConversationStore;
+import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.MessageStore;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ActivityStore;
@@ -46,6 +47,7 @@ public class ChatServletTest {
 	private HttpServletResponse mockResponse;
 	private RequestDispatcher mockRequestDispatcher;
 	private ConversationStore mockConversationStore;
+	private GroupConversationStore mockGroupConversationStore;
 	private MessageStore mockMessageStore;
 	private UserStore mockUserStore;
 	private ActivityStore mockActivityStore;
@@ -65,6 +67,9 @@ public class ChatServletTest {
 
 		mockConversationStore = Mockito.mock(ConversationStore.class);
 		chatServlet.setConversationStore(mockConversationStore);
+
+		mockGroupConversationStore = Mockito.mock(GroupConversationStore.class);
+		chatServlet.setGroupConversationStore(mockGroupConversationStore);
 
 		mockMessageStore = Mockito.mock(MessageStore.class);
 		chatServlet.setMessageStore(mockMessageStore);
@@ -109,10 +114,12 @@ public class ChatServletTest {
 		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/bad_conversation");
 		Mockito.when(mockConversationStore.getConversationWithTitle("bad_conversation"))
 				.thenReturn(null);
+		Mockito.when(mockGroupConversationStore.getGroupConversationWithTitle("bad_conversation"))
+				.thenReturn(null);
 
 		chatServlet.doGet(mockRequest, mockResponse);
 
-		Mockito.verify(mockResponse).sendRedirect("/conversations");
+		Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
 	}
 
 	@Test
@@ -149,8 +156,9 @@ public class ChatServletTest {
 						Instant.now());
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
-		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
-				.thenReturn(null);
+		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation")).thenReturn(null);
+
+		Mockito.when(mockGroupConversationStore.getGroupConversationWithTitle("test_conversation")).thenReturn(null);
 
 		chatServlet.doPost(mockRequest, mockResponse);
 
