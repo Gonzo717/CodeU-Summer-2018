@@ -224,10 +224,6 @@ public class AdminServlet extends HttpServlet {
 			}
 			else if (request.getParameter("playGame") != null){
 				startGame(request, response);
-				// response.sendRedirect("/admin");
-			}
-			else if(request.getParameter("clearConversations") != null){
-				clearConversations(request, response);
 			}
 			else{
 				refreshStats(request, response);
