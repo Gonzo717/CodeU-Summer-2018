@@ -34,7 +34,7 @@ if (group != null){
 	title = group.getTitle();
 	allowedUsers = (HashSet<User>) group.getAllUsers();
 }
-if(conversation != null){
+else if(conversation != null){
 	title = conversation.getTitle();
 }
 //need to distinguish between conversation or group
@@ -214,7 +214,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 	<% } else{ %>
 		<script> //access denied, being redirected
+		var identification = "<%out.print(id);%>";
 		window.alert("You are not part of this Group");
+		console.log(identification);
 		window.location.replace("/conversations");
 		</script>
   <% } %>
