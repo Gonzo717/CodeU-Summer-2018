@@ -81,7 +81,6 @@ public class LoginServlet extends HttpServlet {
 		UUID uuid = user.getId();
 		request.getSession().setAttribute("id", uuid);
 
-
 		if (!BCrypt.checkpw(password, user.getPasswordHash())) {
 			request.setAttribute("error", "Please enter a correct password.");
 			request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);

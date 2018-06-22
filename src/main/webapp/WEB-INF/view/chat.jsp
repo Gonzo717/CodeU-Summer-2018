@@ -14,6 +14,7 @@
   limitations under the License.
 --%>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashSet" %>
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.User" %>
@@ -27,19 +28,26 @@ Group group = (Group) request.getAttribute("group");
 //This is the user's ID
 UUID id = (UUID) request.getSession().getAttribute("id");
 HashSet<User> allowedUsers = null; //have to instantiate the set of allowed users globally
+ArrayList<UUID> allowedIds = null;
 
 String title = "placeholderTitle";
 if (group != null){
 	//Just doing some housekeeping with the rest of the code
 	title = group.getTitle();
 	allowedUsers = (HashSet<User>) group.getAllUsers();
+
+	//only for debugging purpose
+	allowedIds = new ArrayList<UUID>();
+	for(User allowedUser: allowedUsers){
+		allowedIds.add(allowedUser.getId());
+	}
 }
+
 else if(conversation != null){
 	title = conversation.getTitle();
 }
 //need to distinguish between conversation or group
 String name = (String) request.getSession().getAttribute("user");
-// User user = (User) request.getSession().getAttribute("User");
 List<Message> messages = (List<Message>) request.getAttribute("messages");
 %>
 
@@ -215,8 +223,13 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 	<% } else{ %>
 		<script> //access denied, being redirected
 		var identification = "<%out.print(id);%>";
+		var hashset = "<%out.print(allowedIds);%>";
+		var allowed = "<%out.print(group.isAccessAllowed(id));%>";
+		console.log("The allowed users:");
+		console.log(hashset);
 		window.alert("You are not part of this Group");
 		console.log(identification);
+		console.log(allowed);
 		window.location.replace("/conversations");
 		</script>
   <% } %>
