@@ -18,7 +18,7 @@
 <html>
 <head>
 
-	<title>Trills</title>
+	<title>Trill</title>
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -69,15 +69,15 @@
 					<nav class="android-navigation mdl-navigation">
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
-								<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
-							<a></a>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
 						<% } else{ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
 						<% } %>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
-
+						<% if(request.getSession().getAttribute("admin") != null){ %>
+					      <a href="/admin">Admin</a>
+					    <% } %>
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about">About</a>
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">About</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
 						<% } %>
@@ -100,29 +100,28 @@
 	</div>
 	<main class="mdl-layout__content">
 		<div class="page-content">
-
-				<div class="mdl-cell--stretch">
-				    <div
-				      style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
-					  <div class="mdl-layout__title">
-							<h1>CodeU Summer 2018</h1>
-					  </div>
-				      <h2>Welcome to our glorious app</h2>
-				      <h3>Powered by JavaChips</h3>
-				      <ul class="mdl-list">
-				        <li class="mdl-list__item"><a href="/login">Login</a> to begin chatting</li>
-				        <li class="mdl-list__item">
-							<span>
-								
-							Go to the <a href="/conversations">conversations</a> page to
-				            create or join a conversation.
-							</span>
-						</li>
-				        <li class="mdl-list__item">View the <a href="/about.jsp">about</a> page to learn more about the
-				            project and its devs.</li>
-				      </ul>
+			<div class="mdl-cell--stretch">
+			    <div
+			      style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
+				  <div class="mdl-layout__title">
+						<h1>CodeU Summer 2018</h1>
 				  </div>
-			</div>
+			      <h2>Welcome to our glorious app</h2>
+			      <h3>Powered by JavaChips</h3>
+			      <ul class="mdl-list">
+			        <li class="mdl-list__item"><a href="/login">Login</a> to begin chatting</li>
+			        <li class="mdl-list__item">
+						<span>
+
+						Go to the <a href="/conversations">conversations</a> page to
+			            create or join a conversation.
+						</span>
+					</li>
+			        <li class="mdl-list__item">View the <a href="/about.jsp">about</a> page to learn more about the
+			            project and its devs.</li>
+			      </ul>
+			  	</div>
+		  	</div>
 	  	</div>
 	</main>
 </body>

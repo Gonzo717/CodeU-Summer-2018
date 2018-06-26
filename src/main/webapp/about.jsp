@@ -38,7 +38,7 @@
     <!-- Add login checking for activity feed here -->
     <a href="/activityfeed">Activity Feed</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
-      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
+		<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
     <% } %>
     <a href="/about.jsp">About</a>
     <% if(request.getSession().getAttribute("user") != null){ %>

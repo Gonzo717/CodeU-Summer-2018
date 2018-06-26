@@ -58,7 +58,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
   <link rel="stylesheet" href="/css/main.css" type="text/css">
   <link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-deep_orange.min.css">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   <style>
     #chat {
@@ -126,7 +126,10 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
 						<% } %>
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about">About</a>
+						<% if(request.getSession().getAttribute("user") != null){ %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
+						<% } %>
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">About</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
 						<% } %>

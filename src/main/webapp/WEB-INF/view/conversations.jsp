@@ -83,7 +83,10 @@
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
 						<% } %>
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about">About</a>
+						<% if(request.getSession().getAttribute("user") != null){ %>
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
+						<% } %>
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">About</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
 						<% } %>
@@ -110,7 +113,11 @@
 		<div class="page-content">
 		  <div id="container">
 		    <% if ((request.getSession().getAttribute("user") == null) && (request.getSession().getAttribute("admin") == null)){ %>
-		       <h3><a href="/login">Login</a> to start a conversation</h3>
+		       <h3 class="mdl-typography--text-center mdl-typography--display-1" >
+				   <a class="mdl-navigation__link" href="/login">
+					   <button class="mdl-button mdl-js-button mdl-button--raised">Login</button>
+				   </a> to start a conversation
+		       </h3>
 		    <% } %>
 
 		    <% if(request.getAttribute("error") != null){ %>
@@ -160,8 +167,11 @@
 			<li class="mdl-list__item">
 				<span class="mdl-list__item-primary-content">
 					<i class="material-icons mdl-list__item-avatar">group</i>
-					<a href="/chat/<%= conversation.getTitle() %>">
-					<%= conversation.getTitle() %></a>
+					<a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
+ 					   <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button>
+ 				   </a>
+					<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
+					<%= conversation.getTitle() %></a> --%>
 				</span>
 			</li>
 		    <%
@@ -186,7 +196,7 @@
 			        <li class="mdl-list__item">
 						<span class="mdl-list__item-primary-content">
 							<i class="material-icons mdl-list__item-avatar">group</i>
-							<a href="/chat/<%= group.getTitle() %>">
+							<a class="mdl-navigation__link" href="/chat/<%= group.getTitle() %>">
 				          	<%= group.getTitle() %></a>
 						</span>
 				  	</li>

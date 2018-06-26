@@ -75,7 +75,10 @@
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
 
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about">About</a>
+						<% if(request.getSession().getAttribute("user") != null){ %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
+						<% } %>
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">About</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
 						<% } %>
@@ -246,6 +249,7 @@
 							<h3 style="color:green">Congrats! Player <%= request.getSession().getAttribute("hasWon") %> has won!</h3>
 							<h3>Click "Tic Tac Toe to play again"</h3>
 						<% } else { %>
+						</br>
 						<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="updateGame" value="Make Move">
 						  Make Move
 						</button>
