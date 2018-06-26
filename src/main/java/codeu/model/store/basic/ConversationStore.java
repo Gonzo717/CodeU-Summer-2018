@@ -66,7 +66,6 @@ public class ConversationStore {
   }
 
 /** Access the current set of conversations known to the application.
- *  Have to get rid of the Groups because they are erroneously being categorized as Conversations
  */
   public List<Conversation> getAllConversations() {
     return conversations;

@@ -57,8 +57,8 @@ public class ConversationServlet extends HttpServlet {
     super.init();
     setUserStore(UserStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
-	setGroupConversationStore(GroupConversationStore.getInstance());
-	setActivityStore(ActivityStore.getInstance());
+    setGroupConversationStore(GroupConversationStore.getInstance());
+    setActivityStore(ActivityStore.getInstance());
   }
 
   /**
@@ -129,10 +129,8 @@ public class ConversationServlet extends HttpServlet {
 	if(request.getParameter("conversationTitle") == null){
 		int counter = 0;
 		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup";
-		// while(conversationStore.isTitleTaken(conversationTitle)){
 		conversationTitle = (String) request.getSession().getAttribute("user") + "sGroup" + counter;
 		counter++;
-		// }
 	}else{
 		conversationTitle = request.getParameter("conversationTitle");
 	}
@@ -159,7 +157,8 @@ public class ConversationServlet extends HttpServlet {
 		//create a Private Group Message
 		HashSet<User> users = new HashSet<User>();
 		String name = (String) request.getSession().getAttribute("user");
-		users.add(user);
+		User addUser = userStore.getUser(name);
+		users.add(addUser);
     	Group group = new Group(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(), users);
 		request.setAttribute("group", group);
 		groupConversationStore.addGroup(group);
@@ -168,7 +167,7 @@ public class ConversationServlet extends HttpServlet {
 		//Create a public Conversation
 		Conversation conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
 		conversationStore.addConversation(conversation);
-
+		request.setAttribute("conversation", conversation);
 		// adds convo activity to ActivityStore
 		Activity convoAct = new Activity("newConvo", UUID.randomUUID(), user.getId(), conversation.getCreationTime());
 		activityStore.addActivity(convoAct);

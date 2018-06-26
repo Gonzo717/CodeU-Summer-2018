@@ -14,6 +14,7 @@
   limitations under the License.
 --%>
 <!DOCTYPE html>
+<%@ page errorPage="WEB-INF/view/error.jsp" %>
 <html>
 <head>
 
