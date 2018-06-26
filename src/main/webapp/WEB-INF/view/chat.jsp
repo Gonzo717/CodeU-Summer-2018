@@ -172,7 +172,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				}
 				</script>
 
-				<button onclick=displayAllowedUsers()>Show Members</button>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=displayAllowedUsers()>Show Members</button>
 				<a href="" style="float: right;font-size: 29px;">&#8635;</a></h1>
 				<style>
 				#display-allowed-users{
@@ -264,8 +264,8 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 								<h3 style="color:green;">All users are currently in this group!</h3>
 							<% }%>
 					<hr/>
-						<input type="submit" name="addUsers" value="Add Checked Members">
-						<input type="submit" name="removeUsers" value="Remove Checked Members">
+						<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit" name="addUsers" value="Add Checked Members">
+						<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit" name="removeUsers" value="Remove Checked Members">
 				</form>
 					</div>
 				</div>
@@ -329,7 +329,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 			    <form action="/chat/<%= conversation.getTitle() %>" method="POST">
 			        <input type="text" name="message">
 			        <br/>
-			        <button type="submit">Send</button>
+			        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>
 			    </form>
 			    <% } else { %>
 			      <p><a href="/login">Login</a> to send a message.</p>

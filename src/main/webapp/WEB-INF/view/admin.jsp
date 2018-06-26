@@ -139,7 +139,6 @@
 						</form>
 					</div>
 
-
 					<div id="addAdmins">
 						<h2>Feeling lonely?</h2>
 						<h3>Add more admins:</h3>
