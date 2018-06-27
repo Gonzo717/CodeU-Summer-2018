@@ -114,7 +114,7 @@
 		<div class="page-content">
 		  <div id="container">
 		    <% if ((request.getSession().getAttribute("user") == null) && (request.getSession().getAttribute("admin") == null)){ %>
-		       <h3 class="mdl-typography--text-center mdl-typography--display-1" >
+		       <h3 class="mdl-typography--display-1" >
 				   Login to start a conversation
 			       </br>
 				   <a class="mdl-navigation__link" href="/login">
@@ -163,7 +163,7 @@
 		    }
 		    else if(conversations != null){
 		    %>
-		      <ul class="mdl-list">
+		      <ul class="mdl-list--text-center">
 		    <% //Display 10 conversations at a time
 		    for(Conversation conversation : conversations){
 		    %>

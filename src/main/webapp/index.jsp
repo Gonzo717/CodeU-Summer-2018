@@ -110,15 +110,15 @@
 			      <h2>Welcome to our glorious app</h2>
 			      <h3>Powered by JavaChips</h3>
 			      <ul class="mdl-list">
-			        <li class="mdl-list__item"><a href="/login">Login</a> to begin chatting</li>
+			        <li class="mdl-list__item"><a class="mdl-color-text--cyan" href="/login">Login</a> to begin chatting</li>
 			        <li class="mdl-list__item">
 						<span>
 
-						Go to the <a href="/conversations">conversations</a> page to
+						Go to the <a class="mdl-color-text--cyan" href="/conversations">conversations</a> page to
 			            create or join a conversation.
 						</span>
 					</li>
-			        <li class="mdl-list__item">View the <a href="/about.jsp">about</a> page to learn more about the
+			        <li class="mdl-list__item">View the <a class="mdl-color-text--cyan" href="/about.jsp">about</a> page to learn more about the
 			            project and its devs.</li>
 			      </ul>
 			  	</div>
