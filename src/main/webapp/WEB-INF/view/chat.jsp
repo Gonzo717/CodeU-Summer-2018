@@ -129,14 +129,15 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
 						<% } %>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">About</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
 						<% } %>
 					</nav>
 				</div>
 				<span class="android-mobile-title mdl-layout-title">
+					<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
+					</a>
 				</span>
 				<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
 					<i class="material-icons">more_vert</i>
@@ -277,7 +278,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				  for (Message message : messages) {
 					String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
 				%>
-				  <li><strong><a href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
+				  <li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
 				<%
 				  	}
 				%>
@@ -293,7 +294,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 					<button type="submit">Send</button>
 				</form>
 				<% } else { %>
-				  <p><a href="/login">Login</a> to send a message.</p>
+				  <p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
 				<% } %>
 
 			<% } else{ %>
@@ -307,7 +308,10 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 			<%-- Now display the conversation  --%>
 			<%if(conversation != null && group == null){ %>
 			    <h1><%= conversation.getTitle() %>
-				<a href="" style="float: right">&#8635;</a></h1>
+				<a href="" style="float: right">
+					<i class="material-icons mdl-list__item-avatar">autorenew</i>
+				</a>
+				</h1>
 			    <hr/>
 
 			    <div id="chat">
@@ -317,7 +321,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 			        String author = UserStore.getInstance()
 			          .getUser(message.getAuthorId()).getName();
 			    %>
-			      <li><strong><a href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
+			      <li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
 			    <%
 			      }
 			    %>
@@ -332,7 +336,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 			        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>
 			    </form>
 			    <% } else { %>
-			      <p><a href="/login">Login</a> to send a message.</p>
+			      <p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
 		    <% } %>
 		<% } %>
 		    <hr/>

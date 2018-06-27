@@ -86,14 +86,15 @@
 						<% if(request.getSession().getAttribute("user") != null){ %>
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
 						<% } %>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">About</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
 						<% } %>
 					</nav>
 				</div>
 				<span class="android-mobile-title mdl-layout-title">
+					<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
+					</a>
 				</span>
 				<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
 					<i class="material-icons">more_vert</i>
@@ -114,9 +115,11 @@
 		  <div id="container">
 		    <% if ((request.getSession().getAttribute("user") == null) && (request.getSession().getAttribute("admin") == null)){ %>
 		       <h3 class="mdl-typography--text-center mdl-typography--display-1" >
+				   Login to start a conversation
+			       </br>
 				   <a class="mdl-navigation__link" href="/login">
-					   <button class="mdl-button mdl-js-button mdl-button--raised">Login</button>
-				   </a> to start a conversation
+					   <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Login</button>
+				   </a>
 		       </h3>
 		    <% } %>
 
