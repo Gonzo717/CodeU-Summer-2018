@@ -57,13 +57,35 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
   <title><%= title %></title>
   <link rel="stylesheet" href="/css/main.css" type="text/css">
   <link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
-
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   <style>
     #chat {
       background-color: white;
       height: 500px;
       overflow-y: scroll;
     }
+	.content-grid {
+		width:960px;
+		max-width: 960px;
+	}
+	.page-content{
+		width: 800px;
+		margin-top: 12%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#view-source {
+	  position: fixed;
+	  display: block;
+	  right: 0;
+	  bottom: 0;
+	  margin-right: 40px;
+	  margin-bottom: 40px;
+
+	  z-index: 900;
+	}
   </style>
 
   <script>
@@ -76,199 +98,254 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 </head>
 <%-- onload within the actual conversations created --%>
 <body onload="scrollChat()">
-  <nav>
-    <a id="navTitle" href="/">Trill</a>
-    <a href="/conversations">Conversations</a>
-      <% if (request.getSession().getAttribute("user") != null) { %>
-    <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
-    <% } else { %>
-      <a href="/login">Login</a>
-    <% } %>
-  	<!-- Add login checking for activity feed here -->
-    <% if(request.getSession().getAttribute("admin") != null){ %>
-      <a href="/admin">Admin</a>
-    <% } %>
-    <a href="/activityfeed">Activity Feed</a>
-    <% if(request.getSession().getAttribute("user") != null){ %>
-      <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
-    <% } %>
-    <a href="/about.jsp">About</a>
-    <% if(request.getSession().getAttribute("user") != null){ %>
-      <a href="/logout">Logout</a>
-    <% } %>
-  </nav>
-
-  <div id="container">
-  <% if(group != null){ // This IS ONLY FOR GROUP MESSAGES (PRIVATE)%>
-	<% if(group.isAccessAllowed(id) && name != null){ //only if allowed and signed in, then display chat
-		%>
-		<h1> <%= group.getTitle() %>
-		</h1>
-
-		<script>
-		function displayAllowedUsers() {
-			var view = document.getElementById("display-allowed-users");
-			if (view.style.display === "block") {
-				view.style.display = "none";
-			} else {
-				view.style.display = "block";
-			}
-		}
-		</script>
-
-		<button onclick=displayAllowedUsers()>Show Members</button>
-		<a href="" style="float: right">&#8635;</a></h1>
-		<style>
-		#display-allowed-users{
-			font-size: 8;
-			font-weight: lighter;
-			width: 100%;
-			text-decoration: none;
-			display: none;
-			list-style-type: none;
-		}
-		#display-allowed-users a{
-			text-decoration: none;
-			list-style-type: none;
-		}
-		#addMembers{
-			font-size: 8;
-			font-weight: lighter;
-			text-decoration: none;
-			width: auto;
-			list-style-type: none;
-			/* display: block; */
-		}
-		#addMembers a{
-			text-decoration: none;
-			list-style-type: none;
-		}
-
-		</style>
-		<div id="display-allowed-users">
-			<h4>Current Members</h4>
-		<form action="/chat/<%= group.getTitle() %>" method="POST">
-			<%
-			// code for removing users
-			int removeUserCounter = 0;
-				for(User user: allowedUsers){
-					String removeUsername = user.getName();
-					if(group.isAccessAllowed(user.getId())){
-						%>
-						<input type="checkbox" name="<%=removeUserCounter%>" value="<%=removeUsername%>" id="removeMembers" style="font-size:12;"><a href="/user/<%=removeUsername%>"><label for="addMembers" style="font-size: 12;"><%= removeUsername %></label></a>
-						<% //TODO: make this more efficient for pete's sake :(
-						System.out.println("printing out the RemoveUserCounter:");
-						System.out.println(removeUserCounter);
-						request.getSession().setAttribute("removeUserCounter", removeUserCounter);
-						removeUserCounter++;%>
-						<br>
-					<% }
-				} %>
-		<hr/>
-			<h4>Add more members</h4>
-			<div id="addMembers">
-				<%  List<User> users = UserStore.getInstance().getUsers();
-					int addUserCounter = 0; // already initialized
-					for(User registeredUser: users){
-						if(registeredUser.getId() != id && !group.isAccessAllowed(registeredUser.getId())){
-							String addUsername = registeredUser.getName();
-							 %>
-							<input type="checkbox" name="<%=addUserCounter%>" value="<%=addUsername%>" id="addMembers" style="font-size:16;"><a href="/user/<%=addUsername%>"><label for="addMembers" style="font-size: 12;"><%= addUsername %></label></a>
-							<%
-							//TODO: make this more efficient for pete's sake :(
-							request.getSession().setAttribute("addUserCounter", addUserCounter);
-							System.out.println("printing out the AddUserCounter:");
-							System.out.println(addUserCounter);
-							addUserCounter++;%>
-							<br>
-							<%-- <li><a href="/user/<%=user.getName()%>"><%= user.getName() %></a> --%>
-						<% }
-					}
-					if(addUserCounter == 0){ %>
-						<h3 style="color:green;">All users are currently in this group!</h3>
-					<% }%>
-			<hr/>
-				<input type="submit" name="addUsers" value="Add Checked Members">
-				<input type="submit" name="removeUsers" value="Remove Checked Members">
-		</form>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
+		<div class="mdl-layout__header-row">
+			<span class="mdl-layout-title">Trill</span>
+				  <!-- Add spacer, to align navigation to the right in desktop -->
+			<div class="android-header-spacer mdl-layout-spacer"></div>
+				<div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+					<label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+						<i class="material-icons">search</i>
+					</label>
+					<div class="mdl-textfield__expandable-holder">
+						<input class="mdl-textfield__input" type="text" id="search-field">
+					</div>
+				</div>
+				  <!-- Navigation -->
+				<div class="android-navigation-container">
+					<nav class="android-navigation mdl-navigation">
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a>
+						<% if(request.getSession().getAttribute("user") != null){ %>
+								<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
+							<a></a>
+						<% } else{ %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
+						<% } %>
+						<% if(request.getSession().getAttribute("admin") != null) { %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
+						<% } %>
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
+						<% if(request.getSession().getAttribute("user") != null){ %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
+						<% } %>
+						<% if(request.getSession().getAttribute("user") != null){ %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
+						<% } %>
+					</nav>
+				</div>
+				<span class="android-mobile-title mdl-layout-title">
+					<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">
+					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
+					</a>
+				</span>
+				<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
+					<i class="material-icons">more_vert</i>
+				</button>
+				<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+					<li class="mdl-menu__item">Add something here!</li>
+					<li class="mdl-menu__item">Perhaps another?</li>
+					<li disabled class="mdl-menu__item">Another one</li>
+					<li class="mdl-menu__item">Anotha 1</li>
+				</ul>
 			</div>
 		</div>
-		<hr/>
+	</div>
 
-		<div id="chat">
-		  <ul>
-		<%
-		  for (Message message : messages) {
-			String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
-		%>
-		  <li><strong><a href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
-		<%
-		  	}
-		%>
-		  </ul>
-		</div>
+<div id="container">
+<main class="mdl-layout__content">
+	<div class="content-grid">
+		<div class="page-content">
+		  <% if(group != null){ // This IS ONLY FOR GROUP MESSAGES (PRIVATE)%>
+			<% if(group.isAccessAllowed(id) && name != null){ //only if allowed and signed in, then display chat
+				%>
+				<h1> <%= group.getTitle() %>
+				</h1>
 
-		<hr/>
+				<script>
+				function displayAllowedUsers() {
+					var view = document.getElementById("display-allowed-users");
+					if (view.style.display === "block") {
+						view.style.display = "none";
+					} else {
+						view.style.display = "block";
+					}
+				}
+				</script>
 
-		<% if (request.getSession().getAttribute("user") != null) { %>
-		<form action="/chat/<%= group.getTitle() %>" method="POST">
-			<input type="text" name="message">
-			<br/>
-			<button type="submit">Send</button>
-		</form>
-		<% } else { %>
-		  <p><a href="/login">Login</a> to send a message.</p>
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=displayAllowedUsers()>Show Members</button>
+				<a href="" style="float: right">
+					<i class="material-icons mdl-list__item-avatar">autorenew</i>
+				</a></h1>
+				<style>
+				#display-allowed-users{
+					font-size: 8;
+					font-weight: lighter;
+					width: 100%;
+					text-decoration: none;
+					display: none;
+					list-style-type: none;
+				}
+				#display-allowed-users a{
+					text-decoration: none;
+					list-style-type: none;
+				}
+				#addMembers{
+					font-size: 8;
+					font-weight: lighter;
+					text-decoration: none;
+					width: auto;
+					list-style-type: none;
+					/* display: block; */
+				}
+				#addMembers a{
+					text-decoration: none;
+					list-style-type: none;
+				}
+
+				</style>
+				<div id="display-allowed-users">
+					<h4>Current Members</h4>
+				<form action="/chat/<%= group.getTitle() %>" method="POST">
+					<%
+					// code for removing users
+					int removeUserCounter = 0;
+					%> <ul class="mdl-list">
+						<%for(User user: allowedUsers){
+							String removeUsername = user.getName();
+							if(group.isAccessAllowed(user.getId())){
+								%>
+								<li class="mdl-list__item">
+									<span class="mdl-list__item-primary-content">
+										<i class="material-icons mdl-list__item-avatar">person</i>
+										<a class="mdl-color-text--cyan" href="/user/<%=removeUsername%>"><%= removeUsername %></a>
+									</span>
+									<span class="mdl-list__item-secondary-action">
+										<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+											<input type="checkbox" name="<%=removeUserCounter%>" value="<%=removeUsername%>" id="list-checkbox-1">
+										</label>
+									</span>
+								</li>
+								<% //TODO: make this more efficient for pete's sake :(
+								request.getSession().setAttribute("removeUserCounter", removeUserCounter);
+								removeUserCounter++;%>
+								<br>
+							<% }
+						} %>
+					</ul>
+				<hr/>
+					<h4>Add more members</h4>
+					<div id="addMembers">
+						<%  List<User> users = UserStore.getInstance().getUsers();
+							int addUserCounter = 0; // already initialized
+							%>
+							<ul class="mdl-list">
+							<% for(User registeredUser: users){
+								if(registeredUser.getId() != id && !group.isAccessAllowed(registeredUser.getId())){
+									String addUsername = registeredUser.getName();
+									 %>
+									<li class="mdl-list__item">
+										<span class="mdl-list__item-primary-content">
+											<i class="material-icons mdl-list__item-avatar">person_add</i>
+											<a class="mdl-color-text--cyan" href="/user/<%=addUsername%>"><%= addUsername %></a>
+										</span>
+										<span class="mdl-list__item-secondary-action">
+											<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="addMembers">
+												<input type="checkbox" name="<%=addUserCounter%>" value="<%=addUsername%>" id="addMembers"/>
+											</label>
+										</span>
+									</li>
+									<%
+									//TODO: make this more efficient for pete's sake :(
+									request.getSession().setAttribute("addUserCounter", addUserCounter);
+									addUserCounter++;%>
+									<%-- <li><a href="/user/<%=user.getName()%>"><%= user.getName() %></a> --%>
+								<% } %>
+						   <% }%>
+							</ul
+							<% if(addUserCounter == 0){ %>
+								<h3 style="color:green;">All users are currently in this group!</h3>
+							<% }%>
+					<hr/>
+						<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit" name="addUsers" value="Add Checked Members">
+						<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit" name="removeUsers" value="Remove Checked Members">
+				</form>
+					</div>
+				</div>
+				<hr/>
+
+				<div id="chat">
+				  <ul>
+				<%
+				  for (Message message : messages) {
+					String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
+				%>
+				  <li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
+				<%
+				  	}
+				%>
+				  </ul>
+				</div>
+
+				<hr/>
+
+				<% if (request.getSession().getAttribute("user") != null) { %>
+				<form action="/chat/<%= group.getTitle() %>" method="POST">
+					<input type="text" name="message">
+					<br/>
+					<button type="submit">Send</button>
+				</form>
+				<% } else { %>
+				  <p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
+				<% } %>
+
+			<% } else{ %>
+				<script> //access denied, being redirected
+				window.alert("You are not part of this Group");
+				window.location.replace("/conversations");
+				</script>
+		  <% } %>
+
 		<% } %>
+			<%-- Now display the conversation  --%>
+			<%if(conversation != null && group == null){ %>
+			    <h1><%= conversation.getTitle() %>
+				<a href="" style="float: right">
+					<i class="material-icons mdl-list__item-avatar">autorenew</i>
+				</a>
+				</h1>
+			    <hr/>
 
-	<% } else{ %>
-		<script> //access denied, being redirected
-		var identification = "<%out.print(id);%>";
-		var hashset = "<%out.print(allowedIds);%>";
-		var allowed = "<%out.print(group.isAccessAllowed(id));%>";
-		console.log("The allowed users:");
-		console.log(hashset);
-		window.alert("You are not part of this Group");
-		console.log(identification);
-		console.log(allowed);
-		window.location.replace("/conversations");
-		</script>
-  <% } %>
+			    <div id="chat">
+			      <ul>
+			    <%
+			      for (Message message : messages) {
+			        String author = UserStore.getInstance()
+			          .getUser(message.getAuthorId()).getName();
+			    %>
+			      <li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
+			    <%
+			      }
+			    %>
+			      </ul>
+			    </div>
+			    <hr/>
 
-<% } %>
-	<%-- Now display the conversation  --%>
-	<%if(conversation != null && group == null){ %>
-	    <h1><%= conversation.getTitle() %>
-		<a href="" style="float: right">&#8635;</a></h1>
-	    <hr/>
-
-	    <div id="chat">
-	      <ul>
-	    <%
-	      for (Message message : messages) {
-	        String author = UserStore.getInstance()
-	          .getUser(message.getAuthorId()).getName();
-	    %>
-	      <li><strong><a href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
-	    <%
-	      }
-	    %>
-	      </ul>
-	    </div>
-	    <hr/>
-
-	    <% if (request.getSession().getAttribute("user") != null) { %>
-	    <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-	        <input type="text" name="message">
-	        <br/>
-	        <button type="submit">Send</button>
-	    </form>
-	    <% } else { %>
-	      <p><a href="/login">Login</a> to send a message.</p>
-    <% } %>
-<% } %>
-    <hr/>
-
-  </div>
+			    <% if (request.getSession().getAttribute("user") != null) { %>
+			    <form action="/chat/<%= conversation.getTitle() %>" method="POST">
+			        <input type="text" name="message">
+			        <br/>
+			        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>
+			    </form>
+			    <% } else { %>
+			      <p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
+		    <% } %>
+		<% } %>
+		    <hr/>
+			</div>
+		</div>
+	</div>
+</main>
 
 </body>
 </html>
