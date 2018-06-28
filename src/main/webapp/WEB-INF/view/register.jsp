@@ -46,12 +46,19 @@
     <form action="/register" method="POST">
       <label for="username">Username: </label>
       <br/>
-      <input type="text" name="username" id="username">
+      <input type="text" name="username" id="username" required>
+      <br/>
+      <sub style="color:teal"> At least 5 characters and must contain no spaces. </sub>
       <br/>
       <label for="password">Password: </label>
       <br/>
-      <input type="password" name="password" id="password">
-      <br/><br/>
+      <input type="password" name="password" id="password" required>
+      <br/>
+      <sub style="color:teal"> At least 8 characters and must contain an upper case
+              letter, lower case letter, number, and punctuation character.
+      </sub>
+      <br/>
+      <br/>
       <button type="submit">Submit</button>
     </form>
   </div>
