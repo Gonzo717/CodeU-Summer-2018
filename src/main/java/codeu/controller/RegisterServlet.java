@@ -64,10 +64,9 @@ public class RegisterServlet extends HttpServlet {
 
 		String username = request.getParameter("username");
 
-		// username at least 5 chars and must contain at least one word character(a-z,A-Z,0-9),
-		// optional punctuation chars, and no spaces.
-		if (!username.matches("^(?=.*\\w)(?=\\S+$).{5,}$")) {
-			request.setAttribute("error", "Make sure your username is at least 5 characters long and contains no spaces as well as at least one word character (a-z, A-Z, 0-9)");
+		// username at least 5 chars and cannot contain spaces
+		if (!username.matches("^(?=\\S+$).{5,}$")) {
+			request.setAttribute("error", "Invalid username");
 			request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
 			return;
 		}
@@ -82,7 +81,7 @@ public class RegisterServlet extends HttpServlet {
 		// password must be at least 8 characters long, contain at least one digit, at least one lower case letter,
 		// at least one upper case letter, and at least one punctuation character
 		if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\p{Punct})(?=\\S+$).{8,}$")) {
-			request.setAttribute("error", "Make sure your password is at least 8 characters and contains at least one of each: uppercase letter, lowercase letter, a digit, and punctuation characters");
+			request.setAttribute("error", "Invalid password");
 			request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
 			return;
 		}
