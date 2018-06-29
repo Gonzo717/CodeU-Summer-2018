@@ -17,7 +17,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Trill</title>
+	<title>YACA</title>
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

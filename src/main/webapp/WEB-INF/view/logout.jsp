@@ -16,7 +16,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Trill</title>
+	<title>YACA</title>
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -27,6 +27,3 @@
 
 </body>
 </html>
-
-
-

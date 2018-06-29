@@ -18,7 +18,7 @@
 <html>
 <head>
 
-	<title>Trill</title>
+	<title>YACA</title>
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -52,7 +52,7 @@
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 		<div class="mdl-layout__header-row">
-			<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">Trill</span></a>
+			<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">YACA</span></a>
 			<!-- Image card -->
 				  <!-- Add spacer, to align navigation to the right in desktop -->
 			<div class="android-header-spacer mdl-layout-spacer"></div>
@@ -110,15 +110,15 @@
 			      <h2>Welcome to our glorious app</h2>
 			      <h3>Powered by JavaChips</h3>
 			      <ul class="mdl-list">
-			        <li class="mdl-list__item"><a class="mdl-color-text--cyan" href="/login">Login</a> to begin chatting</li>
+			        <li class="mdl-list__item"><a class="mdl-color-text--cyan" href="/login">Login </a>&nbsp to begin chatting</li>
 			        <li class="mdl-list__item">
 						<span>
 
-						Go to the <a class="mdl-color-text--cyan" href="/conversations">conversations</a> page to
+						Go to the &nbsp<a class="mdl-color-text--cyan" href="/conversations">conversations</a>&nbsp page to
 			            create or join a conversation.
 						</span>
 					</li>
-			        <li class="mdl-list__item">View the <a class="mdl-color-text--cyan" href="/about.jsp">about</a> page to learn more about the
+			        <li class="mdl-list__item">View the &nbsp<a class="mdl-color-text--cyan" href="/about.jsp">about</a>&nbsp page to learn more about the
 			            project and its devs.</li>
 			      </ul>
 			  	</div>
