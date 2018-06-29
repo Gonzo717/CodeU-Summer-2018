@@ -130,19 +130,21 @@
 							<input class="mdl-textfield__input" type="text" name="username" id="username">
 							<label class="mdl-textfield__label" for="username">Username...</label>
 						</div>
+					</br>
+						<sub style="color:teal"> At least 5 characters and must contain no spaces. </sub>
 					<%-- <label for="username">Username: </label> --%>
 					<br/>
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 							<input class="mdl-textfield__input" type="password" name="password" id="password">
 							<label class="mdl-textfield__label" for="password">Password...</label>
 						</div>
+					</br>
+						<sub style="color:teal"> At least 8 characters and must contain an upper case
+			              letter, lower case letter, number, and punctuation character.
+			      </sub>
+					<br/>
 					<br/>
 					<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="submitButton">Submit</button>
 					</form>
-
-				</div>
-			</div>
-		</div>
-	</main>
 </body>
 </html>
