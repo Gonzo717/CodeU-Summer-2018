@@ -88,3 +88,13 @@ input {
 button {
   font-size: 18px;
 }
+
+.mdl-layout-title {
+  font-weight: bold;
+}
+
+.two-containers {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}

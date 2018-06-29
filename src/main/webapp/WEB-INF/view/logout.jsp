@@ -21,7 +21,7 @@
 </head>
 <body>
 
-<% 	System.out.println("WE ARE LOGGIN OUT!");
+<% 	System.out.println("WE ARE LOGGING OUT!");
 	request.getSession().invalidate();
 	response.sendRedirect("/index.jsp"); %>
 
