@@ -54,9 +54,9 @@ public class Group {
 
 	//returns true if the user is allowed to view this group message
 	public boolean isAccessAllowed(UUID id){
-		//should I do by User or by Username?
+		// doing this by User's UUID
 		for(User iterableUser : users){
-			if(iterableUser.getId() ==  id) {
+			if(iterableUser.getId().equals(id)) {
 				return true;
 			}
 		}
