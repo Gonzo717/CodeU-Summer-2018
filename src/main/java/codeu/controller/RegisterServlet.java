@@ -20,7 +20,7 @@ public class RegisterServlet extends HttpServlet {
 
 	/** Store class that gives access to Users. */
 	private UserStore userStore;
-		
+
 	/* Store class that gives acces Activities */
 	private ActivityStore activityStore;
 
@@ -33,7 +33,7 @@ public class RegisterServlet extends HttpServlet {
 		super.init();
 		setUserStore(UserStore.getInstance());
 		setActivityStore(ActivityStore.getInstance());
-		
+
 	}
 
 	/**
@@ -43,8 +43,8 @@ public class RegisterServlet extends HttpServlet {
 	void setUserStore(UserStore userStore) {
 		this.userStore = userStore;
 	}
-	
-	/* 
+
+	/*
 	 * Sets the ActivityStore used by this servlet. This function provides a common setup method for
 	 * use by the test framework or the servlet's init() function.
 	 */
@@ -64,8 +64,9 @@ public class RegisterServlet extends HttpServlet {
 
 		String username = request.getParameter("username");
 
-		if (!username.matches("[\\w*\\s*]*")) {
-			request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
+		// username at least 5 chars and cannot contain spaces
+		if (!username.matches("^(?=\\S+$).{5,}$")) {
+			request.setAttribute("error", "Invalid username");
 			request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
 			return;
 		}
@@ -77,11 +78,18 @@ public class RegisterServlet extends HttpServlet {
 		}
 
 		String password = request.getParameter("password");
+		// password must be at least 8 characters long, contain at least one digit, at least one lower case letter,
+		// at least one upper case letter, and at least one punctuation character
+		if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\p{Punct})(?=\\S+$).{8,}$")) {
+			request.setAttribute("error", "Invalid password");
+			request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+			return;
+		}
 		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
 		User user = new User(UUID.randomUUID(), username, hashedPassword, Instant.now());
 		userStore.addUser(user);
-		
+
 		// adds user activity to ActivityStore
 		Activity userAct = new Activity("newUser", UUID.randomUUID(), user.getId(), user.getCreationTime());
 		activityStore.addActivity(userAct);
