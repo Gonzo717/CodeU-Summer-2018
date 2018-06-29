@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Trill</title>
+  <title>YACA</title>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
   <nav> <%-- the menu navbar --%>
-    <a id="navTitle" href="/">Trill</a>
+    <a id="navTitle" href="/">YACA</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
@@ -35,7 +35,7 @@
       Help report this error by raising an issue in our GitHub page.<br/>
       <a href="https://github.com/Gonzo717/CodeU-Summer-2018">GitHub Link</a><br/>
       Thank you and hope you're enjoying YACA!
-      - DevOps Team
+      - JavaChips Team
       <br/>
 
     </h1>
