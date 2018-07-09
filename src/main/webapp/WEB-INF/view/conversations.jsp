@@ -25,7 +25,7 @@
 <head>
 	<title>YACA</title>
 	<link rel="stylesheet" href="/css/main.css">
-	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
+	<link rel="shortcut icon" href="/images/YACA.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
