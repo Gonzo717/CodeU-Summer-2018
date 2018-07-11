@@ -14,7 +14,11 @@
 
 package codeu.model.store.persistence;
 
+import org.javatuples.Pair;
+
 import codeu.model.data.Conversation;
+import codeu.model.data.Conversation.Type;
+import codeu.model.data.Conversation.Visibility;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
@@ -27,10 +31,16 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
+
+import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 /**
  * This class handles all interactions with Google App Engine's Datastore service. On startup it
@@ -108,7 +118,16 @@ public class PersistentDataStore {
         UUID ownerUuid = UUID.fromString((String) entity.getProperty("owner_uuid"));
         String title = (String) entity.getProperty("title");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-        Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime);
+				HashSet members = (HashSet) entity.getProperty("members");
+				Type type = (Type) entity.getProperty("type");
+				Visibility visibility = (Visibility) entity.getProperty("visibility");
+				String avatarImageURL = (String) entity.getProperty("avatarImageURL");
+				boolean isActive = (boolean) entity.getProperty("isActive");
+				ChronoUnit validTime = (ChronoUnit) entity.getProperty("validTime");
+				String description = (String) entity.getProperty("description");
+        Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime,
+																											members, type, visibility, avatarImageURL,
+																											validTime, description);
         conversations.add(conversation);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -177,7 +196,7 @@ public class PersistentDataStore {
         UUID conversationUuid = UUID.fromString((String) entity.getProperty("conv_uuid"));
         UUID authorUuid = UUID.fromString((String) entity.getProperty("author_uuid"));
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-        String content = (String) entity.getProperty("content");
+        Pair content = (Pair) entity.getProperty("content");
         Message message = new Message(uuid, conversationUuid, authorUuid, content, creationTime);
         messages.add(message);
       } catch (Exception e) {
@@ -263,6 +282,15 @@ public class PersistentDataStore {
     conversationEntity.setProperty("owner_uuid", conversation.getOwnerId().toString());
     conversationEntity.setProperty("title", conversation.getTitle());
     conversationEntity.setProperty("creation_time", conversation.getCreationTime().toString());
+		conversationEntity.setProperty("type", conversation.getConversationType()); //returns String
+		conversationEntity.setProperty("visibility", conversation.getConversationVisibility()); //returns String
+		conversationEntity.setProperty("isActive", String.valueOf(conversation.isActive()));
+		conversationEntity.setProperty("validTime", conversation.getValidTime().toString()); //returns String
+		conversationEntity.setProperty("avatarImageURL", conversation.getAvatarImageURL());
+		conversationEntity.setProperty("deletionInstant", conversation.getDeletionInstant().toString()); //returns String
+		conversationEntity.setProperty("totalPoints", conversation.getTotalPoints());
+		conversationEntity.setProperty("descriptsion", conversation.getDescription()); //returns String
+		conversationEntity.setProperty("haveVoted", conversation.getVoters().toString());
     datastore.put(conversationEntity);
   }
 

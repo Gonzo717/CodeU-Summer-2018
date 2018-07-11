@@ -15,6 +15,10 @@
 package codeu.model.data;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.time.temporal.ChronoUnit;
+import codeu.model.data.Conversation.Type;
+import codeu.model.data.Conversation.Visibility;
 import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,14 +29,30 @@ public class ConversationTest {
   public void testCreate() {
     UUID id = UUID.randomUUID();
     UUID owner = UUID.randomUUID();
-    String title = "Test_Title";
-    Instant creation = Instant.now();
+		String title = "Test_Title";
+		Instant creation = Instant.now();
+		HashSet members = new HashSet<>();
+		Type type = Type.TEXT;
+		Visibility visibility = Visibility.PUBLIC;
+		String avatarImageURL = "fakeURL";
+		ChronoUnit validTime = ChronoUnit.FOREVER;
+		String description = "fake :D";
 
-    Conversation conversation = new Conversation(id, owner, title, creation);
+
+    Conversation conversation = new Conversation(id, owner, title, creation,
+																									members, type, visibility,
+																									avatarImageURL, validTime, description);
 
     Assert.assertEquals(id, conversation.getId());
     Assert.assertEquals(owner, conversation.getOwnerId());
     Assert.assertEquals(title, conversation.getTitle());
     Assert.assertEquals(creation, conversation.getCreationTime());
+		Assert.assertEquals(members, conversation.getMembers());
+		Assert.assertEquals(type, conversation.getConversationType());
+		Assert.assertEquals(visibility, conversation.getConversationVisibility());
+		Assert.assertEquals(avatarImageURL, conversation.getAvatarImageURL());
+		Assert.assertEquals(validTime, conversation.getValidTime());
+		Assert.assertEquals(description, conversation.getDescription());
+
   }
 }

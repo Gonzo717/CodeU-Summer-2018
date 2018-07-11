@@ -22,6 +22,11 @@
 <%@ page import="codeu.model.data.Group" %>
 <%@ page import="java.util.UUID" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
+
+<% BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %>
+
 <%
 Conversation conversation = (Conversation) request.getAttribute("conversation");
 Group group = (Group) request.getAttribute("group");
@@ -142,12 +147,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
 					<i class="material-icons">more_vert</i>
 				</button>
-				<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-					<li class="mdl-menu__item">Add something here!</li>
-					<li class="mdl-menu__item">Perhaps another?</li>
-					<li disabled class="mdl-menu__item">Another one</li>
-					<li class="mdl-menu__item">Anotha 1</li>
-				</ul>
 			</div>
 		</div>
 	</div>
@@ -331,7 +330,8 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 			    <% if (request.getSession().getAttribute("user") != null) { %>
 			    <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-			        <input type="text" name="message">
+			        <input type="text" name="messageText">
+							<input type="image" name="messageMedia">
 			        <br/>
 			        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>
 			    </form>

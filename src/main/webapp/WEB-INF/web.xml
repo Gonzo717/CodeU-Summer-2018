@@ -31,9 +31,27 @@
     <servlet-class>codeu.controller.LoginServlet</servlet-class>
   </servlet>
 
-  <servlet-mapping>
+	<servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+<!-- The blobStore stuff now -->
+	<servlet>
+    <servlet-name>Upload</servlet-name>
+    <servlet-class>com.blobstore_upload.Upload</servlet-class>
+  </servlet>
+   <servlet-mapping>
+    <servlet-name>Upload</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Serve</servlet-name>
+    <servlet-class>com.blobstore_upload.Serve</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Serve</servlet-name>
+    <url-pattern>/serve</url-pattern>
   </servlet-mapping>
 
   <servlet>

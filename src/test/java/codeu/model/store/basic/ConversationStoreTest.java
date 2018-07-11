@@ -1,9 +1,13 @@
 package codeu.model.store.basic;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Conversation.Type;
+import codeu.model.data.Conversation.Visibility;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import org.junit.Assert;
@@ -16,9 +20,13 @@ public class ConversationStoreTest {
   private ConversationStore conversationStore;
   private PersistentStorageAgent mockPersistentStorageAgent;
 
+
+	private HashSet members = new HashSet<>();
   private final Conversation CONVERSATION_ONE =
       new Conversation(
-          UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.ofEpochMilli(1000));
+          UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.now(),
+					 members, Type.TEXT, Visibility.PUBLIC,
+					"fakeURL", ChronoUnit.FOREVER, "fake :D");
 
   @Before
   public void setup() {
@@ -61,8 +69,16 @@ public class ConversationStoreTest {
 
   @Test
   public void testAddConversation() {
-    Conversation inputConversation =
-        new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+		HashSet members = new HashSet<>();
+		Type type = Type.TEXT;
+		Visibility visibility = Visibility.PUBLIC;
+		String avatarImageURL = "fakeURL";
+		ChronoUnit validTime = ChronoUnit.FOREVER;
+		String description = "fake :D";
+
+		Conversation inputConversation =
+				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
+													visibility, avatarImageURL, validTime, description);
 
     conversationStore.addConversation(inputConversation);
     Conversation resultConversation =

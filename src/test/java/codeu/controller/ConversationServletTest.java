@@ -15,6 +15,9 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Conversation.Visibility;
+import codeu.model.data.Conversation.Type;
+import java.time.temporal.ChronoUnit;
 import codeu.model.data.Group;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
@@ -79,9 +82,14 @@ public class ConversationServletTest {
 
 	@Test
 	public void testDoGet() throws IOException, ServletException {
+		HashSet members = new HashSet<>();
+		Conversation CONVERSATION_ONE =
+				new Conversation(
+						UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.now(),
+						 members, Type.TEXT, Visibility.PUBLIC,
+						"fakeURL", ChronoUnit.FOREVER, "fake :D");
 		List<Conversation> fakeConversationList = new ArrayList<>();
-		fakeConversationList.add(
-				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now()));
+		fakeConversationList.add(CONVERSATION_ONE);
 		Mockito.when(mockConversationStore.getAllConversations()).thenReturn(fakeConversationList);
 		HashSet<User> users = new HashSet<>();
 		List<Group> fakeGroupList = new ArrayList<>();
@@ -180,7 +188,12 @@ public class ConversationServletTest {
 
 		conversationServlet.doPost(mockRequest, mockResponse);
 
-		Conversation conversation = new Conversation(UUID.randomUUID(), fakeUser.getId(), "test_conversation", Instant.now());
+		HashSet members = new HashSet<>();
+		Conversation conversation =
+				new Conversation(
+						UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(),
+						 members, Type.TEXT, Visibility.PUBLIC,
+						"fakeURL", ChronoUnit.FOREVER, "fake :D");
 
 		ArgumentCaptor<Conversation> conversationArgumentCaptor =
 				ArgumentCaptor.forClass(Conversation.class);

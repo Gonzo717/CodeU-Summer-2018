@@ -16,6 +16,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.UUID" %>
 <%@ page import="codeu.model.data.Conversation" %>
+<%@ page import="codeu.model.data.Conversation.Type" %>
+<%@ page import="codeu.model.data.Conversation.Visibility" %>
 <%@ page import="codeu.model.data.Group" %>
 
 
@@ -129,10 +131,11 @@
 
 		    <% if(request.getSession().getAttribute("user") != null){ %>
 		      <h1>New Conversation</h1>
-		      <form action="/conversations" method="POST">
+		      <form action="/conversations" method="POST" enctype="multipart/form-data">
 				  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 					  <input class="mdl-textfield__input" type="text" name="username" id="username">
 					  <label class="mdl-textfield__label" for="sample3">Conversation Title...</label>
+						<input type="file" name="avatarImage/<%=conversationTitle%>">
 				  </div>
 		          <%-- <div class="form-group">
 		            <label class="form-control-label">Title:</label>

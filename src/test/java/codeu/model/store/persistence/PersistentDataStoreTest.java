@@ -1,7 +1,15 @@
 package codeu.model.store.persistence;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Conversation.Visibility;
+import codeu.model.data.Conversation.Type;
 import codeu.model.data.Message;
+import java.time.Instant;
+import org.javatuples.Pair;
+import java.time.temporal.ChronoUnit;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashSet;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -13,6 +21,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.appengine.api.blobstore.BlobKey;
+
 
 /**
  * Test class for PersistentDataStore. The PersistentDataStore class relies on DatastoreService,
@@ -78,13 +89,23 @@ public class PersistentDataStoreTest {
 		UUID ownerOne = UUID.fromString("10000001-2222-3333-4444-555555555555");
 		String titleOne = "Test_Title";
 		Instant creationOne = Instant.ofEpochMilli(1000);
-		Conversation inputConversationOne = new Conversation(idOne, ownerOne, titleOne, creationOne);
+		HashSet members = new HashSet<>();
+		Type type = Type.TEXT;
+		Visibility visibility = Visibility.PUBLIC;
+		String avatarImageURL = "fakeURL";
+		ChronoUnit validTime = ChronoUnit.FOREVER;
+		String description = "fake :D";
+		Conversation inputConversationOne = new Conversation(idOne, ownerOne, titleOne, creationOne,
+																													members, type, visibility, avatarImageURL,
+																													validTime, description);
 
 		UUID idTwo = UUID.fromString("10000002-2222-3333-4444-555555555555");
 		UUID ownerTwo = UUID.fromString("10000003-2222-3333-4444-555555555555");
 		String titleTwo = "Test_Title_Two";
 		Instant creationTwo = Instant.ofEpochMilli(2000);
-		Conversation inputConversationTwo = new Conversation(idTwo, ownerTwo, titleTwo, creationTwo);
+		Conversation inputConversationTwo = new Conversation(idTwo, ownerTwo, titleTwo, creationTwo,
+																													members, type, visibility, avatarImageURL,
+																													validTime, description);
 
 		// save
 		persistentDataStore.writeThrough(inputConversationOne);
@@ -99,12 +120,24 @@ public class PersistentDataStoreTest {
 		Assert.assertEquals(ownerOne, resultConversationOne.getOwnerId());
 		Assert.assertEquals(titleOne, resultConversationOne.getTitle());
 		Assert.assertEquals(creationOne, resultConversationOne.getCreationTime());
+		Assert.assertEquals(members, resultConversationOne.getMembers());
+		Assert.assertEquals(type, resultConversationOne.getConversationType());
+		Assert.assertEquals(visibility, resultConversationOne.getConversationVisibility());
+		Assert.assertEquals(avatarImageURL, resultConversationOne.getAvatarImageURL());
+		Assert.assertEquals(validTime, resultConversationOne.getValidTime());
+		Assert.assertEquals(description, resultConversationOne.getDescription());
 
 		Conversation resultConversationTwo = resultConversations.get(1);
 		Assert.assertEquals(idTwo, resultConversationTwo.getId());
 		Assert.assertEquals(ownerTwo, resultConversationTwo.getOwnerId());
 		Assert.assertEquals(titleTwo, resultConversationTwo.getTitle());
 		Assert.assertEquals(creationTwo, resultConversationTwo.getCreationTime());
+		Assert.assertEquals(members, resultConversationOne.getMembers());
+		Assert.assertEquals(type, resultConversationOne.getConversationType());
+		Assert.assertEquals(visibility, resultConversationOne.getConversationVisibility());
+		Assert.assertEquals(avatarImageURL, resultConversationOne.getAvatarImageURL());
+		Assert.assertEquals(validTime, resultConversationOne.getValidTime());
+		Assert.assertEquals(description, resultConversationOne.getDescription());
 	}
 
 	@Test
@@ -112,7 +145,8 @@ public class PersistentDataStoreTest {
 		UUID idOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
 		UUID conversationOne = UUID.fromString("10000001-2222-3333-4444-555555555555");
 		UUID authorOne = UUID.fromString("10000002-2222-3333-4444-555555555555");
-		String contentOne = "test content one";
+		BlobKey blobkey = null;
+		Pair contentOne = new Pair<>("TestContent", blobkey);
 		Instant creationOne = Instant.ofEpochMilli(1000);
 		Message inputMessageOne =
 				new Message(idOne, conversationOne, authorOne, contentOne, creationOne);
@@ -120,7 +154,7 @@ public class PersistentDataStoreTest {
 		UUID idTwo = UUID.fromString("10000003-2222-3333-4444-555555555555");
 		UUID conversationTwo = UUID.fromString("10000004-2222-3333-4444-555555555555");
 		UUID authorTwo = UUID.fromString("10000005-2222-3333-4444-555555555555");
-		String contentTwo = "test content one";
+		Pair contentTwo = new Pair<>("TestContent", blobkey);
 		Instant creationTwo = Instant.ofEpochMilli(2000);
 		Message inputMessageTwo =
 				new Message(idTwo, conversationTwo, authorTwo, contentTwo, creationTwo);

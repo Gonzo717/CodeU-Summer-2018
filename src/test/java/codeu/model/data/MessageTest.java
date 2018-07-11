@@ -17,6 +17,9 @@ package codeu.model.data;
 import java.time.Instant;
 import java.util.UUID;
 import org.junit.Assert;
+import org.javatuples.Pair;
+import com.google.appengine.api.blobstore.BlobKey;
+
 import org.junit.Test;
 
 public class MessageTest {
@@ -26,7 +29,8 @@ public class MessageTest {
     UUID id = UUID.randomUUID();
     UUID conversation = UUID.randomUUID();
     UUID author = UUID.randomUUID();
-    String content = "test content";
+		BlobKey blobkey = null;
+		Pair content = new Pair<>("TestContent", blobkey);
     Instant creation = Instant.now();
 
     Message message = new Message(id, conversation, author, content, creation);

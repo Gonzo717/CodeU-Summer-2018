@@ -15,6 +15,10 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Conversation.Visibility;
+import codeu.model.data.Conversation.Type;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
@@ -26,6 +30,7 @@ import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.RequestDispatcher;
@@ -38,6 +43,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+
+import org.javatuples.Pair;
+import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.blobstore.BlobKey;
+
 
 public class ChatServletTest {
 
@@ -86,19 +96,32 @@ public class ChatServletTest {
 		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
 
 		UUID fakeConversationId = UUID.randomUUID();
+		HashSet members = new HashSet<>();
+		Type type = Type.TEXT;
+		Visibility visibility = Visibility.PUBLIC;
+		String avatarImageURL = "fakeURL";
+		boolean isActive = true;
+		ChronoUnit validTime = ChronoUnit.FOREVER;
+		String description = "fake :D";
+
 		Conversation fakeConversation =
-				new Conversation(fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now());
+				new Conversation(fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
+													visibility, avatarImageURL, validTime, description);
 		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
 				.thenReturn(fakeConversation);
 
 		List<Message> fakeMessageList = new ArrayList<>();
-		fakeMessageList.add(
-				new Message(
-						UUID.randomUUID(),
-						fakeConversationId,
-						UUID.randomUUID(),
-						"test message",
-						Instant.now()));
+		UUID idOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
+		UUID conversationOne = UUID.fromString("10000001-2222-3333-4444-555555555555");
+		UUID authorOne = UUID.fromString("10000002-2222-3333-4444-555555555555");
+		BlobKey blobkey = null;
+		Pair contentOne = new Pair<>("TestContent", blobkey);
+		Instant creationOne = Instant.ofEpochMilli(1000);
+		Message inputMessageOne =
+				new Message(idOne, fakeConversationId, authorOne, contentOne, creationOne);
+
+		fakeMessageList.add(inputMessageOne);
+
 		Mockito.when(mockMessageStore.getMessagesInConversation(fakeConversationId))
 				.thenReturn(fakeMessageList);
 
@@ -178,9 +201,18 @@ public class ChatServletTest {
 						"$2a$10$bBiLUAVmUFK6Iwg5rmpBUOIBW6rIMhU1eKfi3KR60V9UXaYTwPfHy",
 						Instant.now());
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+		HashSet members = new HashSet<>();
+		members.add(fakeUser);
+		Type type = Type.TEXT;
+		Visibility visibility = Visibility.PUBLIC;
+		String avatarImageURL = "fakeURL";
+		boolean isActive = true;
+		ChronoUnit validTime = ChronoUnit.FOREVER;
+		String description = "fake :D";
 
 		Conversation fakeConversation =
-				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
+													visibility, avatarImageURL, validTime, description);
 		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
 				.thenReturn(fakeConversation);
 
@@ -204,8 +236,19 @@ public class ChatServletTest {
 				new User( UUID.randomUUID(), "test_username", "$2a$10$eDhncK/4cNH2KE.Y51AWpeL8/5znNBQLuAFlyJpSYNODR/SJQ/Fg6", Instant.now());
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
+		Type type = Type.TEXT;
+		Visibility visibility = Visibility.PUBLIC;
+		String avatarImageURL = "fakeURL";
+		boolean isActive = true;
+		ChronoUnit validTime = ChronoUnit.FOREVER;
+		String description = "fake :D";
+
+		HashSet members = new HashSet<>();
+		members.add(fakeUser);
 		Conversation fakeConversation =
-				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
+													visibility, avatarImageURL, validTime, description);
+
 		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
 				.thenReturn(fakeConversation);
 
