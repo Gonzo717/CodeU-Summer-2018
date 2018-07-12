@@ -9,8 +9,6 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 <!DOCTYPE>
 <html>
 	<head>
-		<title>Activity Feed</title>
-
 		<link rel="stylesheet" href="/css/main.css">
 		<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -44,7 +42,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 		  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">YACA</span>
+				<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">YACA</span></a>
 				<!-- Image card -->
 					  <!-- Add spacer, to align navigation to the right in desktop -->
 				<div class="android-header-spacer mdl-layout-spacer"></div>
