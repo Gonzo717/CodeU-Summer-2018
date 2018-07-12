@@ -30,14 +30,10 @@
 	  display: inline-block;
 	}
 	.page-content{
-		padding-top: 50px;
-		float: left;
-		width: 50%;
-		padding: 100px;
+
 	}
 
 	#view-source {
-	  position: fixed;
 	  display: block;
 	  right: 0;
 	  bottom: 0;
@@ -103,17 +99,22 @@
 
 	<!--Main content starts here-->
 	<main class="mdl-layout__content">
-			<div class="mdl-cell--stretch">
-				<div class="page-content">
+			<div class="mdl-grid">
+				<div class="page-content mdl-cell mdl-cel--2-col">
 					<div class="mdl-layout__title">
+						<br><br><br>
 						<h3>Welcome to YACA</h3>
 					</div>
-							YACA was developed for the Google CodeU Summer program. YACA was developed by our team, JavaChips. Meet the JavaChips team here. <br>
+					<br>
+					<div class="mdl-layout__title">
+							YACA was developed for the Google CodeU Summer program by our team, JavaChips. Meet the JavaChips team&nbsp<a class="mdl-color-text--cyan" href="/about.jsp">here</a>.
+							<br>
 							Our goal was not only to develop a web chat app for the CodeU program, but also to enhance the chat user experience by providing a new conversational
-							organization to chats. Some of these feature are outline below and are currently being implemented by the JavaChips team!
+							organization to chats. Some of these feature are outlined below and are currently being implemented by the JavaChips team!
+					</div>
 							<ul class="mdl-list">
 								<li class="mdl-list__item">Chat threads - Talk about any subject with a large amount of people in a forum-like chat.</li>
-								<li class="mdl-list__item">Conversation tagging - Organize and search for conversationos based on tags that describe them.</li>
+								<li class="mdl-list__item">Conversation tagging - Organize and search for conversations based on tags that describe them.</li>
 								<li class="mdl-list__item">Disappearing chat threads and subconversations -
 									Does your group chat ever get off topic which results in an infinite amount of scrolling to figure out what happened while you were gone?
 									With disappearing subconversations, you never need to worry about it again! Subconversations allow for group conversations to separate topics into a
@@ -125,7 +126,8 @@
 
 					</div>
 
-					<div class="page-content">
+					<div class="page-content mdl-cell mdl-cel--2-col">
+						<br><br><br>
 				    <ul class="mdl-list">
 				       <li class="mdl-list__item"><a class="mdl-color-text--cyan" href="/login">Login </a>&nbsp to begin chatting</li>
 				       <li class="mdl-list__item"><span>
@@ -136,7 +138,6 @@
 			        <li class="mdl-list__item">View the &nbsp<a class="mdl-color-text--cyan" href="/about.jsp">about</a>&nbsp page to learn more about the JavaChips team.</li>
 				    </ul>
 					</div>
-
 			  </div>
 	  	</div>
 	</main>
