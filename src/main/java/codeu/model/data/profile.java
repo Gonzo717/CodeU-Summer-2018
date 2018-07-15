@@ -2,6 +2,8 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.HashSet;
+
 
 /** Class representing a user's profile. */
 public class Profile {
@@ -11,7 +13,7 @@ public class Profile {
   private final HashSet<User> following;
   private final String college;
   private final HashSet<String> classes;
-  private final Int brownie_points;
+  private final int brownie_points;
   private final HashSet<Conversation> pinnedConvos;
   private final String aboutMe;
 
@@ -30,7 +32,7 @@ public class Profile {
 */
 
   public Profile(UUID id, UUID profilePicId, HashSet<User> followers, HashSet<User> following,String college,
-      HashSet<String> classes, Int brownie_points, HashSet<Conversation> pinnedConvos, String aboutMe){
+      HashSet<String> classes, int brownie_points, HashSet<Conversation> pinnedConvos, String aboutMe){
         this.id = id;
         this.profilePicId = profilePicId;
         this.followers = followers;
@@ -53,7 +55,7 @@ public class Profile {
     * Returns the profilePicId of this profile.
     */
     public UUID getProfilePicID(){
-      return profilePicID;
+      return profilePicId;
     }
 
     /**
@@ -80,7 +82,7 @@ public class Profile {
     /**
      * Returns the number of brownie points in this profile.
      */
-    public Int getPoints(){
+    public int getPoints(){
       return brownie_points;
     }
 
