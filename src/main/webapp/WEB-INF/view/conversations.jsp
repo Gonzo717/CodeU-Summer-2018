@@ -145,11 +145,11 @@
 						<!-- ALL THE OPTIONS FOR VISIBILITY -->
 						<h3>Select Conversation Visibility: </h3>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="DIRECT">
-						  <input checked class="mdl-radio__button" id="DIRECT" name="DIRECT" type="radio" value="on">
+						  <input checked class="mdl-radio__button" id="DIRECT" name="DIRECT" type="radio" value="auto">
 						  <span class="mdl-radio__label">Direct Message</span>
 						</label>
-						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="PUBLIC">
-						  <input class="mdl-radio__button" id="PUBLIC" name="PUBLIC" type="radio" value="off">
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="ßPUBLIC">
+						  <input class="mdl-radio__button" id="PUBLIC" name="PUBLIC" type="radio" value="auto">
 						  <span class="mdl-radio__label">Public Conversation</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="GROUP">
