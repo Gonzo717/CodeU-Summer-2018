@@ -78,7 +78,7 @@ public class PersistentStorageAgentTest {
 		Type type = Type.TEXT;
 		Visibility visibility = Visibility.PUBLIC;
 		String avatarImageURL = "fakeURL";
-		ChronoUnit validTime = ChronoUnit.FOREVER;
+		ChronoUnit validTime = ChronoUnit.DECADES;
 		String description = "fake :D";
 
 		Conversation conversation =

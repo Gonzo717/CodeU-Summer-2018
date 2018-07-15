@@ -87,7 +87,7 @@ public class ConversationServletTest {
 				new Conversation(
 						UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.now(),
 						 members, Type.TEXT, Visibility.PUBLIC,
-						"fakeURL", ChronoUnit.FOREVER, "fake :D");
+						"fakeURL", ChronoUnit.DECADES, "fake :D");
 		List<Conversation> fakeConversationList = new ArrayList<>();
 		fakeConversationList.add(CONVERSATION_ONE);
 		Mockito.when(mockConversationStore.getAllConversations()).thenReturn(fakeConversationList);
@@ -115,7 +115,7 @@ public class ConversationServletTest {
 
 	@Test
 	public void testDoPost_InvalidUser() throws IOException, ServletException {
-		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
+		Mockito.when(mockSession.getAttribute("user")).thenReturn(null);
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(null);
 
 		conversationServlet.doPost(mockRequest, mockResponse);
@@ -129,6 +129,11 @@ public class ConversationServletTest {
 	public void testDoPost_BadConversationName() throws IOException, ServletException {
 		Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("bad !@#$% name");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
+		Mockito.when(mockRequest.getParameter("group")).thenReturn(null);
+		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
+		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
+		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
+		Mockito.when(mockRequest.getParameter("validTimeString")).thenReturn("DECADES");
 
 		User fakeUser =
 				new User(
@@ -142,7 +147,7 @@ public class ConversationServletTest {
 
 		Mockito.verify(mockConversationStore, Mockito.never())
 				.addConversation(Mockito.any(Conversation.class));
-		Mockito.verify(mockRequest).setAttribute("error", "Please enter only letters and numbers.");
+		Mockito.verify(mockRequest).setAttribute("error", "Please enter only letters, numbers, and spaces.");
 		Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
 	}
 
@@ -150,6 +155,11 @@ public class ConversationServletTest {
 	public void testDoPost_ConversationNameTaken() throws IOException, ServletException {
 		Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("test_conversation");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
+		Mockito.when(mockRequest.getParameter("group")).thenReturn(null);
+		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
+		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
+		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
+		Mockito.when(mockRequest.getParameter("validTimeString")).thenReturn("DECADES");
 
 		User fakeUser =
 				new User(
@@ -172,17 +182,17 @@ public class ConversationServletTest {
 	public void testDoPost_NewConversation() throws IOException, ServletException {
 		Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("test_conversation");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
-		Mockito.when(mockRequest.getParameter("group")).thenReturn(null);
-		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
-
 		User fakeUser =
 				new User(
 						UUID.randomUUID(),
 						"test_username",
 						"$2a$10$eDhncK/4cNH2KE.Y51AWpeL8/5znNBQLuAFlyJpSYNODR/SJQ/Fg6",
 						Instant.now());
-
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
+		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
+		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
+		Mockito.when(mockRequest.getParameter("validTimeString")).thenReturn("DECADES");
 
 		Mockito.when(mockConversationStore.isTitleTaken("test_conversation")).thenReturn(false);
 
@@ -193,11 +203,10 @@ public class ConversationServletTest {
 				new Conversation(
 						UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(),
 						 members, Type.TEXT, Visibility.PUBLIC,
-						"fakeURL", ChronoUnit.FOREVER, "fake :D");
+						"fakeURL", ChronoUnit.DECADES, "fake :D");
 
-		ArgumentCaptor<Conversation> conversationArgumentCaptor =
-				ArgumentCaptor.forClass(Conversation.class);
-		//TODO fix this test next!!
+
+		ArgumentCaptor<Conversation> conversationArgumentCaptor = ArgumentCaptor.forClass(Conversation.class);
 		Mockito.verify(mockConversationStore).addConversation(conversationArgumentCaptor.capture());
 		Assert.assertEquals(conversationArgumentCaptor.getValue().getTitle(), "test_conversation");
 

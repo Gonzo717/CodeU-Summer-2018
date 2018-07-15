@@ -32,12 +32,15 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
 import com.google.appengine.api.datastore.Blob;
+// import codeu.controller.Serve;
+// import codeu.controller.Upload;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -118,12 +121,38 @@ public class PersistentDataStore {
         UUID ownerUuid = UUID.fromString((String) entity.getProperty("owner_uuid"));
         String title = (String) entity.getProperty("title");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-				HashSet members = (HashSet) entity.getProperty("members");
-				Type type = (Type) entity.getProperty("type");
-				Visibility visibility = (Visibility) entity.getProperty("visibility");
+				// List stringMembers = entity.getProperty("members");
+				// HashSet<UUID> members = new HashSet<UUID>(Arrays.asList(stringMembers));
+				// System.out.println(entity.getProperty("members"));
+				HashSet<UUID> members = (HashSet) entity.getProperty("members");
+
+				String stringType = (String) entity.getProperty("type");
+				Type type = null;
+				if(stringType != null){
+					type = Type.valueOf(stringType);
+				} else{
+					type = Type.valueOf("HYBRID");
+				}
+				String stringVisibility = (String) entity.getProperty("visibility");
+				Visibility visibility = null;
+				if(stringVisibility != null){
+					visibility = Visibility.valueOf(stringVisibility);
+				} else{
+					visibility = Visibility.valueOf("PUBLIC");
+				}
+
 				String avatarImageURL = (String) entity.getProperty("avatarImageURL");
-				boolean isActive = (boolean) entity.getProperty("isActive");
-				ChronoUnit validTime = (ChronoUnit) entity.getProperty("validTime");
+				// boolean isActive = (boolean) entity.getProperty("isActive");
+
+				String stringValidTime = (String) entity.getProperty("validTime");
+				ChronoUnit validTime = null;
+				if(stringValidTime != null){
+					validTime = ChronoUnit.valueOf(stringValidTime.toUpperCase());
+				} else{
+					validTime = ChronoUnit.DECADES;
+				}
+				// ChronoUnit validTime = ChronoUnit.valueOf(stringValidTime.toUpperCase());
+
 				String description = (String) entity.getProperty("description");
         Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime,
 																											members, type, visibility, avatarImageURL,
@@ -161,8 +190,8 @@ public class PersistentDataStore {
         UUID ownerUuid = UUID.fromString((String) entity.getProperty("owner_UUID"));
         String title = (String) entity.getProperty("Title");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation"));
-		HashSet<User> users = (HashSet) entity.getProperty("users");
-		Group group = new Group(uuid, ownerUuid, title, creationTime, users);
+				HashSet<User> users = (HashSet) entity.getProperty("users");
+				Group group = new Group(uuid, ownerUuid, title, creationTime, users);
         groupConversations.add(group);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -196,8 +225,20 @@ public class PersistentDataStore {
         UUID conversationUuid = UUID.fromString((String) entity.getProperty("conv_uuid"));
         UUID authorUuid = UUID.fromString((String) entity.getProperty("author_uuid"));
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-        Pair content = (Pair) entity.getProperty("content");
+        String pairContents = (String) entity.getProperty("content");
+
+				List<String> contentsList = Arrays.asList(pairContents.split(","));
+				// BlobKey media = new BlobKey(contentsList.get(1));
+				Pair content = null;
+				if(contentsList.size() < 2){ //This is to accomodate for the legacy version!
+					content = new Pair<String, BlobKey>(contentsList.get(0), null);
+				} else{ //This is the revamped version
+					BlobKey blob = new BlobKey(contentsList.get(1));
+					content = new Pair<String, BlobKey>(contentsList.get(0), blob);
+				}
+
         Message message = new Message(uuid, conversationUuid, authorUuid, content, creationTime);
+
         messages.add(message);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -258,7 +299,7 @@ public class PersistentDataStore {
     messageEntity.setProperty("uuid", message.getId().toString());
     messageEntity.setProperty("conv_uuid", message.getConversationId().toString());
     messageEntity.setProperty("author_uuid", message.getAuthorId().toString());
-    messageEntity.setProperty("content", message.getContent());
+    messageEntity.setProperty("content", message.getEncodedPair()); //gonna be "String,blobkeyString"
     messageEntity.setProperty("creation_time", message.getCreationTime().toString());
     datastore.put(messageEntity);
   }
@@ -270,7 +311,7 @@ public class PersistentDataStore {
     groupEntity.setProperty("owner", group.getOwnerId().toString());
     groupEntity.setProperty("Title", group.getTitle());
     groupEntity.setProperty("creation", group.getCreationTime().toString());
-	groupEntity.setProperty("users", group.getAllUsers().toString());
+		groupEntity.setProperty("users", group.getAllUsers().toString());
     datastore.put(groupEntity);
   }
 
@@ -289,7 +330,8 @@ public class PersistentDataStore {
 		conversationEntity.setProperty("avatarImageURL", conversation.getAvatarImageURL());
 		conversationEntity.setProperty("deletionInstant", conversation.getDeletionInstant().toString()); //returns String
 		conversationEntity.setProperty("totalPoints", conversation.getTotalPoints());
-		conversationEntity.setProperty("descriptsion", conversation.getDescription()); //returns String
+		conversationEntity.setProperty("description", conversation.getDescription()); //returns String
+		conversationEntity.setProperty("members", conversation.getMembers().toString());
 		conversationEntity.setProperty("haveVoted", conversation.getVoters().toString());
     datastore.put(conversationEntity);
   }

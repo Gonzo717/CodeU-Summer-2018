@@ -168,16 +168,26 @@ public class ChatServlet extends HttpServlet {
       return;
     }
 
-		String msgText = request.getParameter("messageText");
-		String messageMediaString = request.getParameter("messageMedia"); //Have to get blobkey as a string, then convert it back to blobkey smh
-		BlobKey msgMedia = new BlobKey(messageMediaString);
-		Pair messageContent = new Pair<>(msgText, msgMedia);
+		//check if there was any media uploaded
+		BlobKey msgMedia = null;
+		if(request.getParameter("messageMedia")!= null){
+			String messageMediaString = request.getParameter("messageMedia"); //Have to get blobkey as a string, then convert it back to blobkey smh
+			msgMedia = new BlobKey(messageMediaString);
+		}
+
+		String msgText = (String) request.getParameter("messageText");
+		String cleanedMessageText = null;
+		if(msgText != null){
+			cleanedMessageText = Jsoup.clean(msgText, Whitelist.none());
+		}
+
+		Pair messageContent = new Pair<>(cleanedMessageText, msgMedia);
 
 		//So this might also be tough, how to format it? Because it isn't just text anymore so
 		if (conversation.getConversationVisibility().toString().equals("Group") || conversation.getConversationVisibility().toString().equals("Direct")){
 			//this loop signifies the ability to add more members to the convo
 			//This block signals that the user wants to manipulate the members in the Group (add/remove)
-			if(messageContent == null){
+			if(messageContent.getValue0() == null && messageContent.getValue1() == null){
 				// because the user didn't type a message, he wants to change the members in the Group
 				boolean addUsers = false;
 				boolean removeUsers = false;
@@ -217,20 +227,21 @@ public class ChatServlet extends HttpServlet {
 
 	    response.sendRedirect("/chat/" + conversationTitle);
 
-		} else if(messageContent != null){
+		}
+		if(messageContent.getValue0() != null){
 			//then parse the message and do all that jazz
 			// this removes any HTML from the message content
-			Message message = null;
-			String messageText = message.getText();
-			BlobKey messageMedia = message.getMedia();
-
-		  String cleanedMessageText = Jsoup.clean(messageText, Whitelist.none());
-			//Somehow use the BlobKey to actually retrieve the image.
-
-			messageContent.setAt0(cleanedMessageText);
+			// Message message = null;
+			// BlobKey messageMedia = message.getMedia();
+			// String placeholder = (String) messageContent.getValue0();
+			//
+		  // String cleanedMessageText = Jsoup.clean(placeholder, Whitelist.none());
+			// //Somehow use the BlobKey to actually retrieve the image.
+			// messageContent.removeFrom0();
+			// messageContent.setAt0(cleanedMessageText);
 			// messageContent.setAt1(image); // Obviously have to change this...
 
-			message =
+		Message	message =
 		        new Message(
 		            UUID.randomUUID(),
 		            conversation.getId(),

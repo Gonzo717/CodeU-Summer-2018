@@ -35,15 +35,15 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
  * created by a User and contain Messages.
  */
 public class Conversation {
-  public final UUID id;
-  public final UUID ownerId;
-  public final Instant creationTime;
-  public String title;
-  public HashSet<UUID> members;
+  private final UUID id;
+  private final UUID ownerId;
+  private final Instant creationTime;
+  private String title;
+  private HashSet<UUID> members;
 
   public enum Type {
 	  //denotes a hybrid conversation or only one that allows either messages only or img only
-	  TEXT("Text"), IMG("Image"), HYBRID("Hybrid");
+	  TEXT("TEXT"), IMG("IMG"), HYBRID("HYBRID");
 
 		private final String typeDescription;
 
@@ -58,7 +58,7 @@ public class Conversation {
 
   public enum Visibility {
 	  //specifies the scope of the conversation object
-	  PUBLIC("Public"), GROUP("Group"), DIRECT("Direct");
+	  PUBLIC("PUBLIC"), GROUP("GROUP"), DIRECT("DIRECT");
 
 		private final String visibilityDescription;
 
@@ -144,7 +144,7 @@ public class Conversation {
   }
 
   /** Returns the arraylist members of a conversation **/
-  public HashSet<UUID> getMembers() {
+  public HashSet getMembers() {
 		return members;
   }
 
@@ -168,12 +168,12 @@ public class Conversation {
 
   // how to deal with enums??
   // for type and Visibility
-	public Type getConversationType(){
-		return type; //I dont even know if it has a toString method... I dont think so.
+	public String getConversationType(){
+		return type.name(); //I dont even know if it has a toString method... I dont think so.
 	}
 
-	public Visibility getConversationVisibility(){
-		return visibility;
+	public String getConversationVisibility(){
+		return visibility.name();
 	}
 
 	public String getAvatarImageURL() {
@@ -222,6 +222,17 @@ public class Conversation {
 
 	public HashSet getVoters(){
 		return haveVoted;
+	}
+
+	//returns true if the user is allowed to view this group message
+	public boolean isAccessAllowed(UUID id){
+		// doing this by User's UUID
+		for(UUID iterableUser : members){
+			if(iterableUser.equals(id)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void upVote(UUID id){

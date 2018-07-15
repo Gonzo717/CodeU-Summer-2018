@@ -17,6 +17,8 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.util.Arrays;
+import java.util.List;
 import org.javatuples.Pair;
 import java.util.HashSet;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +40,9 @@ public class Message {
   private final Instant creationTime;
 	private HashSet<UUID> haveVoted;
 	private int totalPoints;
+	private String text;
+	private BlobKey blob;
+	private BlobKey media;
 
   /**
    * Constructs a new Message.
@@ -51,6 +56,7 @@ public class Message {
 	 * @param totalPoints the net points for a given message
 	 * @param haveVoted a HashSet containing the UUID objects of the Users that have voted
    */
+
   public Message(UUID id, UUID conversation, UUID author, Pair content, Instant creationTime) {
     this.id = id;
     this.conversation = conversation;
@@ -59,9 +65,12 @@ public class Message {
 		this.content = content;
 		this.haveVoted = new HashSet<UUID>();
 		this.totalPoints = 0;
+		this.text = (String) content.getValue0();
+		this.blob = (BlobKey) content.getValue1();
 
-		String text = (String) content.getValue0();
-		BlobKey media = (BlobKey) content.getValue1();
+		if(blob != null){
+			media = blob;
+		}
 
 		if(text == null && media != null){
 			this.messageType = "media";
@@ -81,6 +90,10 @@ public class Message {
     return id;
   }
 
+	public String getMessageType(){
+		return messageType;
+	}
+
   /** Returns the ID of the Conversation this Message belongs to. */
   public UUID getConversationId() {
     return conversation;
@@ -92,12 +105,12 @@ public class Message {
   }
 
 	public String getText() {
-		return (String) content.getValue0();
+		return text;
 	}
 
 	public BlobKey getMedia() {
 		//I still dunno how to get a blob? como?
-		return (BlobKey) content.getValue1();
+		return media;
 	}
 
   public Pair getContent() {
@@ -129,6 +142,28 @@ public class Message {
 			haveVoted.remove(id);
 		}
 	}
+
+	public String getEncodedPair(){
+		//returns a String containing <Text, Blobkey> as a long string
+		String blob = null;
+
+		if(media != null){
+			blob = media.getKeyString();
+		}
+
+		String pairContents = text + "," + blob;
+		return pairContents;
+	}
+
+	// public Pair getDecodedPair(String pairContents){
+	// 	List<String> contentsList = Arrays.asList(pairContents.split(","));
+	//
+	// 	BlobKey media = new BlobKey(contentsList.get(1));
+	// 	Pair contents = new Pair<String, BlobKey>(contentsList.get(0), media);
+	// 	contents.setAt0(contentsList.get(0));
+	// 	contents.setAt1(media);
+	// 	return contents;
+	// }
 
 	public int getTotalPoints(){
 		return totalPoints;

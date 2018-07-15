@@ -142,15 +142,14 @@ public class ConversationServlet extends HttpServlet {
       return;
     }
 
-    User user = userStore.getUser(username);
-
-    if (user == null) {
+		if (username == null) {
       // user was not found, don't let them create a conversation
       System.out.println("User not found: " + username);
       response.sendRedirect("/conversations");
       return;
     }
 
+    User user = userStore.getUser(username);
 		/* This bit here now deals with the issue of creating a Conversation Title
 		 *
 		 * This'll be split 3 ways: 1. in a PUBLIC conversation, the convoTitle will be specified upon creation
@@ -188,9 +187,15 @@ public class ConversationServlet extends HttpServlet {
 			 conversationType = Type.HYBRID;
 		 }
 
-		 String timeString = request.getParameter("validTimeString");
+		 String timeString = request.getParameter("conversationValidTime");
 		 //so can be FOREVER, 3 hour, 4 day, 23 sec, 4 min. So i'll have to parse it very specifically
-		 ChronoUnit validTime = ChronoUnit.valueOf(timeString);
+		 ChronoUnit validTime = null;
+		 if(timeString != null){
+			 validTime = ChronoUnit.valueOf(timeString);
+		 } else{
+			 validTime = ChronoUnit.DECADES;
+		 }
+		 // ChronoUnit validTime = ChronoUnit.valueOf(timeString);
 		 HashSet<UUID> members = new HashSet<UUID>();
 		 String conversationDescription = (String) request.getParameter("conversationDescription");
 		 members.add(user.getId());
@@ -282,26 +287,10 @@ public class ConversationServlet extends HttpServlet {
 																										conversationDescription );
 			conversationStore.addConversation(conversation);
 			request.setAttribute("conversation", conversation);
-			response.sendRedirect("/chat/" + conversationTitle);
+			// response.sendRedirect("/chat/" + conversationTitle);
 
-	// if(request.getParameter("group") != null){
-	// 	//create a Private Group Message
-	// 	HashSet<User> users = new HashSet<User>();
-	// 	String name = (String) request.getSession().getAttribute("user");
-	// 	User addUser = userStore.getUser(name);
-	// 	users.add(addUser);
-  //   Group group = new Group(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now(), users);
-	// 	request.setAttribute("group", group);
-	// 	groupConversationStore.addGroup(group);
-	// 	response.sendRedirect("/chat/" + conversationTitle);
-	// }else if(request.getParameter("conversation") != null){
-	// 	//Create a public Conversation
-	// 	Conversation conversation = new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
-	// 	conversationStore.addConversation(conversation);
-	// 	request.setAttribute("conversation", conversation);
-	// 	// adds convo activity to ActivityStore
-	// 	Activity convoAct = new Activity("newConvo", UUID.randomUUID(), user.getId(), conversation.getCreationTime());
-	// 	activityStore.addActivity(convoAct);
-		response.sendRedirect("/chat/" + conversationTitle);
+			Activity convoAct = new Activity("newConvo", UUID.randomUUID(), user.getId(), conversation.getCreationTime());
+			activityStore.addActivity(convoAct);
+			response.sendRedirect("/chat/" + conversationTitle);
 	}
 }

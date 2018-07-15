@@ -105,7 +105,7 @@ public class ConversationStore {
 	public ArrayList getPrivateConversationsWithUser(UUID user){
 		ArrayList<Conversation> userConversations = new ArrayList<Conversation>();
 		for(Conversation conversation : conversations){
-			if(!(conversation.getConversationVisibility() == Visibility.PUBLIC)){
+			if(!(Visibility.valueOf(conversation.getConversationVisibility()) == Visibility.PUBLIC)){
 				if(conversation.getMembers().contains(user)){
 					userConversations.add(conversation);
 				}

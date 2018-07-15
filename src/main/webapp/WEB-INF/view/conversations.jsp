@@ -132,17 +132,100 @@
 		    <% if(request.getSession().getAttribute("user") != null){ %>
 		      <h1>New Conversation</h1>
 		      <form action="/conversations" method="POST" enctype="multipart/form-data">
-				  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-					  <input class="mdl-textfield__input" type="text" name="username" id="username">
-					  <label class="mdl-textfield__label" for="sample3">Conversation Title...</label>
-						<input type="file" name="avatarImage/<%=conversationTitle%>">
-				  </div>
-		          <%-- <div class="form-group">
-		            <label class="form-control-label">Title:</label>
-		          <input type="text" name="conversationTitle">
-		          </div> --%>
-				<button name="conversation" value="conversation" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
-		        <%-- <button type="submit" name="conversation" value="conversation">Create</button> --%>
+					  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						  <input class="mdl-textfield__input" type="text" name="conversationTitle" id="title">
+						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
+						</div>
+						</br>
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="conversationType" id="type">
+							<label class="mdl-textfield__label" for="sample3">Type...</label>
+						</div>
+						</br>
+						<!-- ALL THE OPTIONS FOR VISIBILITY -->
+						<h3>Select Conversation Visibility: </h3>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="DIRECT">
+						  <input checked class="mdl-radio__button" id="DIRECT" name="DIRECT" type="radio" value="on">
+						  <span class="mdl-radio__label">Direct Message</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="PUBLIC">
+						  <input class="mdl-radio__button" id="PUBLIC" name="PUBLIC" type="radio" value="off">
+						  <span class="mdl-radio__label">Public Conversation</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="GROUP">
+						  <input class="mdl-radio__button" id="GROUP" name="GROUP" type="radio" value="auto">
+						  <span class="mdl-radio__label">Group Message</span>
+						</label>
+						<%-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="conversationVisibility" id="visibility">
+							<label class="mdl-textfield__label" for="sample3">Visibility...</label>
+						</div> --%>
+
+						</br>
+						<!-- THE DROPDOWN FOR THE VALID TIME -->
+						<h3>Select Valid Time for the Conversation: </h3>
+						<!-- DROPDOWN FOR THE NUMBERS -->
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+				        <input type="text" value="" class="mdl-textfield__input" id="conversationValidTimeUnit" readonly>
+				        <input type="hidden" value="" name="conversationValidTimeUnit">
+				        <label for="conversationValidTimeUnit" class="mdl-textfield__label">Digit</label>
+				        <ul for="conversationValidTimeUnit" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+				            <li class="mdl-menu__item" data-val="1">1</li>
+				            <li class="mdl-menu__item" data-val="2">2</li>
+				            <li class="mdl-menu__item" data-val="3">3</li>
+										<li class="mdl-menu__item" data-val="4">4</li>
+				            <li class="mdl-menu__item" data-val="5">5</li>
+				            <li class="mdl-menu__item" data-val="6">6</li>
+										<li class="mdl-menu__item" data-val="7">7</li>
+				            <li class="mdl-menu__item" data-val="8">8</li>
+				            <li class="mdl-menu__item" data-val="9">9</li>
+										<li class="mdl-menu__item" data-val="10">10</li>
+				        </ul>
+				    </div>
+						<!-- DROPDOWN FOR THE CHRONOUNITS -->
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+				        <input type="text" value="" class="mdl-textfield__input" id="conversationValidTimeChronoUnit" readonly>
+				        <input type="hidden" value="" name="conversationValidTimeChronoUnit">
+				        <label for="conversationValidTimeChronoUnit" class="mdl-textfield__label">Unit of Time</label>
+				        <ul for="conversationValidTimeChronoUnit" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+										<li class="mdl-menu__item" data-val="DECADES">Forever</li>
+				            <li class="mdl-menu__item" data-val="SECONDS">Seconds</li>
+				            <li class="mdl-menu__item" data-val="MINUTES">Minutes</li>
+				            <li class="mdl-menu__item" data-val="HOURS">Hours</li>
+										<li class="mdl-menu__item" data-val="DAYS">Days</li>
+										<li class="mdl-menu__item" data-val="WEEKS">Weeks</li>
+										<li class="mdl-menu__item" data-val="MONTHS">Months</li>
+										<li class="mdl-menu__item" data-val="YEARS">Years</li>
+				        </ul>
+				    </div>
+
+						</br>
+						<!-- Pre-selected value -->
+						    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
+						        <input type="text" value="" class="mdl-textfield__input" id="sample6" readonly>
+						        <input type="hidden" value="" name="sample6">
+						        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+						        <label for="sample6" class="mdl-textfield__label">Country</label>
+						        <ul for="sample6" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+						            <li class="mdl-menu__item" data-val="BY" data-selected="true">Belarus</li>
+						            <li class="mdl-menu__item" data-val="BR">Brazil</li>
+						            <li class="mdl-menu__item" data-val="ES">Estonia</li>
+						            <li class="mdl-menu__item" data-val="FI">Finland</li>
+						            <li class="mdl-menu__item" data-val="FR">France</li>
+						            <li class="mdl-menu__item" data-val="DE">Germany</li>
+						            <li class="mdl-menu__item" data-val="PL">Poland</li>
+						            <li class="mdl-menu__item" data-val="RU">Russia</li>
+						        </ul>
+						    </div>
+
+						</br>
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="conversationDescription" id="description">
+							<label class="mdl-textfield__label" for="description">Short Description...</label>
+						</div>
+						</br>
+						<button name="conversation" value="conversation" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
 		      </form>
 
 			  <form action="/conversations" method="POST">

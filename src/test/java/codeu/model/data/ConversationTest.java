@@ -35,7 +35,7 @@ public class ConversationTest {
 		Type type = Type.TEXT;
 		Visibility visibility = Visibility.PUBLIC;
 		String avatarImageURL = "fakeURL";
-		ChronoUnit validTime = ChronoUnit.FOREVER;
+		ChronoUnit validTime = ChronoUnit.DECADES;
 		String description = "fake :D";
 
 
@@ -48,8 +48,8 @@ public class ConversationTest {
     Assert.assertEquals(title, conversation.getTitle());
     Assert.assertEquals(creation, conversation.getCreationTime());
 		Assert.assertEquals(members, conversation.getMembers());
-		Assert.assertEquals(type, conversation.getConversationType());
-		Assert.assertEquals(visibility, conversation.getConversationVisibility());
+		Assert.assertEquals(type, Type.valueOf(conversation.getConversationType()));
+		Assert.assertEquals(visibility, Visibility.valueOf(conversation.getConversationVisibility()));
 		Assert.assertEquals(avatarImageURL, conversation.getAvatarImageURL());
 		Assert.assertEquals(validTime, conversation.getValidTime());
 		Assert.assertEquals(description, conversation.getDescription());
