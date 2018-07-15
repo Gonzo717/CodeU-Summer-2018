@@ -44,7 +44,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 		  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">Trill</span>
+				<span class="mdl-layout-title">YACA</span>
 				<!-- Image card -->
 					  <!-- Add spacer, to align navigation to the right in desktop -->
 				<div class="android-header-spacer mdl-layout-spacer"></div>

@@ -18,7 +18,7 @@
 <html>
 <head>
 
-	<title>Trill</title>
+	<title>YACA</title>
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -30,13 +30,10 @@
 	  display: inline-block;
 	}
 	.page-content{
-		padding-top: 50px;
-		margin-left: 8.33%;
-	    margin-right: 8.33%;
-	    width: 800px;
+
 	}
+
 	#view-source {
-	  position: fixed;
 	  display: block;
 	  right: 0;
 	  bottom: 0;
@@ -52,7 +49,7 @@
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 		<div class="mdl-layout__header-row">
-			<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">Trill</span></a>
+			<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">YACA</span></a>
 			<!-- Image card -->
 				  <!-- Add spacer, to align navigation to the right in desktop -->
 			<div class="android-header-spacer mdl-layout-spacer"></div>
@@ -99,30 +96,49 @@
 			</div>
 		</div>
 	</div>
-	<main class="mdl-layout__content">
-		<div class="page-content">
-			<div class="mdl-cell--stretch">
-			    <div
-			      style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
-				  <div class="mdl-layout__title">
-						<h1>CodeU Summer 2018</h1>
-				  </div>
-			      <h2>Welcome to our glorious app</h2>
-			      <h3>Powered by JavaChips</h3>
-			      <ul class="mdl-list">
-			        <li class="mdl-list__item"><a href="/login">Login</a> to begin chatting</li>
-			        <li class="mdl-list__item">
-						<span>
 
-						Go to the <a href="/conversations">conversations</a> page to
-			            create or join a conversation.
-						</span>
-					</li>
-			        <li class="mdl-list__item">View the <a href="/about.jsp">about</a> page to learn more about the
-			            project and its devs.</li>
-			      </ul>
-			  	</div>
-		  	</div>
+	<!--Main content starts here-->
+	<main class="mdl-layout__content">
+			<div class="mdl-grid">
+				<div class="page-content mdl-cell mdl-cel--2-col">
+					<div class="mdl-layout__title">
+						<br><br><br>
+						<h3>Welcome to YACA</h3>
+					</div>
+					<br>
+					<div class="mdl-layout__title">
+							YACA was developed for the Google CodeU Summer program by our team, JavaChips. Meet the JavaChips team&nbsp<a class="mdl-color-text--cyan" href="/about.jsp">here</a>.
+							<br>
+							Our goal was not only to develop a web chat app for the CodeU program, but also to enhance the chat user experience by providing a new conversational
+							organization to chats. Some of these feature are outlined below and are currently being implemented by the JavaChips team!
+					</div>
+							<ul class="mdl-list">
+								<li class="mdl-list__item">Chat threads - Talk about any subject with a large amount of people in a forum-like chat.</li>
+								<li class="mdl-list__item">Conversation tagging - Organize and search for conversations based on tags that describe them.</li>
+								<li class="mdl-list__item">Disappearing chat threads and subconversations -
+									Does your group chat ever get off topic which results in an infinite amount of scrolling to figure out what happened while you were gone?
+									With disappearing subconversations, you never need to worry about it again! Subconversations allow for group conversations to separate topics into a
+									disappearing chat thread. After the chat disappears, a summery of the conversation is made so you don't have to worry about what you missed.
+								</li>
+								<li class="mdl-list__item">Unique talk only feature - Have fun conversations by limiting what type of messages users can send. Have a conversation in exclusively gifs
+									or images-or even limit word usage to one word. Watch the creative madness unroll!
+								</li>
+
+					</div>
+
+					<div class="page-content mdl-cell mdl-cel--2-col">
+						<br><br><br>
+				    <ul class="mdl-list">
+				       <li class="mdl-list__item"><a class="mdl-color-text--cyan" href="/login">Login </a>&nbsp to begin chatting</li>
+				       <li class="mdl-list__item"><span>
+								Go to the &nbsp<a class="mdl-color-text--cyan" href="/conversations">conversations</a>&nbsp page to
+			          create or join a conversation.
+							</span>
+							</li>
+			        <li class="mdl-list__item">View the &nbsp<a class="mdl-color-text--cyan" href="/about.jsp">about</a>&nbsp page to learn more about the JavaChips team.</li>
+				    </ul>
+					</div>
+			  </div>
 	  	</div>
 	</main>
 </body>

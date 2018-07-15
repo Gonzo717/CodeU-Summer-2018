@@ -173,7 +173,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				</script>
 
 				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=displayAllowedUsers()>Show Members</button>
-				<a href="" style="float: right;font-size: 29px;">&#8635;</a></h1>
+				<a href="" style="float: right">
+					<i class="material-icons mdl-list__item-avatar">autorenew</i>
+				</a></h1>
 				<style>
 				#display-allowed-users{
 					font-size: 8;
@@ -215,7 +217,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 								<li class="mdl-list__item">
 									<span class="mdl-list__item-primary-content">
 										<i class="material-icons mdl-list__item-avatar">person</i>
-										<a href="/user/<%=removeUsername%>"><%= removeUsername %></a>
+										<a class="mdl-color-text--cyan" href="/user/<%=removeUsername%>"><%= removeUsername %></a>
 									</span>
 									<span class="mdl-list__item-secondary-action">
 										<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
@@ -244,7 +246,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 									<li class="mdl-list__item">
 										<span class="mdl-list__item-primary-content">
 											<i class="material-icons mdl-list__item-avatar">person_add</i>
-											<a href="/user/<%=addUsername%>"><%= addUsername %></a>
+											<a class="mdl-color-text--cyan" href="/user/<%=addUsername%>"><%= addUsername %></a>
 										</span>
 										<span class="mdl-list__item-secondary-action">
 											<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="addMembers">

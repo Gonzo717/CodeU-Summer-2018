@@ -25,7 +25,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Trill</title>
+	<title>YACA</title>
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -59,7 +59,7 @@
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 		<div class="mdl-layout__header-row">
-			<span class="mdl-layout-title">Trill</span>
+			<span class="mdl-layout-title">YACA</span>
 			<!-- Image card -->
 				  <!-- Add spacer, to align navigation to the right in desktop -->
 			<div class="android-header-spacer mdl-layout-spacer"></div>
@@ -116,7 +116,7 @@
 		<div class="page-content">
 		  <div id="container">
 		    <% if ((request.getSession().getAttribute("user") == null) && (request.getSession().getAttribute("admin") == null)){ %>
-		       <h3 class="mdl-typography--text-center mdl-typography--display-1" >
+		       <h3 class="mdl-typography--display-1" >
 				   Login to start a conversation
 			       </br>
 				   <a class="mdl-navigation__link" href="/login">
@@ -249,7 +249,7 @@
 		    }
 		    else if(conversations != null){
 		    %>
-		      <ul class="mdl-list">
+		      <ul class="mdl-list--text-center">
 		    <% //Display 10 conversations at a time
 		    for(Conversation conversation : conversations){
 		    %>

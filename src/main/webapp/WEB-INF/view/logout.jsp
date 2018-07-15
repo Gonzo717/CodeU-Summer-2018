@@ -16,17 +16,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Trill</title>
+	<title>YACA</title>
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
-<% 	System.out.println("WE ARE LOGGIN OUT!");
+<% 	System.out.println("WE ARE LOGGING OUT!");
 	request.getSession().invalidate();
 	response.sendRedirect("/index.jsp"); %>
 
 </body>
 </html>
-
-
-
