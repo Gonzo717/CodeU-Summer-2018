@@ -33,9 +33,10 @@ public class User {
    * @param passwordHash the password hash of this User
    * @param creation the creation time of this User
    */
-  public User(UUID id, String name, String passwordHash, Instant creation) {
+  public User(UUID id, Boolean admin, UUID profileId, String passwordHash, Instant creation) {
     this.id = id;
-    this.name = name;
+    this.admin = admin;
+    this.profileId = profileId
     this.passwordHash = passwordHash;
     this.creation = creation;
   }
@@ -45,9 +46,14 @@ public class User {
     return id;
   }
 
-  /** Returns the username of this User. */
-  public String getName() {
-    return name;
+  /** Returns the type (admin or not) of this User. */
+  public String getType() {
+    return admin;
+  }
+
+  /** Returns the profile UUID of this user. */
+  public UUID getProfileID(){
+    return profileId
   }
 
   /** Returns the password hash of this User. */
@@ -60,13 +66,13 @@ public class User {
     return creation;
   }
 
-  /** adds aboutMe data to User object. */
-  public void setAboutMe(String aboutMe){
-    this.aboutMe = aboutMe;
-  }
+  // /** adds aboutMe data to User object. */
+  // public void setAboutMe(String aboutMe){
+  //   this.aboutMe = aboutMe;
+  // }
 
-  /** Returns aboutMe data of this User. */
-  public String getAboutMe(){
-    return aboutMe;
-  }
-}
+//   /** Returns aboutMe data of this User. */
+//   public String getAboutMe(){
+//     return aboutMe;
+//   }
+// }
