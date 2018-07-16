@@ -87,7 +87,7 @@ public class RegisterServlet extends HttpServlet {
 		}
 		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-		User user = new User(UUID.randomUUID(), username, hashedPassword, Instant.now());
+		User user = new User(UUID.randomUUID(), UUID.randomUUID(), username, hashedPassword, false, Instant.now());
 		userStore.addUser(user);
 
 		// adds user activity to ActivityStore
