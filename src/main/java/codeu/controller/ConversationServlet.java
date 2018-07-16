@@ -169,6 +169,7 @@ public class ConversationServlet extends HttpServlet {
 		 String conversationTitle = request.getParameter("conversationTitle");
 		 String visibility = (String) request.getParameter("conversationVisibility");
 		 Visibility conversationVisibility = null;
+		 System.out.println(visibility);
 		 if(visibility.equals("Public")){
 			 conversationVisibility = Visibility.PUBLIC;
 		 } else if(visibility.equals("Group")){
@@ -179,6 +180,7 @@ public class ConversationServlet extends HttpServlet {
 
 		 String type = (String) request.getParameter("conversationType");
 		 Type conversationType = null;
+		 System.out.println(type);
 		 if(type.equals("Text")){
 			 conversationType = Type.TEXT;
 		 } else if(type.equals("Image")){
@@ -195,10 +197,17 @@ public class ConversationServlet extends HttpServlet {
 		 } else{
 			 validTime = ChronoUnit.DECADES;
 		 }
+
 		 // ChronoUnit validTime = ChronoUnit.valueOf(timeString);
 		 HashSet<UUID> members = new HashSet<UUID>();
 		 String conversationDescription = (String) request.getParameter("conversationDescription");
 		 members.add(user.getId());
+
+		 if(conversationVisibility == null || conversationType == null || validTime == null || conversationDescription == null){
+			 request.setAttribute("error", "Please fill out all fields");
+       request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
+       return;
+		 }
 
 
 		if(conversationTitle == null){
@@ -291,6 +300,7 @@ public class ConversationServlet extends HttpServlet {
 
 			Activity convoAct = new Activity("newConvo", UUID.randomUUID(), user.getId(), conversation.getCreationTime());
 			activityStore.addActivity(convoAct);
+
 			response.sendRedirect("/chat/" + conversationTitle);
 	}
 }

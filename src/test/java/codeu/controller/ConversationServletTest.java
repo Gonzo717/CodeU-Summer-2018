@@ -133,7 +133,9 @@ public class ConversationServletTest {
 		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
 		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
 		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
-		Mockito.when(mockRequest.getParameter("validTimeString")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationValidTime")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationDescription")).thenReturn("fake :D");
+
 
 		User fakeUser =
 				new User(
@@ -159,7 +161,9 @@ public class ConversationServletTest {
 		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
 		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
 		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
-		Mockito.when(mockRequest.getParameter("validTimeString")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationValidTime")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationDescription")).thenReturn("fake :D");
+
 
 		User fakeUser =
 				new User(
@@ -192,7 +196,8 @@ public class ConversationServletTest {
 		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
 		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
 		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
-		Mockito.when(mockRequest.getParameter("validTimeString")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationValidTime")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationDescription")).thenReturn("fake :D");
 
 		Mockito.when(mockConversationStore.isTitleTaken("test_conversation")).thenReturn(false);
 
