@@ -106,7 +106,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 		<div class="mdl-layout__header-row">
-			<span class="mdl-layout-title">Trill</span>
+			<span class="mdl-layout-title">YACA</span>
 				  <!-- Add spacer, to align navigation to the right in desktop -->
 			<div class="android-header-spacer mdl-layout-spacer"></div>
 				<div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
@@ -144,9 +144,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 					</a>
 				</span>
-				<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-					<i class="material-icons">more_vert</i>
-				</button>
 			</div>
 		</div>
 	</div>
