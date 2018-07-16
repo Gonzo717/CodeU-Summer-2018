@@ -74,8 +74,10 @@ public class LoginServletTest {
     User user =
         new User(
             UUID.randomUUID(),
+            UUID.randomUUID(),
             "test username",
             "$2a$10$.e.4EEfngEXmxAO085XnYOmDntkqod0C384jOR9oagwxMnPNHaGLa",
+            false,
             Instant.now());
 
     Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
@@ -102,8 +104,10 @@ public class LoginServletTest {
   User user =
         new User(
             UUID.randomUUID(),
+            UUID.randomUUID(),
             "test username",
             "$2a$10$.e.4EEfngEXmxAO085XnYOmDntkqod0C384jOR9oagwxMnPNHaGLa",
+            false,
             Instant.now());
 
     Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
