@@ -122,8 +122,8 @@
 		      <h1>New Conversation</h1>
 		      <form action="/conversations" method="POST">
 				  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-					  <input class="mdl-textfield__input" type="text" name="username" id="username">
-					  <label class="mdl-textfield__label" for="sample3">Conversation Title...</label>
+					  <input class="mdl-textfield__input" type="text" name="conversationTitle" id="conversationTitle">
+					  <label class="mdl-textfield__label" for="conversationTitle">Conversation Title...</label>
 				  </div>
 		          <%-- <div class="form-group">
 		            <label class="form-control-label">Title:</label>
