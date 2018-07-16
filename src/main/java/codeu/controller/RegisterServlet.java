@@ -16,6 +16,10 @@ import codeu.model.data.Activity;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ActivityStore;
 
+import com.google.appengine.api.datastore.PostPut;
+import com.google.appengine.api.datastore.PutContext;
+import com.google.appengine.api.datastore.Entity;
+
 public class RegisterServlet extends HttpServlet {
 
 	/** Store class that gives access to Users. */
@@ -90,10 +94,22 @@ public class RegisterServlet extends HttpServlet {
 		User user = new User(UUID.randomUUID(), username, hashedPassword, Instant.now());
 		userStore.addUser(user);
 
-		// adds user activity to ActivityStore
-		Activity userAct = new Activity("newUser", UUID.randomUUID(), user.getId(), user.getCreationTime());
-		activityStore.addActivity(userAct);
+		// old way to add user activity to ActivityStore
+		// Activity userAct = new Activity("newUser", UUID.randomUUID(), user.getId(), user.getCreationTime());
+		// activityStore.addActivity(userAct);
 
-		response.sendRedirect("/login");
+		//response.sendRedirect("/login");
+	}
+
+	//PostPut runs when the user datastore has a user put into it
+	@PostPut(kinds = {"chat-users"}) // Only applies to chat-users query
+	void addActivity(PutContext context) {
+		//adds activity into activityStore
+		System.out.println("PostPut running for user register");
+		Entity user = context.getCurrentElement();
+		Activity newAct = new Activity("newUser", UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
+		activityStore.addActivity(newAct); //Line causes website to fail..
+		//response.sendRedirect("/login"); //Must move redirect here
+
 	}
 }
