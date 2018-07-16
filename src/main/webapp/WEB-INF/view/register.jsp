@@ -100,15 +100,6 @@
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 					</a>
 				</span>
-				<%-- <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-					<i class="material-icons">more_vert</i>
-				</button>
-				<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-					<li class="mdl-menu__item">Add something here!</li>
-					<li class="mdl-menu__item">Perhaps another?</li>
-					<li disabled class="mdl-menu__item">Another one</li>
-					<li class="mdl-menu__item">Anotha 1</li>
-				</ul> --%>
 			</div>
 		</div>
 	</div>
