@@ -19,6 +19,7 @@ import codeu.model.data.User;
 import codeu.model.data.Group;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ActivityStore;
@@ -186,7 +187,7 @@ public class ConversationServlet extends HttpServlet {
     //adds activity into activityStore
     System.out.println("PostPut running for new conversation");
     Entity user = context.getCurrentElement();
-    Activity newAct = new Activity("newConvo", UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
+    Activity newAct = new Activity(ActivityType.CONVERSATION, UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
     activityStore.addActivity(newAct);
     //Want to move redirect here because or else, website freezes
     //response.sendRedirect("/chat/" + conversationTitle);

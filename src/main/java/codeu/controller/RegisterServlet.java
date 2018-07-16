@@ -13,6 +13,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ActivityStore;
 
@@ -95,21 +96,21 @@ public class RegisterServlet extends HttpServlet {
 		userStore.addUser(user);
 
 		// old way to add user activity to ActivityStore
-		// Activity userAct = new Activity("newUser", UUID.randomUUID(), user.getId(), user.getCreationTime());
-		// activityStore.addActivity(userAct);
+		Activity userAct = new Activity(ActivityType.USER, UUID.randomUUID(), user.getId(), user.getCreationTime());
+		activityStore.addActivity(userAct);
 
-		//response.sendRedirect("/login");
+		response.sendRedirect("/login");
 	}
 
 	//PostPut runs when the user datastore has a user put into it
 	@PostPut(kinds = {"chat-users"}) // Only applies to chat-users query
 	void addActivity(PutContext context) {
-		//adds activity into activityStore
-		System.out.println("PostPut running for user register");
-		Entity user = context.getCurrentElement();
-		Activity newAct = new Activity("newUser", UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
-		activityStore.addActivity(newAct); //Line causes website to fail..
-		//response.sendRedirect("/login"); //Must move redirect here
+		// //adds activity into activityStore
+		// System.out.println("PostPut running for user register");
+		// Entity user = context.getCurrentElement();
+		// Activity newAct = new Activity(ActivityType.USER, UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
+		// activityStore.addActivity(newAct); //Line causes website to fail..
+		// //response.sendRedirect("/login"); //Must move redirect here
 
 	}
 }

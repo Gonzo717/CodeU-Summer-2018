@@ -21,6 +21,7 @@ import java.util.HashSet;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.MessageStore;
@@ -256,7 +257,7 @@ public class ChatServlet extends HttpServlet {
     //adds activity into activityStore
     System.out.println("PostPut running for new message");
     Entity user = context.getCurrentElement();
-    Activity newAct = new Activity("newMessage", UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
+    Activity newAct = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
     activityStore.addActivity(newAct);
     //Want to move redirect here because or else, website freezes
     //response.sendRedirect("/chat/" + conversationTitle);

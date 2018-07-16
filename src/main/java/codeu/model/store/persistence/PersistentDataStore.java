@@ -18,6 +18,7 @@ import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import codeu.model.data.Group;
 import codeu.model.store.persistence.PersistentDataStoreException;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -207,11 +208,11 @@ public class PersistentDataStore {
 
 		for(Entity entity : results.asIterable()) {
 			try {
-				String type = (String) entity.getProperty("activity_type");
+				ActivityType type = ActivityType.valueOf((String) entity.getProperty("activity_type"));
 				UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
-				UUID owner = UUID.fromString((String) entity.getProperty("owner"));
+				UUID ownerId = UUID.fromString((String) entity.getProperty("ownerId"));
 				Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-				Activity activity = new Activity(type, uuid, owner, creationTime);
+				Activity activity = new Activity(type, uuid, ownerId, creationTime);
 				activities.add(activity);
 			} catch (Exception e) {
 				throw new PersistentDataStoreException(e);
@@ -271,7 +272,7 @@ public class PersistentDataStore {
 	  Entity activityEntity = new Entity("chat-activities", activity.getId().toString());
 	  activityEntity.setProperty("activity_type", activity.getType().toString());
 	  activityEntity.setProperty("uuid", activity.getId().toString());
-	  activityEntity.setProperty("owner", activity.getOwner().toString());
+	  activityEntity.setProperty("ownerId", activity.getOwnerId().toString());
 	  activityEntity.setProperty("creation_time", activity.getCreationTime().toString());
 	  datastore.put(activityEntity);
   }

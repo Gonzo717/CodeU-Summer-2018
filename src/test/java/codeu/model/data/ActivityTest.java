@@ -3,6 +3,7 @@
 package codeu.model.data;
 
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import java.time.Instant;
 import java.util.UUID;
 import org.junit.Assert;
@@ -12,43 +13,43 @@ public class ActivityTest {
 
 	@Test
 	public void testCreateUser() {
-		String type = "newUser";
+		ActivityType type = ActivityType.USER;
 		UUID id = UUID.randomUUID();
-		UUID owner = UUID.randomUUID();
+		UUID ownerId = UUID.randomUUID();
 		Instant creation = Instant.now();
 
-		Activity activity = new Activity(type, id, owner, creation);
+		Activity activity = new Activity(type, id, ownerId, creation);
 		Assert.assertEquals(type, activity.getType());
 		Assert.assertEquals(id, activity.getId());
-		Assert.assertEquals(owner, activity.getOwner());
+		Assert.assertEquals(ownerId, activity.getOwnerId());
 		Assert.assertEquals(creation, activity.getCreationTime());
-	} 
+	}
 
 	@Test
 	public void testCreateConvo() {
-		String type = "newConvo";
+		ActivityType type = ActivityType.CONVERSATION;
 		UUID id = UUID.randomUUID();
-		UUID owner = UUID.randomUUID();
+		UUID ownerId = UUID.randomUUID();
 		Instant creation = Instant.now();
 
-		Activity activity = new Activity(type, id, owner, creation);
+		Activity activity = new Activity(type, id, ownerId, creation);
 		Assert.assertEquals(type, activity.getType());
 		Assert.assertEquals(id, activity.getId());
-		Assert.assertEquals(owner, activity.getOwner());
+		Assert.assertEquals(ownerId, activity.getOwnerId());
 		Assert.assertEquals(creation, activity.getCreationTime());
 	}
-	
+
 	@Test
 	public void testCreateMessage() {
-		String type = "newMessage";
+		ActivityType type = ActivityType.MESSAGE;
 		UUID id = UUID.randomUUID();
-		UUID owner = UUID.randomUUID();
+		UUID ownerId = UUID.randomUUID();
 		Instant creation = Instant.now();
 
-		Activity activity = new Activity(type, id, owner, creation);
+		Activity activity = new Activity(type, id, ownerId, creation);
 		Assert.assertEquals(type, activity.getType());
 		Assert.assertEquals(id, activity.getId());
-		Assert.assertEquals(owner, activity.getOwner());
+		Assert.assertEquals(ownerId, activity.getOwnerId());
 		Assert.assertEquals(creation, activity.getCreationTime());
 	}
 }
