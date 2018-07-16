@@ -21,7 +21,7 @@ import java.util.UUID;
 public class User {
   private final UUID id;
   private final UUID profileId;
-  private final Boolean admin;
+  private final Boolean type;
   private final String name;
   private final String passwordHash;
   private final Instant creation;
@@ -33,15 +33,15 @@ public class User {
    * @param name         the username of this User
    * @param passwordHash the password hash of this User
    * @param creation     the creation time of this User
-   * @param admin        the type of user (admin or not)
+   * @param type        the type of user (admin or not)
    * @param profileId    the ID of this User's profileStore
    */
 
-   public User(UUID id, UUID profileId, String name, String passwordHash, Boolean admin, Instant creation) {
+   public User(UUID id, UUID profileId, String name, String passwordHash, Boolean type, Instant creation) {
     this.id = id;
     this.profileId = profileId;
     this.name = name;
-    this.admin = admin;
+    this.type = type;
     this.passwordHash = passwordHash;
     this.creation = creation;
   }
@@ -56,8 +56,8 @@ public class User {
   /**
    * Returns the type (admin or not) of this User.
    */
-  public String getType() {
-    return admin;
+  public Boolean getType() {
+    return type;
   }
 
   /**
@@ -67,6 +67,12 @@ public class User {
     return profileId;
   }
 
+  /**
+   * Returns the name of this user.
+   */
+  public String getName(){
+    return name;
+  }
   /**
    * Returns the password hash of this User.
    */
