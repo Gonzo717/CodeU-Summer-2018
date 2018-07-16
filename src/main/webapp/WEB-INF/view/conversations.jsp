@@ -122,7 +122,7 @@
 
 		    <% if(request.getSession().getAttribute("user") != null){ %>
 		      <h1>New Conversation</h1>
-		      <form action="/conversations" method="POST" enctype="multipart/form-data">
+		      <form action="/conversations" method="POST">
 					  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 						  <input class="mdl-textfield__input" type="text" name="conversationTitle" id="title">
 						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
@@ -131,15 +131,15 @@
 						<!-- ALL THE OPTIONS FOR TYPE -->
 						<h3>Select Conversation Type: </h3>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="MEDIA">
-						  <input class="mdl-radio__button" id="MEDIA" name="MEDIA" type="radio">
+						  <input type="radio" class="mdl-radio__button" id="MEDIA" name="conversationType" value="Media">Media</input>
 						  <span class="mdl-radio__label">Media Messages Only</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="TEXT">
-						  <input checked class="mdl-radio__button" id="TEXT" name="TEXT" type="radio">
+						  <input type="radio" class="mdl-radio__button" id="TEXT" name="conversationType" value="Text">Text</input>
 						  <span class="mdl-radio__label">Text Only</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="HYBRID">
-						  <input class="mdl-radio__button" id="HYBRID" name="HYBRID" type="radio">
+						  <input type="radio" class="mdl-radio__button" id="HYBRID" name="conversationType" value="Hybrid">Hybrid</input>
 						  <span class="mdl-radio__label">No Restrictions</span>
 						</label>
 
@@ -147,15 +147,15 @@
 						<!-- ALL THE OPTIONS FOR VISIBILITY -->
 						<h3>Select Conversation Visibility: </h3>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="DIRECT">
-						  <input class="mdl-radio__button" id="DIRECT" name="DIRECT" type="radio" value="">
+						  <input class="mdl-radio__button" id="DIRECT" name="conversationVisibility" type="radio" value="Direct">
 						  <span class="mdl-radio__label">Direct Message</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="PUBLIC">
-						  <input checked class="mdl-radio__button" id="PUBLIC" name="PUBLIC" type="radio" value="off">
+						  <input checked class="mdl-radio__button" id="PUBLIC" name="conversationVisibility" type="radio" value="Public">
 						  <span class="mdl-radio__label">Public Conversation</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="GROUP">
-						  <input class="mdl-radio__button" id="GROUP" name="GROUP" type="radio" value="auto">
+						  <input class="mdl-radio__button" id="GROUP" name="conversationVisibility" type="radio" value="Group">
 						  <span class="mdl-radio__label">Group Message</span>
 						</label>
 						<%-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -190,42 +190,24 @@
 				        <input type="hidden" value="" name="conversationValidTime">
 				        <label for="conversationValidTime" class="mdl-textfield__label">Unit of Time</label>
 				        <ul for="conversationValidTime" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-										<option onclick="" class="mdl-menu__item" data-val="DECADES">Forever</option>
-				            <option class="mdl-menu__item" data-val="SECONDS">Seconds</option>
-				            <option class="mdl-menu__item" data-val="MINUTES">Minutes</option>
-				            <option class="mdl-menu__item" data-val="HOURS">Hours</option>
-										<option class="mdl-menu__item" data-val="DAYS">Days</option>
-										<option class="mdl-menu__item" data-val="WEEKS">Weeks</option>
-										<option class="mdl-menu__item" data-val="MONTHS">Months</option>
-										<li class="mdl-menu__item" data-val="YEARS">Years</li>
+										<li class="mdl-menu__item" data-val="DECADES" id="selected">Forever</li>
+				            <li class="mdl-menu__item" data-val="SECONDS" id="selected">Seconds</li>
+				            <li class="mdl-menu__item" data-val="MINUTES" id="selected">Minutes</li>
+				            <li class="mdl-menu__item" data-val="HOURS" id="selected">Hours</li>
+										<li class="mdl-menu__item" data-val="DAYS" id="selected">Days</li>
+										<li class="mdl-menu__item" data-val="WEEKS" id="selected">Weeks</li>
+										<li class="mdl-menu__item" data-val="MONTHS" id="selected">Months</li>
+										<li class="mdl-menu__item" data-val="YEARS" id="selected">Years</li>
 				        </ul>
 				    </div>
 
 						</br>
-
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-				        <input type="text" value="" class="mdl-textfield__input" id="conversationVisibility" readonly>
-				        <input type="hidden" value="" name="conversationVisibility">
-				        <%-- <label for="conversationValidTimeUnit" class="mdl-textfield__label">Digit</label> --%>
-				        <ul for="conversationVisibility" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-				            <li class="mdl-menu__item" data-val="Public">Public</li>
-				            <li class="mdl-menu__item" data-val="Group">Group</li>
-				            <li class="mdl-menu__item" data-val="Direct">Direct</li>
-				        </ul>
-				    </div>
-
-						</br>
-
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
 				        <%-- <input type="text" value="" class="mdl-textfield__input" id="conversationVisibility" readonly>
 				        <input type="hidden" value="" name="conversationVisibility"> --%>
 				        <%-- <label for="conversationVisibility" class="mdl-textfield__label"></label> --%>
-				        <select name="conversationVisibility">
-				            <option value="Public">Public</option>
-				            <option value="Group">Group</option>
-				            <option value="Direct">Direct</option>
-				        </select>
-				    </div>
+							<input type="radio" name="conversationVisibility" value="Public" id="conversationVisibility">Public</input>
+							<input type="radio" name="conversationVisibility" value="Group" id="conversationVisibility">Group</input>
+							<input type="radio" name="conversationVisibility" value="Direct" id="conversationVisibility">Direct</input>
 
 					</br>
 
@@ -234,7 +216,7 @@
 							<label class="mdl-textfield__label" for="description">Short Description...</label>
 						</div>
 						</br>
-						<button name="conversation" value="conversation" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
+					 	<button name="conversationParameters" value="conversationParameters" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
 		      </form>
 
 			  <form action="/conversations" method="POST">

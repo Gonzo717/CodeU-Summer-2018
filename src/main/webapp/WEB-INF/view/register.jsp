@@ -49,19 +49,6 @@
 </head>
 <body>
 
-  <%-- <nav>
-    <a id="navTitle" href="/">Trill</a>
-    <a href="/conversations">Conversations</a>
-    <% if(request.getSession().getAttribute("user") != null) { %>
-      <a>Hello <%= request.getSession().getAttribute("user") %>!</a>
-    <% } else { %>
-      <a href="/login">Login</a>
-    <% } %>
-    <!-- Add login checking for activity feed here -->
-    <a href="/activityfeed">Activity Feed</a>
-    <a href="/about.jsp">About</a>
-</nav> --%>
-
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 		<div class="mdl-layout__header-row">

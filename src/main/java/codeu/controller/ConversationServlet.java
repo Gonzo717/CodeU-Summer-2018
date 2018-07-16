@@ -166,6 +166,8 @@ public class ConversationServlet extends HttpServlet {
 		 //visibility (check button, can only be one!)
 		 //ValidTime: (check button (infinity for never deleted), can only be one!)
 		 // --description-- set to null initially, not needed upon creation but can change later.
+		 String conversationParameters = request.getParameter("conversationParameters");
+		 System.out.println(conversationParameters);
 		 String conversationTitle = request.getParameter("conversationTitle");
 		 String visibility = (String) request.getParameter("conversationVisibility");
 		 Visibility conversationVisibility = null;
@@ -179,6 +181,7 @@ public class ConversationServlet extends HttpServlet {
 		 }
 
 		 String type = (String) request.getParameter("conversationType");
+		 System.out.println(type);
 		 Type conversationType = null;
 		 System.out.println(type);
 		 if(type.equals("Text")){
@@ -189,7 +192,8 @@ public class ConversationServlet extends HttpServlet {
 			 conversationType = Type.HYBRID;
 		 }
 
-		 String timeString = request.getParameter("conversationValidTime");
+		 String timeString = request.getParameter("conversationValidTimeDigit");
+		 System.out.println(timeString);
 		 //so can be FOREVER, 3 hour, 4 day, 23 sec, 4 min. So i'll have to parse it very specifically
 		 ChronoUnit validTime = null;
 		 if(timeString != null){
