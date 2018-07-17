@@ -87,7 +87,7 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 
-		boolean admin = userStore.isUserAdmin(username);
+		boolean admin = user.getType();
 
 		if(admin){
 
