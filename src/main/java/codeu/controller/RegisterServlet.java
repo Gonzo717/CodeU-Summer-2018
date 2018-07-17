@@ -86,12 +86,12 @@ public class RegisterServlet extends HttpServlet {
 			return;
 		}
 		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+		Boolean isAdmin = false;
 
-		if userStore.isUserAdmin(username){
-			Boolean isAdmin = true;
-		} else{
-			Boolean isAdmin = false;
+		if (userStore.isUserAdmin(username)){
+			isAdmin = true;
 		}
+
 		User user = new User(UUID.randomUUID(), UUID.randomUUID(), username, hashedPassword, isAdmin, Instant.now());
 		userStore.addUser(user);
 
