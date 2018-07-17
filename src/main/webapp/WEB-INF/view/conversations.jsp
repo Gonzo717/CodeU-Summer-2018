@@ -166,48 +166,14 @@
 						</br>
 						<!-- THE DROPDOWN FOR THE VALID TIME -->
 						<h3>Select Valid Time for the Conversation: </h3>
-						<!-- DROPDOWN FOR THE NUMBERS -->
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-				        <input type="text" value="" class="mdl-textfield__input" id="conversationValidTimeDigit" readonly>
-				        <input type="hidden" name="conversationValidTimeDigi">
-								<label for="conversationValidTimeDigit" class="mdl-textfield__label">Digit</label>
-				        <ul for="conversationValidTimeDigit" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-										<li class="mdl-menu__item" data-val="1">1</li>
-				            <li class="mdl-menu__item" data-val="2">2</li>
-				            <li class="mdl-menu__item" data-val="3">3</li>
-										<li class="mdl-menu__item" data-val="4">4</li>
-				            <li class="mdl-menu__item" data-val="5">5</li>
-				            <li class="mdl-menu__item" data-val="6">6</li>
-										<li class="mdl-menu__item" data-val="7">7</li>
-				            <li class="mdl-menu__item" data-val="8">8</li>
-				            <li class="mdl-menu__item" data-val="9">9</li>
-										<li class="mdl-menu__item" data-val="10">10</li>
-				        </ul>
-				    </div>
-
-						<!-- DROPDOWN FOR THE CHRONOUNITS -->
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-				        <input type="text" value="" class="mdl-textfield__input" id="conversationValidTimeUni" readonly>
-				        <input type="hidden" value="conversationValidTimeUni" name="conversationValidTimeUni">
-				        <label for="conversationValidTimeUni" class="mdl-textfield__label">Unit of Time</label>
-				        <ul for="conversationValidTimeUni" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-										<li class="mdl-menu__item" data-val="DECADES" id="selected">Forever</li>
-				            <li class="mdl-menu__item" data-val="SECONDS" id="selected">Seconds</li>
-				            <li class="mdl-menu__item" data-val="MINUTES" id="selected">Minutes</li>
-				            <li class="mdl-menu__item" data-val="HOURS" id="selected">Hours</li>
-										<li class="mdl-menu__item" data-val="DAYS" id="selected">Days</li>
-										<li class="mdl-menu__item" data-val="WEEKS" id="selected">Weeks</li>
-										<li class="mdl-menu__item" data-val="MONTHS" id="selected">Months</li>
-										<li class="mdl-menu__item" data-val="YEARS" id="selected">Years</li>
-				        </ul>
-				    </div>
 
 				</br>
 				<label for="conversationValidTimeDigit" class="mdl-textfield__label">Digit</label>
 				<select name="conversationValidTimeDigit">
+					<option selected value="1000000">inf</option>
 					<option value="1">1</option>
 			    <option value="2">2</option>
-			    <option value="3" selected>3</option>
+			    <option value="3">3</option>
 			    <option value="4">4</option>
 					<option value="5">5</option>
 					<option value="6">6</option>
@@ -219,13 +185,11 @@
 
 				<label for="conversationValidTimeUnit" class="mdl-textfield__label">Unit of Time</label>
 				<select name="conversationValidTimeUnit">
-					<option value="DECADES" selected>Forever</option>
+					<option value="DAYS" selected>Forever</option>
 					<option value="SECONDS">Seconds</option>
 					<option value="MINUTES">Minutes</option>
 					<option value="HOURS">Hours</option>
 					<option value="DAYS">Days</option>
-					<option value="WEEKS">Weeks</option>
-					<option value="MONTHS">Months</option>
 				</select>
 			</br>
 
@@ -237,10 +201,10 @@
 					 	<button name="conversationParameters" value="conversationParameters" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
 		      </form>
 
-			  <form action="/conversations" method="POST">
+			  <%-- <form action="/conversations" method="POST">
 				  <h1>Group Message</h1>
 				  <button type="submit" name="group" value="group">Private Group</button>
-			   </form>
+			   </form> --%>
 		      <hr/>
 		    <% } %>
 

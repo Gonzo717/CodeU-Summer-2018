@@ -205,10 +205,12 @@ public class ConversationServlet extends HttpServlet {
 			 validTimeChronoUnit = ChronoUnit.DECADES;
 		 }
 
-		 // ChronoUnit validTime = ChronoUnit.valueOf(timeString);
 		 HashSet<UUID> members = new HashSet<UUID>();
 		 String conversationDescription = (String) request.getParameter("conversationDescription");
-		 members.add(user.getId());
+
+		 if(!(visibility.equals("Public"))){ // This denotes the visibility is Group or Direct
+			 members.add(user.getId());
+		 }
 
 		 if(conversationVisibility == null || conversationType == null || validTime == null || conversationDescription == null){
 			 request.setAttribute("error", "Please fill out all fields");

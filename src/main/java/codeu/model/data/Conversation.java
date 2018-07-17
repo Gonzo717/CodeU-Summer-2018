@@ -111,8 +111,13 @@ public class Conversation {
     this.ownerId = ownerId;
     this.title = title;
 		this.creationTime = creationTime;
-		this.members = members;
 		this.type = type;
+		if(type.toString().equals("PUBLIC")){
+			this.members = new HashSet<>(); // an empty HashSet signifying everyone is included
+			members.add(UUID.fromString("PUBLIC"));
+		} else {
+			this.members = members;
+		}
 		this.visibility = visibility;
 		this.avatarImageURL = avatarImageURL;
 		this.isActive = true;
@@ -238,6 +243,10 @@ public class Conversation {
 	//returns true if the user is allowed to view this group message
 	public boolean isAccessAllowed(UUID id){
 		// doing this by User's UUID
+		UUID pub = UUID.fromString("PUBLIC");
+		if(members.contains(pub)){
+			return true;
+		}
 		for(UUID iterableUser : members){
 			if(iterableUser.equals(id)) {
 				return true;
