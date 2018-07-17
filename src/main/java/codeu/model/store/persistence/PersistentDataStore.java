@@ -211,8 +211,9 @@ public class PersistentDataStore {
 				ActivityType type = ActivityType.valueOf((String) entity.getProperty("activity_type"));
 				UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
 				UUID ownerId = UUID.fromString((String) entity.getProperty("ownerId"));
+        UUID activityId = UUID.fromString((String) entity.getProperty("activityId"));
 				Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-				Activity activity = new Activity(type, uuid, ownerId, creationTime);
+				Activity activity = new Activity(type, uuid, ownerId, activityId, creationTime);
 				activities.add(activity);
 			} catch (Exception e) {
 				throw new PersistentDataStoreException(e);
@@ -273,6 +274,7 @@ public class PersistentDataStore {
 	  activityEntity.setProperty("activity_type", activity.getType().toString());
 	  activityEntity.setProperty("uuid", activity.getId().toString());
 	  activityEntity.setProperty("ownerId", activity.getOwnerId().toString());
+    activityEntity.setProperty("activityId", activity.getActivityId().toString());
 	  activityEntity.setProperty("creation_time", activity.getCreationTime().toString());
 	  datastore.put(activityEntity);
   }

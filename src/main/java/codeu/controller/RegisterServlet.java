@@ -96,7 +96,7 @@ public class RegisterServlet extends HttpServlet {
 		userStore.addUser(user);
 
 		// old way to add user activity to ActivityStore
-		Activity userAct = new Activity(ActivityType.USER, UUID.randomUUID(), user.getId(), user.getCreationTime());
+		Activity userAct = new Activity(ActivityType.USER, UUID.randomUUID(), user.getId(), user.getId(), user.getCreationTime());
 		activityStore.addActivity(userAct);
 
 		response.sendRedirect("/login");
@@ -105,12 +105,12 @@ public class RegisterServlet extends HttpServlet {
 	//PostPut runs when the user datastore has a user put into it
 	@PostPut(kinds = {"chat-users"}) // Only applies to chat-users query
 	void addActivity(PutContext context) {
-		// //adds activity into activityStore
-		// System.out.println("PostPut running for user register");
+		//adds activity into activityStore
+		System.out.println("PostPut running for user register");
 		// Entity user = context.getCurrentElement();
-		// Activity newAct = new Activity(ActivityType.USER, UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
-		// activityStore.addActivity(newAct); //Line causes website to fail..
-		// //response.sendRedirect("/login"); //Must move redirect here
+		// Activity newActivity = new Activity(ActivityType.USER, UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
+		// activityStore.addActivity(newActivity); //Line causes website to fail..
+		//response.sendRedirect("/login"); //Must move redirect here
 
 	}
 }

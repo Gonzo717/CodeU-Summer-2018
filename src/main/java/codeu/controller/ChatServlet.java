@@ -251,14 +251,18 @@ public class ChatServlet extends HttpServlet {
     // redirect to a GET request
   }
 
+  /*****************
+  Fix constructor for message
+  *****************/
+
   //PostPut runs when the messages datastore has a message put into it
   @PostPut(kinds = {"chat-messages"}) // Only applies to chat-messages query
   void addActivity(PutContext context) {
     //adds activity into activityStore
     System.out.println("PostPut running for new message");
-    Entity user = context.getCurrentElement();
-    Activity newAct = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
-    activityStore.addActivity(newAct);
+    Entity message = context.getCurrentElement();
+    Activity newActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), UUID.fromString((String) message.getProperty("uuid")), UUID.fromString((String) message.getProperty("uuid")), Instant.parse((String) message.getProperty("creation_time")));
+    activityStore.addActivity(newActivity);
     //Want to move redirect here because or else, website freezes
     //response.sendRedirect("/chat/" + conversationTitle);
   }

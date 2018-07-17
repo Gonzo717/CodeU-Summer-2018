@@ -31,8 +31,9 @@ public class Activity {
 	};
 
 	public final ActivityType type;
-	public final UUID id; //id of activity
+	public final UUID id; //id of this activity object
 	public final UUID ownerId; //user that "owns" this activity
+	public final UUID activityId; //id of the new user/convo/msg
 	public final Instant creation;
 
 	/*
@@ -42,10 +43,11 @@ public class Activity {
 	* @param id is the ID of who ever made the activity
 	* @param creation is the creation time of this activity
 	*/
-	public Activity(ActivityType type, UUID id, UUID ownerId, Instant creation) {
+	public Activity(ActivityType type, UUID id, UUID ownerId, UUID activityId, Instant creation) {
 		this.type = type;
 		this.id = id;
 		this.ownerId = ownerId;
+		this.activityId = activityId;
 		this.creation = creation;
 
 	}
@@ -63,6 +65,10 @@ public class Activity {
 	/* Returns the ID of the user who has initiated tha activity */
 	public UUID getOwnerId() {
 		return ownerId;
+	}
+
+	public UUID getActivityId() {
+		return activityId;
 	}
 
 	/* Returns the creation time of this activity */
