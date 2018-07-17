@@ -94,7 +94,7 @@ public class PersistentDataStoreTest {
 		Type type = Type.TEXT;
 		Visibility visibility = Visibility.PUBLIC;
 		String avatarImageURL = "fakeURL";
-		ChronoUnit validTime = ChronoUnit.DECADES;
+		String validTime = "4/SECONDS";
 		String description = "fake :D";
 		Conversation inputConversationOne = new Conversation(idOne, ownerOne, titleOne, creationOne,
 																													members, type, visibility, avatarImageURL,

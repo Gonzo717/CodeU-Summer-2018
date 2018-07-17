@@ -18,6 +18,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.UUID;
 import java.io.Serializable;
@@ -75,7 +77,7 @@ public class Conversation {
   public final Visibility visibility;
   public String avatarImageURL;
   public boolean isActive;
-  public final ChronoUnit validTime;
+  public final String validTime;
   public final Instant deletionInstant;
   public int totalPoints;
   public String description;
@@ -103,7 +105,7 @@ public class Conversation {
    */
   public Conversation(UUID id, UUID ownerId, String title, Instant creationTime,
   						HashSet<UUID> members, Type type, Visibility visibility,
-					 		String avatarImageURL, ChronoUnit validTime, String description) {
+					 		String avatarImageURL, String validTime, String description) {
 
     this.id = id;
     this.ownerId = ownerId;
@@ -115,7 +117,16 @@ public class Conversation {
 		this.avatarImageURL = avatarImageURL;
 		this.isActive = true;
 		this.validTime = validTime;
-		this.deletionInstant = creationTime.plus(validTime.getDuration());
+
+		List<String> timeList = Arrays.asList(validTime.split("/"));
+		long timeDigit = Long.parseLong(timeList.get(0));
+		ChronoUnit timeUnit = ChronoUnit.valueOf(timeList.get(1).toUpperCase());
+		if(timeList.get(1).toUpperCase() == "MONTHS" || timeList.get(1).toUpperCase() == "YEARS"){
+			timeUnit = ChronoUnit.valueOf("DAYS");
+			System.out.println("EXCEEDED MAXIMUM LENGTH");
+		}
+		this.deletionInstant = creationTime.plus(timeDigit, timeUnit);
+
 		this.totalPoints = 0;
 		this.description = description;
 		this.haveVoted = new HashSet<UUID>();
@@ -207,7 +218,7 @@ public class Conversation {
 	  return deletionInstant;
   }
 
-	public ChronoUnit getValidTime(){
+	public String getValidTime(){
 		return validTime;
 	}
 

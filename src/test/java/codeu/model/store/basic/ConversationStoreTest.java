@@ -26,7 +26,7 @@ public class ConversationStoreTest {
       new Conversation(
           UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.now(),
 					 members, Type.TEXT, Visibility.PUBLIC,
-					"fakeURL", ChronoUnit.DECADES, "fake :D");
+					"fakeURL", "5/DAYS", "fake :D");
 
   @Before
   public void setup() {
@@ -73,7 +73,7 @@ public class ConversationStoreTest {
 		Type type = Type.TEXT;
 		Visibility visibility = Visibility.PUBLIC;
 		String avatarImageURL = "fakeURL";
-		ChronoUnit validTime = ChronoUnit.DECADES;
+		String validTime = "5/HOURS";
 		String description = "fake :D";
 
 		Conversation inputConversation =

@@ -192,14 +192,17 @@ public class ConversationServlet extends HttpServlet {
 			 conversationType = Type.HYBRID;
 		 }
 
-		 String timeString = request.getParameter("conversationValidTimeDigit");
-		 System.out.println(timeString);
+		 String validTimeDigit = (String) request.getParameter("conversationValidTimeDigit");
+		 System.out.println(validTimeDigit);
+		 String validTimeUnit = (String) request.getParameter("conversationValidTimeUnit");
 		 //so can be FOREVER, 3 hour, 4 day, 23 sec, 4 min. So i'll have to parse it very specifically
-		 ChronoUnit validTime = null;
-		 if(timeString != null){
-			 validTime = ChronoUnit.valueOf(timeString);
+		 String validTime = validTimeDigit + "/" + validTimeUnit;
+		 System.out.println(validTime);
+		 ChronoUnit validTimeChronoUnit = null;
+		 if(validTimeUnit != null){
+			 validTimeChronoUnit = ChronoUnit.valueOf(validTimeUnit);
 		 } else{
-			 validTime = ChronoUnit.DECADES;
+			 validTimeChronoUnit = ChronoUnit.DECADES;
 		 }
 
 		 // ChronoUnit validTime = ChronoUnit.valueOf(timeString);

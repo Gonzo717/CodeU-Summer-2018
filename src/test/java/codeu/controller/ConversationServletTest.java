@@ -28,6 +28,7 @@ import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -87,7 +88,7 @@ public class ConversationServletTest {
 				new Conversation(
 						UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.now(),
 						 members, Type.TEXT, Visibility.PUBLIC,
-						"fakeURL", ChronoUnit.DECADES, "fake :D");
+						"fakeURL", "3/SECONDS", "fake :D");
 		List<Conversation> fakeConversationList = new ArrayList<>();
 		fakeConversationList.add(CONVERSATION_ONE);
 		Mockito.when(mockConversationStore.getAllConversations()).thenReturn(fakeConversationList);
@@ -133,7 +134,7 @@ public class ConversationServletTest {
 		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
 		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
 		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
-		Mockito.when(mockRequest.getParameter("conversationValidTime")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationValidTime")).thenReturn("3/SECONDS");
 		Mockito.when(mockRequest.getParameter("conversationDescription")).thenReturn("fake :D");
 
 
@@ -196,7 +197,8 @@ public class ConversationServletTest {
 		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
 		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
 		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
-		Mockito.when(mockRequest.getParameter("conversationValidTime")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationValidTimeDigit")).thenReturn("5");
+		Mockito.when(mockRequest.getParameter("conversationValidTimeUnit")).thenReturn("DAYS");
 		Mockito.when(mockRequest.getParameter("conversationDescription")).thenReturn("fake :D");
 
 		Mockito.when(mockConversationStore.isTitleTaken("test_conversation")).thenReturn(false);
@@ -208,7 +210,7 @@ public class ConversationServletTest {
 				new Conversation(
 						UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(),
 						 members, Type.TEXT, Visibility.PUBLIC,
-						"fakeURL", ChronoUnit.DECADES, "fake :D");
+						"fakeURL", "5/DAYS", "fake :D");
 
 
 		ArgumentCaptor<Conversation> conversationArgumentCaptor = ArgumentCaptor.forClass(Conversation.class);

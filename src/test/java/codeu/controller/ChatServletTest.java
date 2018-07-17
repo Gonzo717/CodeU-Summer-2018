@@ -101,7 +101,7 @@ public class ChatServletTest {
 		Visibility visibility = Visibility.PUBLIC;
 		String avatarImageURL = "fakeURL";
 		boolean isActive = true;
-		ChronoUnit validTime = ChronoUnit.DECADES;
+		String validTime = "3/SECONDS";
 		String description = "fake :D";
 
 		Conversation fakeConversation =
@@ -207,7 +207,7 @@ public class ChatServletTest {
 		Type type = Type.TEXT;
 		Visibility visibility = Visibility.PUBLIC;
 		String avatarImageURL = "fakeURL";
-		ChronoUnit validTime = ChronoUnit.DECADES;
+		String validTime = "9/DAYS";
 		String description = "fake :D";
 
 		String msgText = "Test message";
@@ -246,7 +246,7 @@ public class ChatServletTest {
 		Visibility visibility = Visibility.PUBLIC;
 		String avatarImageURL = "fakeURL";
 		boolean isActive = true;
-		ChronoUnit validTime = ChronoUnit.DECADES;
+		String validTime = "4/HOURS";
 		String description = "fake :D";
 
 		HashSet members = new HashSet<>();

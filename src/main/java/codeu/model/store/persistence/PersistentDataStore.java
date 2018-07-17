@@ -145,18 +145,25 @@ public class PersistentDataStore {
 				// boolean isActive = (boolean) entity.getProperty("isActive");
 
 				String stringValidTime = (String) entity.getProperty("validTime");
-				ChronoUnit validTime = null;
-				if(stringValidTime != null){
-					validTime = ChronoUnit.valueOf(stringValidTime.toUpperCase());
-				} else{
-					validTime = ChronoUnit.DECADES;
-				}
+
+				// List<String> timeList = Arrays.asList(stringValidTime.split("/"));
+				//
+				// long timeDigit = Long.parseLong(timeList.get(0));
+				// ChronoUnit timeUnit = ChronoUnit.valueOf(timeList.get(1));
+
+				// this.deletionInstant = creationTime.plus(timeDigit, timeUnit);
+
+				// if(stringValidTime != null){
+				// 	validTime = ChronoUnit.valueOf(stringValidTime.toUpperCase());
+				// } else{
+				// 	validTime = ChronoUnit.DECADES;
+				// }
 				// ChronoUnit validTime = ChronoUnit.valueOf(stringValidTime.toUpperCase());
 
 				String description = (String) entity.getProperty("description");
         Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime,
 																											members, type, visibility, avatarImageURL,
-																											validTime, description);
+																											stringValidTime, description);
         conversations.add(conversation);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -326,7 +333,7 @@ public class PersistentDataStore {
 		conversationEntity.setProperty("type", conversation.getConversationType()); //returns String
 		conversationEntity.setProperty("visibility", conversation.getConversationVisibility()); //returns String
 		conversationEntity.setProperty("isActive", String.valueOf(conversation.isActive()));
-		conversationEntity.setProperty("validTime", conversation.getValidTime().toString()); //returns String
+		conversationEntity.setProperty("validTime", conversation.getValidTime()); //returns String
 		conversationEntity.setProperty("avatarImageURL", conversation.getAvatarImageURL());
 		conversationEntity.setProperty("deletionInstant", conversation.getDeletionInstant().toString()); //returns String
 		conversationEntity.setProperty("totalPoints", conversation.getTotalPoints());

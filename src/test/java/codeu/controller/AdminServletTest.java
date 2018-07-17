@@ -78,7 +78,7 @@ public class AdminServletTest {
 				new Conversation(
 						fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now(),
 						members, Type.TEXT, Visibility.PUBLIC,
-						"fakeURL", ChronoUnit.DECADES, "fake :D");
+						"fakeURL", "5/DAYS", "fake :D");
 
     mockUserStore.addUser(mockUser);
     mockConvoStore.addConversation(fakeConversation);

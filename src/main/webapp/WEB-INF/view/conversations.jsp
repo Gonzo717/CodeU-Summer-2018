@@ -131,15 +131,15 @@
 						<!-- ALL THE OPTIONS FOR TYPE -->
 						<h3>Select Conversation Type: </h3>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="MEDIA">
-						  <input type="radio" class="mdl-radio__button" id="MEDIA" name="conversationType" value="Media">Media</input>
+						  <input type="radio" class="mdl-radio__button" id="MEDIA" name="conversationType" value="Media"></input>
 						  <span class="mdl-radio__label">Media Messages Only</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="TEXT">
-						  <input type="radio" class="mdl-radio__button" id="TEXT" name="conversationType" value="Text">Text</input>
+						  <input type="radio" class="mdl-radio__button" id="TEXT" name="conversationType" value="Text"></input>
 						  <span class="mdl-radio__label">Text Only</span>
 						</label>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="HYBRID">
-						  <input type="radio" class="mdl-radio__button" id="HYBRID" name="conversationType" value="Hybrid">Hybrid</input>
+						  <input type="radio" class="mdl-radio__button" id="HYBRID" name="conversationType" value="Hybrid"></input>
 						  <span class="mdl-radio__label">No Restrictions</span>
 						</label>
 
@@ -168,11 +168,11 @@
 						<h3>Select Valid Time for the Conversation: </h3>
 						<!-- DROPDOWN FOR THE NUMBERS -->
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-				        <input type="text" value="" class="mdl-textfield__input" id="conversationValidTimeUnit" readonly>
-				        <input type="hidden" value="" name="conversationValidTime">
-				        <%-- <label for="conversationValidTimeUnit" class="mdl-textfield__label">Digit</label> --%>
-				        <ul for="conversationValidTimeUnit" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-				            <li class="mdl-menu__item" data-val="1">1</li>
+				        <input type="text" value="" class="mdl-textfield__input" id="conversationValidTimeDigit" readonly>
+				        <input type="hidden" name="conversationValidTimeDigi">
+								<label for="conversationValidTimeDigit" class="mdl-textfield__label">Digit</label>
+				        <ul for="conversationValidTimeDigit" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+										<li class="mdl-menu__item" data-val="1">1</li>
 				            <li class="mdl-menu__item" data-val="2">2</li>
 				            <li class="mdl-menu__item" data-val="3">3</li>
 										<li class="mdl-menu__item" data-val="4">4</li>
@@ -184,12 +184,13 @@
 										<li class="mdl-menu__item" data-val="10">10</li>
 				        </ul>
 				    </div>
+
 						<!-- DROPDOWN FOR THE CHRONOUNITS -->
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-				        <input type="text" value="" class="mdl-textfield__input" id="conversationValidTime" readonly>
-				        <input type="hidden" value="" name="conversationValidTime">
-				        <label for="conversationValidTime" class="mdl-textfield__label">Unit of Time</label>
-				        <ul for="conversationValidTime" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+				        <input type="text" value="" class="mdl-textfield__input" id="conversationValidTimeUni" readonly>
+				        <input type="hidden" value="conversationValidTimeUni" name="conversationValidTimeUni">
+				        <label for="conversationValidTimeUni" class="mdl-textfield__label">Unit of Time</label>
+				        <ul for="conversationValidTimeUni" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
 										<li class="mdl-menu__item" data-val="DECADES" id="selected">Forever</li>
 				            <li class="mdl-menu__item" data-val="SECONDS" id="selected">Seconds</li>
 				            <li class="mdl-menu__item" data-val="MINUTES" id="selected">Minutes</li>
@@ -201,15 +202,32 @@
 				        </ul>
 				    </div>
 
-						</br>
-				        <%-- <input type="text" value="" class="mdl-textfield__input" id="conversationVisibility" readonly>
-				        <input type="hidden" value="" name="conversationVisibility"> --%>
-				        <%-- <label for="conversationVisibility" class="mdl-textfield__label"></label> --%>
-							<input type="radio" name="conversationVisibility" value="Public" id="conversationVisibility">Public</input>
-							<input type="radio" name="conversationVisibility" value="Group" id="conversationVisibility">Group</input>
-							<input type="radio" name="conversationVisibility" value="Direct" id="conversationVisibility">Direct</input>
+				</br>
+				<label for="conversationValidTimeDigit" class="mdl-textfield__label">Digit</label>
+				<select name="conversationValidTimeDigit">
+					<option value="1">1</option>
+			    <option value="2">2</option>
+			    <option value="3" selected>3</option>
+			    <option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+			  </select>
 
-					</br>
+				<label for="conversationValidTimeUnit" class="mdl-textfield__label">Unit of Time</label>
+				<select name="conversationValidTimeUnit">
+					<option value="DECADES" selected>Forever</option>
+					<option value="SECONDS">Seconds</option>
+					<option value="MINUTES">Minutes</option>
+					<option value="HOURS">Hours</option>
+					<option value="DAYS">Days</option>
+					<option value="WEEKS">Weeks</option>
+					<option value="MONTHS">Months</option>
+				</select>
+			</br>
 
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 							<input class="mdl-textfield__input" type="text" name="conversationDescription" id="description">

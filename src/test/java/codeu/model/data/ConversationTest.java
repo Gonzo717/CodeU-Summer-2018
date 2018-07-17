@@ -35,7 +35,7 @@ public class ConversationTest {
 		Type type = Type.TEXT;
 		Visibility visibility = Visibility.PUBLIC;
 		String avatarImageURL = "fakeURL";
-		ChronoUnit validTime = ChronoUnit.DECADES;
+		String validTime = "7/HOURS";
 		String description = "fake :D";
 
 
