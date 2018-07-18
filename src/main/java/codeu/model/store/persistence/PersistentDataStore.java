@@ -21,7 +21,7 @@ import codeu.model.data.Activity;
 import codeu.model.data.Activity.ActivityType;
 import codeu.model.data.Group;
 import codeu.model.store.persistence.PersistentDataStoreException;
-import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.AsyncDatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -32,6 +32,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Future;
+import java.lang.InterruptedException;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This class handles all interactions with Google App Engine's Datastore service. On startup it
@@ -41,14 +44,14 @@ import java.util.UUID;
 public class PersistentDataStore {
 
   // Handle to Google AppEngine's Datastore service.
-  private DatastoreService datastore;
+  private AsyncDatastoreService datastore;
 
   /**
    * Constructs a new PersistentDataStore and sets up its state to begin loading objects from the
    * Datastore service.
    */
   public PersistentDataStore() {
-    datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore = DatastoreServiceFactory.getAsyncDatastoreService();
   }
 
   /**
@@ -269,13 +272,14 @@ public class PersistentDataStore {
   }
 
   /** Write an Activity object to the Datastore service. */
-  public void writeThrough(Activity activity) {
+  public void writeThrough(Activity activity) throws InterruptedException, ExecutionException {
 	  Entity activityEntity = new Entity("chat-activities", activity.getId().toString());
 	  activityEntity.setProperty("activity_type", activity.getType().toString());
 	  activityEntity.setProperty("uuid", activity.getId().toString());
 	  activityEntity.setProperty("ownerId", activity.getOwnerId().toString());
     activityEntity.setProperty("activityId", activity.getActivityId().toString());
 	  activityEntity.setProperty("creation_time", activity.getCreationTime().toString());
-	  datastore.put(activityEntity);
+	  Future result = datastore.put_async(activityEntity);
+    result.get();
   }
 }

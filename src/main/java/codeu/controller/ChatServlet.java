@@ -242,11 +242,11 @@ public class ChatServlet extends HttpServlet {
       messageStore.addMessage(message);
 
       // old way to add msg to activitystore
-      // Activity msgAct = new Activity("newMessage", UUID.randomUUID(), user.getId(), message.getCreationTime());
-      // activityStore.addActivity(msgAct);
+      // Activity msgActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), message.getId(), message.getCreationTime());
+      // activityStore.addActivity(msgActivity);
 
-      //redirect is turned off bc of postput freezing the website
-      //response.sendRedirect("/chat/" + conversationTitle);
+      //redirect + postput -> freezing the website
+      response.sendRedirect("/chat/" + conversationTitle);
     }
     // redirect to a GET request
   }

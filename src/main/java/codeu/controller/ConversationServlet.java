@@ -174,10 +174,11 @@ public class ConversationServlet extends HttpServlet {
       request.setAttribute("conversation", conversation);
 
       // old way to add convo activity to ActivityStore
-      // Activity convoAct = new Activity("newConvo", UUID.randomUUID(), user.getId(), conversation.getCreationTime());
-      // activityStore.addActivity(convoAct);
+      // Activity convoActivity = new Activity(ActivityType.CONVERSATION, UUID.randomUUID(), conversation.getId(), conversation.getCreationTime());
+      // activityStore.addActivity(convoActivity);
 
-      //response.sendRedirect("/chat/" + conversationTitle);
+      //redirect + postput -> freezing the website
+      response.sendRedirect("/chat/" + conversationTitle);
     }
   }
   /*****************

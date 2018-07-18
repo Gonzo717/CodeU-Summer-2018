@@ -23,6 +23,9 @@ import codeu.model.data.Group;
 import codeu.model.store.persistence.PersistentDataStore;
 import java.util.List;
 
+import java.lang.InterruptedException;
+import java.util.concurrent.ExecutionException;
+
 /**
  * This class is the interface between the application and PersistentDataStore, which handles
  * interactions with Google App Engine's Datastore service. Currently this class simply passes
@@ -133,6 +136,10 @@ public class PersistentStorageAgent {
 
 	/** Write an Activity object to the Datastore service. */
 	public void writeThrough(Activity activity) {
-		persistentDataStore.writeThrough(activity);
+		try {
+			persistentDataStore.writeThrough(activity);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 }
