@@ -50,7 +50,7 @@
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 		<div class="mdl-layout__header-row">
-			<span class="mdl-layout-title">Trill</span>
+			<a class="mdl-navigation__link" href="/index.jsp"><span class="mdl-layout-title">YACA</span></a>
 			<!-- Image card -->
 				  <!-- Add spacer, to align navigation to the right in desktop -->
 			<div class="android-header-spacer mdl-layout-spacer"></div>
@@ -73,7 +73,6 @@
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
 						<% } %>
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
-
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
@@ -102,25 +101,50 @@
 				<div class="mdl-cell--stretch">
 					<div id="stats">
 						<h2>Checkout these wonderful site statistics!</h2>
-						<ul>
+						<ul class="mdl-list">
 							<% if(request.getSession().getAttribute("numUsers")!= null){ %>
-								<li><a>Total Users: <%= request.getSession().getAttribute("numUsers") %></a></li>
+								<li class="mdl-list__item">
+									<span class="mdl-list__item-primary-content">
+									<i class="material-icons mdl-list__item-icon">person</i>
+									Total Users: <%= request.getSession().getAttribute("numUsers") %>
+									</span>
+								</li>
 							<% } %>
 
 							<% if(request.getSession().getAttribute("numConvos")!= null){ %>
-								<li><a>Total Conversations: <%= request.getSession().getAttribute("numConvos") %></a></li>
+								<li class="mdl-list__item">
+									<span class="mdl-list__item-primary-content">
+									<i class="material-icons mdl-list__item-icon">assessment</i>
+									Total Conversations: <%= request.getSession().getAttribute("numConvos") %>
+									</span>
+								</li>
 							<% } %>
 
 							<% if(request.getSession().getAttribute("numMessages")!= null){ %>
-								<li><a>Total Messages: <%= request.getSession().getAttribute("numUsers") %></a></li>
+								<li class="mdl-list__item">
+									<span class="mdl-list__item-primary-content">
+									<i class="material-icons mdl-list__item-icon">speaker_notes</i>
+									Total Messages: <%= request.getSession().getAttribute("numMessages") %>
+									</span>
+								</li>
 							<% } %>
 
 							<% if(request.getSession().getAttribute("numAdministrators")!= null){ %>
-								<li><a>Total Admin: <%= (request.getSession().getAttribute("numAdministrators")) %></a></li>
+								<li class="mdl-list__item">
+									<span class="mdl-list__item-primary-content">
+									<i class="material-icons mdl-list__item-icon">supervised_user_circle</i>
+									Total Admin: <%= request.getSession().getAttribute("numAdministrators") %>
+									</span>
+								</li>
 							<% } %>
 
 							<% if(request.getSession().getAttribute("mostActiveUser")!= null){ %>
-								<li><a>Most Active User: <%= request.getSession().getAttribute("mostActiveUser") %></a></li>
+								<li class="mdl-list__item">
+									<span class="mdl-list__item-primary-content">
+									<i class="material-icons mdl-list__item-icon">how_to_reg</i>
+									Most Active User: <%= request.getSession().getAttribute("mostActiveUser") %>
+									</span>
+								</li>
 							<% } %>
 						</ul>
 
@@ -173,10 +197,10 @@
 						</script>
 
 						<button id="demo-show-snackbar" class="mdl-button mdl-js-button mdl-button--raised" type="submit" onclick="addAdmin()">Add Admin</button>
-						<div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
+						<%-- <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
 						  <div class="mdl-snackbar__text"></div>
 						  <button class="mdl-snackbar__action" type="button">click this?</button>
-						</div>
+						</div> --%>
 					</form>
 
 				<!-- Game begins! -->
