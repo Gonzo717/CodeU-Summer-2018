@@ -127,9 +127,9 @@
 						  <input class="mdl-textfield__input" type="text" name="conversationTitle" id="title">
 						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
 						</div>
-						</br>
+
 						<!-- ALL THE OPTIONS FOR TYPE -->
-						<h3>Select Conversation Type: </h3>
+						<%-- <h3>Select Conversation Type: </h3>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="MEDIA">
 						  <input type="radio" class="mdl-radio__button" id="MEDIA" name="conversationType" value="Media"></input>
 						  <span class="mdl-radio__label">Media Messages Only</span>
@@ -141,7 +141,7 @@
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="HYBRID">
 						  <input type="radio" class="mdl-radio__button" id="HYBRID" name="conversationType" value="Hybrid"></input>
 						  <span class="mdl-radio__label">No Restrictions</span>
-						</label>
+						</label> --%>
 
 						</br>
 						<!-- ALL THE OPTIONS FOR VISIBILITY -->
@@ -224,18 +224,14 @@
 			    <% //Display 10 conversations at a time somehow
 			    for(Conversation conversation : conversations){
 			    %>
-					<%/* Have to do checks here:
-						 * Is the conversation Public?
-						 * Does the User have access to the conversation?
-						 * Is the conversation Direct?
-						 * */ %>
 
 					<% if(conversation.getConversationVisibility().equals("PUBLIC")){ %>
 						   <ul class="mdl-list--text-center">
-								 <li class="mdl-list__item">
+								 <li class="mdl-list__item mdl-list__item--two-line">
 								 	<span class="mdl-list__item-primary-content">
 										<i class="material-icons mdl-list__item-avatar">public</i>
 								 		<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
+										<span><%= conversation.getTitle() %></span>
 										<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
 									</span>
 									<a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
@@ -249,11 +245,19 @@
 
 					<%if(conversation.getConversationVisibility().equals("GROUP") && conversation.isAccessAllowed(id)){ %>
 							<ul class="mdl-list--text-center">
-								<li class="mdl-list__item">
+								<li class="mdl-list__item mdl-list__item--two-line">
 								 <span class="mdl-list__item-primary-content">
 									 <i class="material-icons mdl-list__item-avatar">group</i>
 									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
-									 <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
+									 <% if(conversation.isActive()){ %>
+									 		<span><%= conversation.getTitle() %></span>
+											<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
+									 <% }else { %>
+									 		<span><strike><%= conversation.getTitle() %></strike></span>
+											<span class="mdl-list__item-sub-title"><strike><%= conversation.getDescription() %></strike></span>
+
+									 <% } %>
+									 <%-- <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span> --%>
 								 </span>
 								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
 									 <%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
@@ -266,10 +270,10 @@
 
 					<%if(conversation.getConversationVisibility().equals("DIRECT")){ %>
 							<ul class="mdl-list--text-center">
-								<li class="mdl-list__item">
+								<li class="mdl-list__item mdl-list__item--two-line">
 								 <span class="mdl-list__item-primary-content">
 									 <i class="material-icons mdl-list__item-avatar">person</i>
-									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
+									 <span><%= conversation.getTitle() %></span>
 									 <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
 								 </span>
 								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>

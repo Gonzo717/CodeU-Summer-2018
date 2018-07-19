@@ -123,7 +123,6 @@ public class ChatServlet extends HttpServlet {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
-		System.out.println(conversation);
 		UUID conversationId = conversation.getId();
 		List<Message> messages = messageStore.getMessagesInConversation(conversationId);
 		request.setAttribute("messages", messages);
@@ -183,7 +182,6 @@ public class ChatServlet extends HttpServlet {
 		}
 
 		Pair messageContent = new Pair<>(cleanedMessageText, msgMedia);
-		System.out.println(conversation.getConversationVisibility());
 		//So this might also be tough, how to format it? Because it isn't just text anymore so
 		if (conversation.getConversationVisibility().equals("GROUP") || conversation.getConversationVisibility().equals("DIRECT")){
 			//this loop signifies the ability to add more members to the convo
@@ -196,6 +194,11 @@ public class ChatServlet extends HttpServlet {
 				if(request.getParameter("addUsers") != null){
 					addUsers = true;
 					checkedUsers = (int) request.getSession().getAttribute("addUserCounter");//the number of checked users
+
+					if(conversation.getConversationVisibility().equals("DIRECT")){
+						request.getSession().setAttribute("addedDirectMessageRecipient", "true");
+					}
+					
 				}
 				else if(request.getParameter("removeUsers") != null){
 					removeUsers = true;
@@ -230,9 +233,6 @@ public class ChatServlet extends HttpServlet {
 
 		}
 
-		System.out.println(messageContent);
-		System.out.println(messageContent.getValue0());
-
 		if(messageContent.getValue0() != null){
 			//then parse the message and do all that jazz
 			// this removes any HTML from the message content
@@ -257,9 +257,6 @@ public class ChatServlet extends HttpServlet {
 
 			Activity msgAct = new Activity("newMessage", UUID.randomUUID(), user.getId(), message.getCreationTime());
 			activityStore.addActivity(msgAct);
-
-			System.out.println("what is the issue?");
-			System.out.println(message);
 
 			response.sendRedirect("/chat/" + conversationTitle);
 		}

@@ -210,6 +210,10 @@ public class Conversation {
 	  return isActive;
   }
 
+	public void setActive(boolean value){
+		this.isActive = value;
+	}
+
 	public boolean isActive(){
 		return isActive;
 	}
@@ -243,8 +247,6 @@ public class Conversation {
 			return true;
 		}
 		for(UUID iterableUser : members){
-			System.out.println(iterableUser);
-			System.out.println(iterableUser.equals(id));
 			if(iterableUser.equals(id)) {
 				return true;
 			}

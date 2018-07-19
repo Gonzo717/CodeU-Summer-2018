@@ -35,8 +35,6 @@ Conversation conversation = (Conversation) request.getAttribute("conversation");
 //This is the user's ID
 UUID id = (UUID) request.getSession().getAttribute("id");
 HashSet<UUID> allowedUsers = (HashSet<UUID>) conversation.getMembers(); //have to instantiate the set of allowed users globally
-System.out.println(allowedUsers);
-System.out.println(conversation.getMembers().contains(UUID.fromString("00000000-0000-0000-0000-000000000000")));
 // ArrayList<UUID> allowedIds = null;
 
 String title = conversation.getTitle();
@@ -190,15 +188,13 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				    if (distance < 0) {
 				        clearInterval(x);
 				        document.getElementById("countdownTimer").innerHTML = "EXPIRED";
-								let updateActive = "<%=conversation.checkActive(Instant.now())%>";
+								let updateActive = "<% conversation.setActive(false); %>";
 								window.alert("This Conversation has Self-Destructed! :P");
 								window.location.replace("/conversations");
 				    }
 				}, 100); //1000
 				</script>
-			  <% if(conversation.getConversationVisibility().equals("GROUP") || conversation.getConversationVisibility().equals("DIRECT")){ // This IS ONLY FOR GROUP & DIRECT MESSAGES (PRIVATE)%>
-					//The way I set it up, PUBLIC conversations contain ONLY the "nil" UUID as their allowed members.
-					%>
+			  <% if(conversation.getConversationVisibility().equals("GROUP") || conversation.getConversationVisibility().equals("DIRECT")){ %>
 
 					<% if(!(conversation.isAccessAllowed(id))){ %>
 							<script> //access denied, being redirected
@@ -207,7 +203,19 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 							</script>
 					<% } %>
 
-					<h1><%=conversation.getTitle()%></h1>
+					<%if(request.getSession().getAttribute("addedDirectMessageRecipient") != null){ //This is the code to display the other person's name as the conversation title in DIRECT messages
+							if(id.equals(conversation.getMembers().get(0))){
+								User otherUser = UserStore.getInstance().getUser(conversation.getMembers().get(1)); %>
+								<h1> <%= otherUser.getName() %></h1>
+					<%	} else if(id.equals(conversation.getMembers().get(1))){
+									User otherUser = UserStore.getInstance().getUser(conversation.getMembers().get(0)); %>
+									<h1> <%= otherUser.getName() %></h1>
+				<%	} else{ %>
+								<h1><%=conversation.getTitle()%></h1>
+				<%	} %>
+
+					<h5 id="countdownTimer"></h5>
+
 					<%/*change this to user.getname ONLY for DIRECT conversations.*/%>
 
 				<% if(conversation.getConversationVisibility().equals("GROUP")) {
@@ -268,7 +276,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 									%> <ul class="mdl-list">
 										<%for(UUID uuid: allowedUsers){
 											User user = UserStore.getInstance().getUser(uuid);
-											System.out.println(user);
 											String removeUsername = user.getName();
 											if(conversation.isAccessAllowed(uuid)){
 												%>
@@ -334,6 +341,45 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						<hr/>
 						<% } %>
 
+						<% if(request.getSession().getAttribute("addedDirectMessageRecipient") == null ) { %>
+								<div id="selectDirectMessage">
+								<form action="/chat/<%= conversation.getTitle() %>" method="POST">
+								<%  List<User> users = UserStore.getInstance().getUsers();
+									int addUserCounter = 0; // already initialized
+									%>
+									<ul class="mdl-list">
+									<% for(User registeredUser: users){
+										if(registeredUser.getId() != id && !conversation.isAccessAllowed(registeredUser.getId())){
+											String addUsername = registeredUser.getName();
+											 %>
+											<li class="mdl-list__item">
+												<span class="mdl-list__item-primary-content">
+													<i class="material-icons mdl-list__item-avatar">person_add</i>
+													<a class="mdl-color-text--cyan" href="/user/<%=addUsername%>"><%= addUsername %></a>
+												</span>
+												<span class="mdl-list__item-secondary-action">
+													<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="addMembers">
+														<input type="checkbox" name="<%=addUserCounter%>" value="<%=addUsername%>" id="addMembers"/>
+													</label>
+												</span>
+											</li>
+											<%
+											//TODO: make this more efficient for pete's sake :(
+											request.getSession().setAttribute("addUserCounter", addUserCounter);
+											addUserCounter++;%>
+											<%-- <li><a href="/user/<%=user.getName()%>"><%= user.getName() %></a> --%>
+										<% } %>
+									 <% }%>
+									</ul
+									<% if(addUserCounter == 0){ %>
+										<h3 style="color:green;">All users are currently in this group!</h3>
+									<% }%>
+								<hr/>
+								<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=addDirectMessageRecipient()>Select User</button>
+								<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=addDirectMessageRecipient() type="submit" name="addUsers" value="Add Checked Members">
+								</form>
+								</div>
+						<% } %>
 							<div id="chat">
 							  <ul>
 							<%
@@ -357,9 +403,10 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 							<% if (request.getSession().getAttribute("user") != null) { %>
 							<form autocomplete="off" action="/chat/<%= conversation.getTitle() %>" method="POST">
+								</br>
 								<input maxlength="75" type="text" name="messageText">
-								<br/>
-								<button type="submit">Send</button>
+								<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>
+								<%-- <button type="submit">Send</button> --%>
 							</form>
 							<% } else { %>
 							  <p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
@@ -373,8 +420,11 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 						%>
 
-						<h1> <%=conversation.getTitle()%> </h1>
-
+						<h1> <%=conversation.getTitle()%>
+						<h5 id="countdownTimer"></h5>
+						<a href="" style="float: right">
+							<i class="material-icons mdl-list__item-avatar">autorenew</i>
+						</a></h1>
 							<div id="chat">
 								<ul>
 							<%
@@ -390,9 +440,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 							<% if (request.getSession().getAttribute("user") != null) { %>
 							<form autocomplete="off" action="/chat/<%= conversation.getTitle() %>" method="POST">
+								</br>
 								<input maxlength="75" type="text" name="messageText">
-								<br/>
-								<button type="submit">Send</button>
+								<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>
 							</form>
 							<% } else { %>
 								<p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
@@ -408,43 +458,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 					</script>
 
-					<%-- <%if(conversation != null){ %>
-					    <h1><%= conversation.getTitle() %>
-							<h5 id="countdownTimer"></h5>
-							<a href="" style="float: right">
-								<i class="material-icons mdl-list__item-avatar">autorenew</i>
-							</a>
-							</h1>
-							<hr/>
-							<div id="displayConversationChat">
-							    <div id="chat">
-							      <ul>
-							    <%
-							      for (Message message : messages) {
-							        String author = UserStore.getInstance()
-							          .getUser(message.getAuthorId()).getName();
-							    %>
-							      <li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
-							    <%
-							      }
-							    %>
-							      </ul>
-							    </div>
-							    <hr/>
-
-							    <% if (request.getSession().getAttribute("user") != null) { %>
-							    <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-							        <input type="text" name="messageText">
-											<input type="image" name="messageMedia">
-							        <br/>
-							        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>
-							    </form>
-							    <% } else { %>
-							      <p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
-						      <% } %>
-
-							</div>
-					<% } %> --%>
 				    <hr/>
 				</div>
 			</div>

@@ -178,15 +178,18 @@ public class ConversationServlet extends HttpServlet {
 			 conversationVisibility = Visibility.DIRECT;
 		 }
 
-		 String type = (String) request.getParameter("conversationType");
-		 Type conversationType = null;
-		 if(type.equals("Text")){
-			 conversationType = Type.TEXT;
-		 } else if(type.equals("Image")){
-			 conversationType = Type.IMG;
-		 } else if(type.equals("Hybrid")){
-			 conversationType = Type.HYBRID;
-		 }
+		 // String type = (String) request.getParameter("conversationType");
+		 // Type conversationType = null;
+		 // if(type.equals("Text")){
+			//  conversationType = Type.TEXT;
+		 // } else if(type.equals("Image")){
+			//  conversationType = Type.IMG;
+		 // } else if(type.equals("Hybrid")){
+			//  conversationType = Type.HYBRID;
+		 // TODO: Change this once I learn how to use BlobStore !!!!!!!}
+
+		 //It'll be hard coded for now :(
+		 Type conversationType = Type.TEXT;
 
 		 String validTimeDigit = (String) request.getParameter("conversationValidTimeDigit");
 
