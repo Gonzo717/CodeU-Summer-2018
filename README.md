@@ -2,7 +2,7 @@
 *View the most updated version of the webapp here https://javachips-204100.appspot.com/*
 
 Built with lots of Frappuccinos and love by JavaChips.
-This chat app started as a playground for us Google CodeU participants to practice our java and team working skills. We have decided to call this chat app Trill and hope to fill it with amazing features in the future!
+This chat app started as a playground for us Google CodeU participants to practice our java and team working skills. We have decided to call this chat app YACA for Yet Another Chat App and hope to fill it with amazing features in the future!
 
 ## Getting Started:
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.

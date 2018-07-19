@@ -204,6 +204,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 					<% } %>
 
 					<%if(request.getSession().getAttribute("addedDirectMessageRecipient") != null){ //This is the code to display the other person's name as the conversation title in DIRECT messages
+							
 							if(id.equals(conversation.getMembers().get(0))){
 								User otherUser = UserStore.getInstance().getUser(conversation.getMembers().get(1)); %>
 								<h1> <%= otherUser.getName() %></h1>
