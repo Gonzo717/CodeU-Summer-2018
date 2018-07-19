@@ -95,11 +95,10 @@ public class RegisterServlet extends HttpServlet {
 		User user = new User(UUID.randomUUID(), username, hashedPassword, Instant.now());
 		userStore.addUser(user);
 
-		// old way to add user activity to ActivityStore
+		// old way to add user activity to ActivityStore, keeping for ref
 		// Activity userAct = new Activity(ActivityType.USER, UUID.randomUUID(), user.getId(), user.getId(), user.getCreationTime());
 		// activityStore.addActivity(userAct);
 
-		//redirect + postput -> freezing the website
 		response.sendRedirect("/login");
 	}
 //
@@ -110,8 +109,6 @@ public class RegisterServlet extends HttpServlet {
 		System.out.println("PostPut running for user register");
 		Entity user = context.getCurrentElement();
 		Activity newActivity = new Activity(ActivityType.USER, UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
-		activityStore.addActivity(newActivity); //Line causes website to fail..
-		//response.sendRedirect("/login"); //Must move redirect here
-
+		activityStore.addActivity(newActivity);
 	}
 }

@@ -173,27 +173,22 @@ public class ConversationServlet extends HttpServlet {
       conversationStore.addConversation(conversation);
       request.setAttribute("conversation", conversation);
 
-      // old way to add convo activity to ActivityStore
+      // old way to add convo activity to ActivityStore, keeping for ref
       // Activity convoActivity = new Activity(ActivityType.CONVERSATION, UUID.randomUUID(), conversation.getId(), conversation.getCreationTime());
       // activityStore.addActivity(convoActivity);
 
-      //redirect + postput -> freezing the website
       response.sendRedirect("/chat/" + conversationTitle);
     }
   }
-  /*****************
-  Fix constructor for convo
-  *****************/
+
   //PostPut runs when the user datastore has a user put into it
   @PostPut(kinds = {"chat-conversations"}) // Only applies to chat-convos query
   void addActivity(PutContext context) {
     //adds activity into activityStore
     System.out.println("PostPut running for new conversation");
     Entity convo = context.getCurrentElement();
-    Activity newActivity = new Activity(ActivityType.CONVERSATION, UUID.randomUUID(), UUID.fromString((String) convo.getProperty("uuid")), UUID.fromString((String) convo.getProperty("uuid")), Instant.parse((String) convo.getProperty("creation_time")));
+    Activity newActivity = new Activity(ActivityType.CONVERSATION, UUID.randomUUID(), UUID.fromString((String) convo.getProperty("owner_uuid")), UUID.fromString((String) convo.getProperty("uuid")), Instant.parse((String) convo.getProperty("creation_time")));
     activityStore.addActivity(newActivity);
-    //Want to move redirect here because or else, website freezes
-    //response.sendRedirect("/chat/" + conversationTitle);
   }
 
 }

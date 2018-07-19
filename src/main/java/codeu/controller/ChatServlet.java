@@ -241,19 +241,14 @@ public class ChatServlet extends HttpServlet {
       }
       messageStore.addMessage(message);
 
-      // old way to add msg to activitystore
+      // old way to add msg to activitystore, keeping for ref
       // Activity msgActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), message.getId(), message.getCreationTime());
       // activityStore.addActivity(msgActivity);
 
-      //redirect + postput -> freezing the website
       response.sendRedirect("/chat/" + conversationTitle);
     }
     // redirect to a GET request
   }
-
-  /*****************
-  Fix constructor for message
-  *****************/
 
   //PostPut runs when the messages datastore has a message put into it
   @PostPut(kinds = {"chat-messages"}) // Only applies to chat-messages query
@@ -261,9 +256,7 @@ public class ChatServlet extends HttpServlet {
     //adds activity into activityStore
     System.out.println("PostPut running for new message");
     Entity message = context.getCurrentElement();
-    Activity newActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), UUID.fromString((String) message.getProperty("uuid")), UUID.fromString((String) message.getProperty("uuid")), Instant.parse((String) message.getProperty("creation_time")));
+    Activity newActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), UUID.fromString((String) message.getProperty("author_uuid")), UUID.fromString((String) message.getProperty("uuid")), Instant.parse((String) message.getProperty("creation_time")));
     activityStore.addActivity(newActivity);
-    //Want to move redirect here because or else, website freezes
-    //response.sendRedirect("/chat/" + conversationTitle);
   }
 }
