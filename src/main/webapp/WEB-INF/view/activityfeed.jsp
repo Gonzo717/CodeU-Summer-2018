@@ -114,21 +114,21 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 								if(activity.getType().equals("newUser")) {
 								%>
 									<span><b><%=activity.getCreationTimeFormatted()%></b> New user has been created! Welcome, <%=UserStore.getInstance()
-									.getUser(activity.getOwner()).getName()%></span>
+									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
 								}
 								else if(activity.getType().equals("newConvo")) {
 								%>
 									<span><b><%=activity.getCreationTimeFormatted()%></b>New conversation has been created by <%=UserStore.getInstance()
-									.getUser(activity.getOwner()).getName()%></span>
+									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
 								}
 								else if(activity.getType().equals("newMessage")) {
 								%>
 									<span><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
-									.getUser(activity.getOwner()).getName()%></span>
+									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
 								}
