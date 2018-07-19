@@ -213,8 +213,6 @@
 		    <%
 		    List<Conversation> conversations =
 		      (List<Conversation>) request.getAttribute("conversations");
-			List<Group> groups =
-			  (List<Group>) request.getAttribute("groups");
 		    if(conversations == null || conversations.isEmpty()){
 		    %>
 		      <p>Create a conversation to get started.</p>
@@ -223,12 +221,16 @@
 		    else if(conversations != null){
 		    %>
 		      <ul class="mdl-list--text-center">
-		    <% //Display 10 conversations at a time
+		    <% //Display 10 conversations at a time somehow
 		    for(Conversation conversation : conversations){
 		    %>
 			<li class="mdl-list__item">
 				<span class="mdl-list__item-primary-content">
-					<i class="material-icons mdl-list__item-avatar">group</i>
+					<%if (conversation.getConversationType().equals("GROUP")){%>
+						<i class="material-icons mdl-list__item-avatar">group</i>
+					<%} else if(conversation.getConversationType().equals("DIRECT")){ %>
+						<i class="material-icons mdl-list__item-avatar">person</i>
+					<% } %>
 					<a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
  					   <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button>
  				   </a>
@@ -244,22 +246,20 @@
 		    }
 			%>
 			</hr>
-			<% if(request.getSession().getAttribute("uuid") != null){ // check if signed in!
-				UUID id = (UUID) request.getSession().getAttribute("uuid"); %>
+			<% if(request.getSession().getAttribute("id") != null){ // check if signed in!
+				UUID id = (UUID) request.getSession().getAttribute("id"); %>
 				<h1>Private Messages</h1>
-				<% if(groups != null){
-				%>
 					<ul class="mdl-list">
 			    <%
-			       for(Group group : groups){
-						if(group.isAccessAllowed(id)){
+			    for(Conversation conversation : conversations){
+						if(conversation.isAccessAllowed(id) && !conversation.getConversationType().equals("PUBLIC")){
 					//only display the private conversation that the user is a part of
 			    %>
 			        <li class="mdl-list__item">
 						<span class="mdl-list__item-primary-content">
 							<i class="material-icons mdl-list__item-avatar">group</i>
-							<a class="mdl-navigation__link" href="/chat/<%= group.getTitle() %>">
-				          	<%= group.getTitle() %></a>
+							<a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
+				          	<%= conversation.getTitle() %></a>
 						</span>
 				  	</li>
 			    <%
@@ -267,7 +267,6 @@
 					}
 			    %>
 			        </ul>
-				<% } %>
 			<% } %>
 		    <hr/>
 		  </div>

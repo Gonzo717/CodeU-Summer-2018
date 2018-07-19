@@ -123,6 +123,7 @@ public class ChatServlet extends HttpServlet {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
+		System.out.println(conversation);
 		UUID conversationId = conversation.getId();
 		List<Message> messages = messageStore.getMessagesInConversation(conversationId);
 		request.setAttribute("messages", messages);
@@ -182,9 +183,9 @@ public class ChatServlet extends HttpServlet {
 		}
 
 		Pair messageContent = new Pair<>(cleanedMessageText, msgMedia);
-
+		System.out.println(conversation.getConversationVisibility().toString());
 		//So this might also be tough, how to format it? Because it isn't just text anymore so
-		if (conversation.getConversationVisibility().toString().equals("Group") || conversation.getConversationVisibility().toString().equals("Direct")){
+		if (conversation.getConversationVisibility().toString().equals("GROUP") || conversation.getConversationVisibility().toString().equals("DIRECT")){
 			//this loop signifies the ability to add more members to the convo
 			//This block signals that the user wants to manipulate the members in the Group (add/remove)
 			if(messageContent.getValue0() == null && messageContent.getValue1() == null){

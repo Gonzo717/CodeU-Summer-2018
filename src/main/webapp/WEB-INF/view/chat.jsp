@@ -153,6 +153,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 		<div class="page-content">
 			<div id="checkIsActive">
 				<% String NewDate = conversation.getDeletionInstant().toString(); %>
+
 				<script>
 				// Set the date we're counting down to
 				let newDate = "<%=NewDate%>";
@@ -193,8 +194,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				    }
 				}, 100); //1000
 				</script>
-				  <% if(!(conversation.getConversationType().equals("PUBLIC"))){ // This IS ONLY FOR GROUP & DIRECT MESSAGES (PRIVATE)%>
-					<% if(conversation.isAccessAllowed(id) && name != null){ //only if allowed and signed in, then display chat
+			  <% if(!(allowedUsers.contains(UUID.fromString("00000000-0000-0000-0000-000000000000")))){ // This IS ONLY FOR GROUP & DIRECT MESSAGES (PRIVATE)%>
+					<%
+					if(conversation.isAccessAllowed(id)){ //only if allowed and signed in, then display chat
 						%>
 						<h1> <%= conversation.getTitle() %>
 						</h1>
@@ -242,78 +244,83 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						}
 
 						</style>
-						<div id="display-allowed-users">
-							<h4>Current Members</h4>
-						<form action="/chat/<%= conversation.getTitle() %>" method="POST">
-							<%
-							// code for removing users
-							int removeUserCounter = 0;
-							%> <ul class="mdl-list">
-								<%for(UUID uuid: allowedUsers){
-									User user = UserStore.getUser(uuid);
-									String removeUsername = user.getName();
-									if(conversation.isAccessAllowed(uuid)){
-										%>
-										<li class="mdl-list__item">
-											<span class="mdl-list__item-primary-content">
-												<i class="material-icons mdl-list__item-avatar">person</i>
-												<a class="mdl-color-text--cyan" href="/user/<%=removeUsername%>"><%= removeUsername %></a>
-											</span>
-											<span class="mdl-list__item-secondary-action">
-												<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
-													<input type="checkbox" name="<%=removeUserCounter%>" value="<%=removeUsername%>" id="list-checkbox-1">
-												</label>
-											</span>
-										</li>
-										<% //TODO: make this more efficient for pete's sake :(
-										request.getSession().setAttribute("removeUserCounter", removeUserCounter);
-										removeUserCounter++;%>
-										<br>
-									<% }
-								} %>
-							</ul>
-						<hr/>
-							<h4>Add more members</h4>
-							<div id="addMembers">
-								<%  List<User> users = UserStore.getInstance().getUsers();
-									int addUserCounter = 0; // already initialized
-									%>
-									<ul class="mdl-list">
-									<% for(User registeredUser: users){
-										if(registeredUser.getId() != id && !conversation.isAccessAllowed(registeredUser.getId())){
-											String addUsername = registeredUser.getName();
-											 %>
-											<li class="mdl-list__item">
-												<span class="mdl-list__item-primary-content">
-													<i class="material-icons mdl-list__item-avatar">person_add</i>
-													<a class="mdl-color-text--cyan" href="/user/<%=addUsername%>"><%= addUsername %></a>
-												</span>
-												<span class="mdl-list__item-secondary-action">
-													<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="addMembers">
-														<input type="checkbox" name="<%=addUserCounter%>" value="<%=addUsername%>" id="addMembers"/>
-													</label>
-												</span>
-											</li>
-											<%
-											//TODO: make this more efficient for pete's sake :(
-											request.getSession().setAttribute("addUserCounter", addUserCounter);
-											addUserCounter++;%>
-											<%-- <li><a href="/user/<%=user.getName()%>"><%= user.getName() %></a> --%>
-										<% } %>
-								   <% }%>
-									</ul
-									<% if(addUserCounter == 0){ %>
-										<h3 style="color:green;">All users are currently in this group!</h3>
-									<% }%>
-							<hr/>
-								<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit" name="addUsers" value="Add Checked Members">
-								<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit" name="removeUsers" value="Remove Checked Members">
-						</form>
+						<%-- <% if(!(allowedUsers.contains(UUID.fromString("00000000-0000-0000-0000-000000000000")))){ %> --%>
+							<div id="display-allowed-users">
+								<h4>Current Members</h4>
+							<form action="/chat/<%= conversation.getTitle() %>" method="POST">
+								<%
+									// code for removing users
+									int removeUserCounter = 0;
+									%> <ul class="mdl-list">
+										<%for(UUID uuid: allowedUsers){
+											User user = UserStore.getInstance().getUser(uuid);
+											System.out.println(user);
+											String removeUsername = user.getName();
+											if(conversation.isAccessAllowed(uuid)){
+												%>
+												<li class="mdl-list__item">
+													<span class="mdl-list__item-primary-content">
+														<i class="material-icons mdl-list__item-avatar">person</i>
+														<a class="mdl-color-text--cyan" href="/user/<%=removeUsername%>"><%= removeUsername %></a>
+													</span>
+													<span class="mdl-list__item-secondary-action">
+														<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+															<input type="checkbox" name="<%=removeUserCounter%>" value="<%=removeUsername%>" id="list-checkbox-1">
+														</label>
+													</span>
+												</li>
+												<% //TODO: make this more efficient for pete's sake :(
+												request.getSession().setAttribute("removeUserCounter", removeUserCounter);
+												removeUserCounter++;%>
+												<br>
+											<% }
+										} %>
+									</ul>
+									<hr/>
+									<h4>Add more members</h4>
+									<div id="addMembers">
+										<%  List<User> users = UserStore.getInstance().getUsers();
+											int addUserCounter = 0; // already initialized
+											%>
+											<ul class="mdl-list">
+											<% for(User registeredUser: users){
+												if(registeredUser.getId() != id && !conversation.isAccessAllowed(registeredUser.getId())){
+													String addUsername = registeredUser.getName();
+													 %>
+													<li class="mdl-list__item">
+														<span class="mdl-list__item-primary-content">
+															<i class="material-icons mdl-list__item-avatar">person_add</i>
+															<a class="mdl-color-text--cyan" href="/user/<%=addUsername%>"><%= addUsername %></a>
+														</span>
+														<span class="mdl-list__item-secondary-action">
+															<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="addMembers">
+																<input type="checkbox" name="<%=addUserCounter%>" value="<%=addUsername%>" id="addMembers"/>
+															</label>
+														</span>
+													</li>
+													<%
+													//TODO: make this more efficient for pete's sake :(
+													request.getSession().setAttribute("addUserCounter", addUserCounter);
+													addUserCounter++;%>
+													<%-- <li><a href="/user/<%=user.getName()%>"><%= user.getName() %></a> --%>
+												<% } %>
+										   <% }%>
+											</ul
+											<% if(addUserCounter == 0){ %>
+												<h3 style="color:green;">All users are currently in this group!</h3>
+											<% }%>
+									<hr/>
+										<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit" name="addUsers" value="Add Checked Members">
+										<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit" name="removeUsers" value="Remove Checked Members">
+								</form>
+									</div>
 							</div>
-						</div>
-						<hr/>
+					<%-- <%	} %> --%>
 
-						<div id="chat">
+						<hr/>
+				<% } %>
+
+						<%-- <div id="chat">
 						  <ul>
 						<%
 						  for (Message message : messages) {
@@ -324,9 +331,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						  	}
 						%>
 						  </ul>
-						</div>
-
-						<hr/>
+						</div> --%>
 
 						<% if (request.getSession().getAttribute("user") != null) { %>
 						<form action="/chat/<%= conversation.getTitle() %>" method="POST">
@@ -345,7 +350,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						</script>
 				  <% } %>
 
-				<% } %>
+				<%-- <% } %> --%>
 					<%-- Now display the conversation  --%>
 					<script>
 					//checks if the Conversation is Active in order to display it.
@@ -353,7 +358,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 					</script>
 
-					<%if(conversation != null){ %>
+					<%-- <%if(conversation != null){ %>
 					    <h1><%= conversation.getTitle() %>
 							<h5 id="countdownTimer"></h5>
 							<a href="" style="float: right">
@@ -389,7 +394,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						      <% } %>
 
 							</div>
-					<% } %>
+					<% } %> --%>
 				    <hr/>
 				</div>
 			</div>

@@ -93,12 +93,12 @@ public class LoginServlet extends HttpServlet {
 
 			request.getSession().setAttribute("user", username);
 			request.getSession().setAttribute("admin", username);
-			request.getSession().setAttribute("uuid", uuid);
+			request.getSession().setAttribute("id", uuid);
 			response.sendRedirect("/admin");
 		}
 		else{
 			request.getSession().setAttribute("user", (username));
-			request.getSession().setAttribute("uuid", uuid);
+			request.getSession().setAttribute("id", uuid);
 			response.sendRedirect("/conversations");
 		}
 

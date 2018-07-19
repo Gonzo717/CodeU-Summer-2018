@@ -167,11 +167,9 @@ public class ConversationServlet extends HttpServlet {
 		 //ValidTime: (check button (infinity for never deleted), can only be one!)
 		 // --description-- set to null initially, not needed upon creation but can change later.
 		 String conversationParameters = request.getParameter("conversationParameters");
-		 System.out.println(conversationParameters);
 		 String conversationTitle = request.getParameter("conversationTitle");
 		 String visibility = (String) request.getParameter("conversationVisibility");
 		 Visibility conversationVisibility = null;
-		 System.out.println(visibility);
 		 if(visibility.equals("Public")){
 			 conversationVisibility = Visibility.PUBLIC;
 		 } else if(visibility.equals("Group")){
@@ -181,9 +179,7 @@ public class ConversationServlet extends HttpServlet {
 		 }
 
 		 String type = (String) request.getParameter("conversationType");
-		 System.out.println(type);
 		 Type conversationType = null;
-		 System.out.println(type);
 		 if(type.equals("Text")){
 			 conversationType = Type.TEXT;
 		 } else if(type.equals("Image")){
@@ -193,11 +189,11 @@ public class ConversationServlet extends HttpServlet {
 		 }
 
 		 String validTimeDigit = (String) request.getParameter("conversationValidTimeDigit");
-		 System.out.println(validTimeDigit);
+
 		 String validTimeUnit = (String) request.getParameter("conversationValidTimeUnit");
 		 //so can be FOREVER, 3 hour, 4 day, 23 sec, 4 min. So i'll have to parse it very specifically
 		 String validTime = validTimeDigit + "/" + validTimeUnit;
-		 System.out.println(validTime);
+
 		 ChronoUnit validTimeChronoUnit = null;
 		 if(validTimeUnit != null){
 			 validTimeChronoUnit = ChronoUnit.valueOf(validTimeUnit);
@@ -208,8 +204,12 @@ public class ConversationServlet extends HttpServlet {
 		 HashSet<UUID> members = new HashSet<UUID>();
 		 String conversationDescription = (String) request.getParameter("conversationDescription");
 
-		 if(!(visibility.equals("Public"))){ // This denotes the visibility is Group or Direct
+		 if((visibility.equals("Public"))){ // This denotes the visibility is Group or Direct
+			 members.add(UUID.fromString("00000000-0000-0000-0000-000000000000")); //the "nil" UUID denotes a public one!
+		 } else{
 			 members.add(user.getId());
+			 System.out.println("members are:");
+			 System.out.println(members);
 		 }
 
 		 if(conversationVisibility == null || conversationType == null || validTime == null || conversationDescription == null){
