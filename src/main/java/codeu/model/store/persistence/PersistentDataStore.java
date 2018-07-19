@@ -279,7 +279,7 @@ public class PersistentDataStore {
 	  activityEntity.setProperty("ownerId", activity.getOwnerId().toString());
     activityEntity.setProperty("activityId", activity.getActivityId().toString());
 	  activityEntity.setProperty("creation_time", activity.getCreationTime().toString());
-	  Future result = datastore.put_async(activityEntity);
+	  Future result = datastore.put(activityEntity);
     result.get();
   }
 }
