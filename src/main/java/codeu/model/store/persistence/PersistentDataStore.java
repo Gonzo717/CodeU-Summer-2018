@@ -125,7 +125,7 @@ public class PersistentDataStore {
 				// HashSet<UUID> members = (HashSet<UUID>) entity.getProperty("members");
 				String memberString = (String) entity.getProperty("members");
 				System.out.println(memberString);
-				String str = memberString.substring(1, memberString.length() - 2); // So memberString is basically "[<UUID1>,<UUID2>]"
+				String str = memberString.substring(1, memberString.length() - 1); // So memberString is basically "[<UUID1>,<UUID2>]"
 				List<String> stringMembers = Arrays.asList(str.split(", "));
 
 				HashSet<UUID> members = new HashSet<UUID>();

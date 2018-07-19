@@ -35,7 +35,9 @@ Conversation conversation = (Conversation) request.getAttribute("conversation");
 //This is the user's ID
 UUID id = (UUID) request.getSession().getAttribute("id");
 HashSet<UUID> allowedUsers = (HashSet<UUID>) conversation.getMembers(); //have to instantiate the set of allowed users globally
-ArrayList<UUID> allowedIds = null;
+System.out.println(allowedUsers);
+System.out.println(conversation.getMembers().contains(UUID.fromString("00000000-0000-0000-0000-000000000000")));
+// ArrayList<UUID> allowedIds = null;
 
 String title = conversation.getTitle();
 // if (!(conversation.getConversationType().equals("PUBLIC"))){
@@ -194,13 +196,25 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				    }
 				}, 100); //1000
 				</script>
-			  <% if(!(allowedUsers.contains(UUID.fromString("00000000-0000-0000-0000-000000000000")))){ // This IS ONLY FOR GROUP & DIRECT MESSAGES (PRIVATE)%>
-					<%
-					if(conversation.isAccessAllowed(id)){ //only if allowed and signed in, then display chat
-						%>
-						<h1> <%= conversation.getTitle() %>
-						</h1>
+			  <% if(conversation.getConversationVisibility().equals("GROUP") || conversation.getConversationVisibility().equals("DIRECT")){ // This IS ONLY FOR GROUP & DIRECT MESSAGES (PRIVATE)%>
+					//The way I set it up, PUBLIC conversations contain ONLY the "nil" UUID as their allowed members.
+					%>
 
+					<% if(!(conversation.isAccessAllowed(id))){ %>
+							<script> //access denied, being redirected
+							window.alert("You are not part of this Conversation");
+							window.location.replace("/conversations");
+							</script>
+					<% } %>
+
+					<h1><%=conversation.getTitle()%></h1>
+					<%/*change this to user.getname ONLY for DIRECT conversations.*/%>
+
+				<% if(conversation.getConversationVisibility().equals("GROUP")) {
+					/* So we dont want to display the members and stuff for PUBLIC conversations...
+					 * trying to address that now... Public conversations dont have members practically, but technically they do,
+					 * so that could be a problem unless I handle this correctly.
+					 */ %>
 						<script>
 						function displayAllowedUsers() {
 							var view = document.getElementById("display-allowed-users");
@@ -318,40 +332,76 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 					<%-- <%	} %> --%>
 
 						<hr/>
-				<% } %>
-
-						<%-- <div id="chat">
-						  <ul>
-						<%
-						  for (Message message : messages) {
-							String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
-						%>
-						  <li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent() %></li>
-						<%
-						  	}
-						%>
-						  </ul>
-						</div> --%>
-
-						<% if (request.getSession().getAttribute("user") != null) { %>
-						<form action="/chat/<%= conversation.getTitle() %>" method="POST">
-							<input type="text" name="message">
-							<br/>
-							<button type="submit">Send</button>
-						</form>
-						<% } else { %>
-						  <p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
 						<% } %>
 
-					<% } else{ %>
-						<script> //access denied, being redirected
-						window.alert("You are not part of this Conversation");
-						window.location.replace("/conversations");
-						</script>
+							<div id="chat">
+							  <ul>
+							<%
+							  for (Message message : messages) {
+									String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
+								%>
+									<% /* TODO: Change this.
+											* Currently, I am only displaying message.getContent().getValue0().
+											* Once I figure out how to use BlobStore and send message types other than text,
+											* I'll actually have to check the ConversationType(), to see if im dealing with either,
+											* text, media, or hybrid, and then figure out how to display those. But for now, only
+											* text will be available.
+											*/
+									%>
+								  <li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
+								<%
+							  }
+							%>
+							  </ul>
+							</div>
+
+							<% if (request.getSession().getAttribute("user") != null) { %>
+							<form autocomplete="off" action="/chat/<%= conversation.getTitle() %>" method="POST">
+								<input maxlength="75" type="text" name="messageText">
+								<br/>
+								<button type="submit">Send</button>
+							</form>
+							<% } else { %>
+							  <p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
+							<% } %>
+
+					<% } else if(conversation.getConversationVisibility().equals("PUBLIC")){
+						/* If the conversation is public, I dont want to display any info about who's allowed (everyone)
+						 * or any functionality about adding/removing people. Thus I have to re-load the chat div and
+						 * display it because I couldn't think of a more elegant way to do this.
+						*/
+
+						%>
+
+						<h1> <%=conversation.getTitle()%> </h1>
+
+							<div id="chat">
+								<ul>
+							<%
+								for (Message message : messages) {
+									String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
+								%>
+									<li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
+								<%
+								}
+							%>
+								</ul>
+							</div>
+
+							<% if (request.getSession().getAttribute("user") != null) { %>
+							<form autocomplete="off" action="/chat/<%= conversation.getTitle() %>" method="POST">
+								<input maxlength="75" type="text" name="messageText">
+								<br/>
+								<button type="submit">Send</button>
+							</form>
+							<% } else { %>
+								<p><a class="mdl-color-text--cyan" href="/login">Login</a> to send a message.</p>
+							<% } %>
 				  <% } %>
 
 				<%-- <% } %> --%>
 					<%-- Now display the conversation  --%>
+
 					<script>
 					//checks if the Conversation is Active in order to display it.
 

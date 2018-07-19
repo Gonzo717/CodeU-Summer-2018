@@ -183,9 +183,9 @@ public class ChatServlet extends HttpServlet {
 		}
 
 		Pair messageContent = new Pair<>(cleanedMessageText, msgMedia);
-		System.out.println(conversation.getConversationVisibility().toString());
+		System.out.println(conversation.getConversationVisibility());
 		//So this might also be tough, how to format it? Because it isn't just text anymore so
-		if (conversation.getConversationVisibility().toString().equals("GROUP") || conversation.getConversationVisibility().toString().equals("DIRECT")){
+		if (conversation.getConversationVisibility().equals("GROUP") || conversation.getConversationVisibility().equals("DIRECT")){
 			//this loop signifies the ability to add more members to the convo
 			//This block signals that the user wants to manipulate the members in the Group (add/remove)
 			if(messageContent.getValue0() == null && messageContent.getValue1() == null){
@@ -229,6 +229,10 @@ public class ChatServlet extends HttpServlet {
 	    response.sendRedirect("/chat/" + conversationTitle);
 
 		}
+
+		System.out.println(messageContent);
+		System.out.println(messageContent.getValue0());
+
 		if(messageContent.getValue0() != null){
 			//then parse the message and do all that jazz
 			// this removes any HTML from the message content
@@ -253,6 +257,9 @@ public class ChatServlet extends HttpServlet {
 
 			Activity msgAct = new Activity("newMessage", UUID.randomUUID(), user.getId(), message.getCreationTime());
 			activityStore.addActivity(msgAct);
+
+			System.out.println("what is the issue?");
+			System.out.println(message);
 
 			response.sendRedirect("/chat/" + conversationTitle);
 		}
