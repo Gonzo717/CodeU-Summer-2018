@@ -198,7 +198,7 @@ public class ChatServlet extends HttpServlet {
 					if(conversation.getConversationVisibility().equals("DIRECT")){
 						request.getSession().setAttribute("addedDirectMessageRecipient", "true");
 					}
-					
+
 				}
 				else if(request.getParameter("removeUsers") != null){
 					removeUsers = true;
