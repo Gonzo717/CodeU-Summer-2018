@@ -31,19 +31,29 @@
 	  width: 1000px;
 	}
 
-	.welcome-to-YACA {
-    background-color: rgb(243,243,243);
+	.main-text-pane {
     display: flex;
     min-height: 512px;
     overflow: hidden;
+		flex-flow: column;
     width: 100%;
 	}
 
-	/* .welcome-to-YACA-left{
-    display: flex;
-    box-flex: 3;
-    flex-grow: 3;
-	} */
+	#dark {
+		background-color: rgb(243,243,243);
+	}
+
+	#light {
+		background-color: #f6f6f6;
+	}
+
+	#color {
+		background-color: #46B6AC;
+	}
+
+	.mdl-typography--text-left h1{
+		padding-left: 20px;
+	}
 
 	.welcome-to-YACA-right{
 		display: flex;
@@ -51,22 +61,46 @@
 		flex-grow: 3;
 	}
 
-	/* #view-source {
-	  display: block;
-	  right: 0;
-	  bottom: 0;
-	  margin-right: 40px;
-	  margin-bottom: 40px;
-	  z-index: 900;
-	} */
+	.mdl-card {
+		width: auto;
+	}
+
 	.demo-card-wide.mdl-card {
 	  width: 450px;
 	}
-	.demo-card-wide > .mdl-card__title {
+
+	.demo-card-codeU > .mdl-card__title {
 	  color: #fff;
-	  height: 176px;
-	  background: url('/images/CodeU.png') center / cover #46B6AC;
+	  height: 256px;
+	  background: url('/images/CodeU.png') center / cover;
+		background-color: #46B6AC;
+		/* background-size: contain; */
 	}
+
+	.demo-card-Javachips > .mdl-card__title {
+		color: #fff;
+		height: 300px;
+		background: url('/images/JavaChipsLogo.png') center / cover;
+		background-color: #46B6AC;
+		/* background-size: contain; */
+	}
+
+	.demo-card-conversation > .mdl-card__title {
+		color: #fff;
+	  height: 256px;
+	  background: url('/images/conversations1.png') left no-repeat;
+		background-color: #46B6AC;
+		background-size: contain;
+	}
+
+	.demo-card-chat > .mdl-card__title {
+		color: #fff;
+		height: 300px;
+		background: url('/images/chat1.png') top no-repeat;
+		background-color: #46B6AC;
+		background-size: cover;
+	}
+
 	.demo-card-wide > .mdl-card__menu {
 	  color: #46B6AC;
 	}
@@ -123,67 +157,126 @@
 		<main class="mdl-layout__content" style="display:-webkit-box;">
 				<div class="content-grid">
 					<div class="page-content">
-						<div class="welcome-to-YACA">
 
-							<div class="welcome-to-YACA-left">
-								<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-									<div class="mdl-card__title">
-										<h2 class="mdl-card__title-text">Yet Another Chat App</h2>
-									</div>
-									<div class="mdl-card__subtitle">
-										<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
-									</div>
-									<div class="mdl-card__supporting-text">
-										YACA was developed for the Google CodeU Summer 2018 program by our team, JavaChips.
-									</div>
-									<div class="mdl-card__actions mdl-card--border">
-										<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-											About JavaChips
-										</a>
-									</div>
-									<div class="mdl-card__menu">
-										<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-											<i class="material-icons">share</i>
-										</button>
-									</div>
+						<div class="main-text-pane" id="light">
+							<div class="mdl-typography--text-left" style="padding-left: 10px; margin-top: 50px;" >
+								<h1>Have a Look Around...</h1>
 							</div>
-							<div class="welcome-to-YACA-right">
-								<div class="mdl-layout__title">
-									<h1>Welcome to YACA</h1>
+							<div class="content-grid mdl-grid">
+								<div class="mdl-cell">
+									<div class="demo-card-codeU mdl-card mdl-shadow--2dp">
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											YACA was developed for the Google CodeU Summer 2018 program by our team, JavaChips.
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/about.jsp">
+												About JavaChips
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
 								</div>
-								<br>
-								<div class="mdl-layout__title">
-										YACA was developed for the Google CodeU Summer program by our team, JavaChips. Meet the JavaChips team&nbsp<a class="mdl-color-text--cyan" href="/about.jsp">here</a>.
-										<br>
-										Our goal was not only to develop a web chat app for the CodeU program, but also to enhance the chat user experience by providing a new conversational
-										organization to chats. Some of these features are outlined below and are currently being implemented by the JavaChips team!
+									<!-- add content here -->
 								</div>
-										<ul class="mdl-list">
-											<li class="mdl-list__item">Chat threads - Talk about any subject with a large amount of people in a forum-like chat.</li>
-											<li class="mdl-list__item">Conversation tagging - Organize and search for conversations based on tags that describe them.</li>
-											<li class="mdl-list__item">Disappearing chat threads and subconversations -
-												Does your group chat ever get off topic which results in an infinite amount of scrolling to figure out what happened while you were gone?
-												With disappearing subconversations, you never need to worry about it again! Subconversations allow for group conversations to separate topics into a
-												disappearing chat thread. After the chat disappears, a summery of the conversation is made so you don't have to worry about what you missed.
-											</li>
-											<li class="mdl-list__item">Unique talk only feature - Have fun conversations by limiting what type of messages users can send. Have a conversation in exclusively gifs
-												or images-or even limit word usage to one word. Watch the creative madness unroll!
-											</li>
+								<div class="mdl-cell">
+									<div class="demo-card-Javachips mdl-card mdl-shadow--2dp" >
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											JAVACHIPS GOES HERE
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations.jsp">
+												Try Conversations
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+									<!-- also here -->
 								</div>
 							</div>
 						</div>
 
-						<div class="page-content mdl-cell mdl-cel--2-col">
-						<br><br><br>
-					    <ul class="mdl-list">
-					       <li class="mdl-list__item"><a class="mdl-color-text--cyan" href="/login">Login </a>&nbsp to begin chatting</li>
-					       <li class="mdl-list__item"><span>
-									Go to the &nbsp<a class="mdl-color-text--cyan" href="/conversations">conversations</a>&nbsp page to
-				          create or join a conversation.
-								</span>
-								</li>
-				        <li class="mdl-list__item">View the &nbsp<a class="mdl-color-text--cyan" href="/about.jsp">about</a>&nbsp page to learn more about the JavaChips team.</li>
-					    </ul>
+						<div class="main-text-pane" id="light">
+							<div class="mdl-typography--text-left" style="padding-left: 10px;">
+								<h1>Yet Another</h1>
+							</div>
+						</div>
+
+						<div class="main-text-pane" id="dark">
+							<div class="mdl-typography--text-left" style="padding-left:10px; height: 100px; width: 365px;">
+								<h1>Chat App.</h1>
+							</div>
+							<div class="content-grid mdl-grid">
+								<div class="mdl-cell mdl-cell--3-col">
+									<div class="demo-card-conversation mdl-card mdl-shadow--2dp" >
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											Try out our ground-breaking take on Public, Direct, and Group Conversations.
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations.jsp">
+												Try Conversations
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+									<!-- also here -->
+								</div>
+							  <div class="mdl-cell mdl-cell--9-col">
+									<div class="demo-card-chat mdl-card mdl-shadow--2dp">
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											Add/Remove Members and set an Expiry time
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/about.jsp">
+												Go Converse
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+							    <!-- add content here -->
+							  </div>
+							  <div class="mdl-cell">
+							    <!-- and probably also here -->
+							  </div>
+							</div>
+						</div>
+
+						<div class="main-text-pane" id="color">
+							<div class="mdl-typography--text-left" style="padding-left: 10px;">
+								<h1>Try it out. </h1>
+							</div>
+						</div>
+
+						<div class="main-text-pane" id="light">
+							<div class="mdl-typography--text-left" style="padding-left: 10px;">
+								<h1>Coming Soon... </h1>
+							</div>
 						</div>
 
 				  </div>

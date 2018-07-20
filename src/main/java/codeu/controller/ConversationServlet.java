@@ -300,6 +300,7 @@ public class ConversationServlet extends HttpServlet {
 		// 			// just going to make a judgment call yolo, members = null, denoting no restrictions, everyone can see
 		// 			members = null;
 		// 	default:
+
 		//Have to do this regardless of the type of conversation Conversation! :D
 
 			Conversation conversation = new Conversation( UUID.randomUUID(), user.getId(), conversationTitle,
