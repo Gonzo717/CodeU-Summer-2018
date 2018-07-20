@@ -102,7 +102,7 @@
 		</div>
 	</div>
 
-<main class="mdl-layout__content">
+<main class="mdl-layout__content" style="display:-webkit-box;">
 	<div class="content-grid">
 		<div class="page-content">
 		  <div id="container">
@@ -268,7 +268,7 @@
 							</ul>
 					<% } %>
 
-					<%if(conversation.getConversationVisibility().equals("DIRECT")){ %>
+					<%if(conversation.getConversationVisibility().equals("DIRECT") && conversation.isAccessAllowed(id)){ %>
 							<ul class="mdl-list--text-center">
 								<li class="mdl-list__item mdl-list__item--two-line">
 								 <span class="mdl-list__item-primary-content">

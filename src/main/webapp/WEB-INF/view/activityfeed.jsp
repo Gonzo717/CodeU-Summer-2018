@@ -86,7 +86,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 				</div>
 			</div>
 		</div>
-	<main class="mdl-layout__content">
+		<main class="mdl-layout__content" style="display:-webkit-box;">
 		<div class="content-grid">
 			<div class="page-content">
 				<h1 id="container">

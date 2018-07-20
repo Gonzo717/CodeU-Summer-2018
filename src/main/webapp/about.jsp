@@ -62,16 +62,34 @@
   .demo-card-square > .mdl-card__title{
     color: #fff;
     background:
-      url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
   }
   #Luis{
-	  background-size: cover;
+	  background-size: auto;
 	  background:
-        url('/images/luisphoto.JPG') no-repeat #46B6AC;
+        url('/images/luisphoto.JPG') left no-repeat #46B6AC;
 	  max-width: 100%;
 	  max-height: 100%;
 
   }
+
+	#Crista{
+		background-size: auto;
+		background:
+				url('/images/crista.jpeg') left no-repeat #46B6AC;
+		max-width: 100%;
+		max-height: 100%;
+
+	}
+
+
+	#Gonzalo{
+		background-size: auto;
+		background:
+				url('/images/gonzo.jpeg') center no-repeat #46B6AC;
+		max-width: 100%;
+		max-height: 100%;
+
+	}
   </style>
 
 </head>
@@ -119,20 +137,11 @@
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 					</a>
 				</span>
-				<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-					<i class="material-icons">more_vert</i>
-				</button>
-				<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-					<li class="mdl-menu__item">Add something here!</li>
-					<li class="mdl-menu__item">Perhaps another?</li>
-					<li disabled class="mdl-menu__item">Another one</li>
-					<li class="mdl-menu__item">Anotha 1</li>
-				</ul>
 			</div>
 		</div>
 	</div>
 
-	<main class="mdl-layout__content">
+	<main class="mdl-layout__content" style="display:-webkit-box;">
 		<div class="content-grid">
 			<div class="page-content">
 		  <div id="container">
@@ -154,7 +163,7 @@
 			      <h2 class="mdl-card__title-text">Gonzalo Rosales</h2>
 			    </div>
 			    <div class="mdl-card__supporting-text">
-					Rising sophomore at Boston University
+					Gonzalo is a rising sophomore at Boston University
 					and is happy to finally be done with his discrete math class.
 					He is from Chicago and enjoys reading, playing the trumpet,
 					and riding his bike around the city. This summer he will also be teaching
@@ -176,7 +185,7 @@
 			      <h2 class="mdl-card__title-text">Crista Mondragon</h2>
 			    </div>
 			    <div class="mdl-card__supporting-text">
-					Rising sophomore at the University of
+					  Crista is a rising sophomore at the University of
 					  Illinois at Chicago. Unlike Gonzalo, she seems to be pretty good at discrete
 					  and is actually a TA for the course. She is from the NW suburbs of Chicago
 					  and enjoys listening to alt, rock, and many other types of music, as well as
@@ -203,7 +212,7 @@
 					  Instead of sitting coding all day he mixes it up by playing soccer for Rice and
 					  is a huge soccer fanatic. Other than working on this chat app, he will be doing
 					  research on genome visualization and bioinformatics at the Baylor College of Medicine.
-					  If that wasn't personal enough, his favorite color is blue.
+					  If that wasn't personal enough, his favorite color is blue. :D
 			    </div>
 			    <div class="mdl-card__actions mdl-card--border">
 					<a class="mdl-color--white" href="https://www.linkedin.com/in/luisclague/" style="text-decoration:none;">

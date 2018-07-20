@@ -26,25 +26,54 @@
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	<style>
 	.content-grid {
-	  max-width: 960px;
-	  display: inline-block;
-	}
-	.page-content{
-
+		margin-left: auto;
+		margin-right: auto;
+	  width: 1000px;
 	}
 
-	#view-source {
+	.welcome-to-YACA {
+    background-color: rgb(243,243,243);
+    display: flex;
+    min-height: 512px;
+    overflow: hidden;
+    width: 100%;
+	}
+
+	/* .welcome-to-YACA-left{
+    display: flex;
+    box-flex: 3;
+    flex-grow: 3;
+	} */
+
+	.welcome-to-YACA-right{
+		display: flex;
+		box-flex: 3;
+		flex-grow: 3;
+	}
+
+	/* #view-source {
 	  display: block;
 	  right: 0;
 	  bottom: 0;
 	  margin-right: 40px;
 	  margin-bottom: 40px;
 	  z-index: 900;
+	} */
+	.demo-card-wide.mdl-card {
+	  width: 450px;
+	}
+	.demo-card-wide > .mdl-card__title {
+	  color: #fff;
+	  height: 176px;
+	  background: url('/images/CodeU.png') center / cover #46B6AC;
+	}
+	.demo-card-wide > .mdl-card__menu {
+	  color: #46B6AC;
 	}
 	</style>
 
 </head>
-<body>
+<%-- <boy> --%>
 
 	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
@@ -84,62 +113,82 @@
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 					</a>
 				</span>
-				<%-- <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-					<i class="material-icons">more_vert</i>
-				</button>
-				<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-					<li class="mdl-menu__item">Add something here!</li>
-					<li class="mdl-menu__item">Perhaps another?</li>
-					<li disabled class="mdl-menu__item">Another one</li>
-					<li class="mdl-menu__item">Anotha 1</li>
-				</ul> --%>
+
 			</div>
 		</div>
 	</div>
 
 	<!--Main content starts here-->
-	<main class="mdl-layout__content">
-			<div class="mdl-grid">
-				<div class="page-content mdl-cell mdl-cel--2-col">
-					<div class="mdl-layout__title">
-						<br><br><br>
-						<h3>Welcome to YACA</h3>
-					</div>
-					<br>
-					<div class="mdl-layout__title">
-							YACA was developed for the Google CodeU Summer program by our team, JavaChips. Meet the JavaChips team&nbsp<a class="mdl-color-text--cyan" href="/about.jsp">here</a>.
-							<br>
-							Our goal was not only to develop a web chat app for the CodeU program, but also to enhance the chat user experience by providing a new conversational
-							organization to chats. Some of these feature are outlined below and are currently being implemented by the JavaChips team!
-					</div>
-							<ul class="mdl-list">
-								<li class="mdl-list__item">Chat threads - Talk about any subject with a large amount of people in a forum-like chat.</li>
-								<li class="mdl-list__item">Conversation tagging - Organize and search for conversations based on tags that describe them.</li>
-								<li class="mdl-list__item">Disappearing chat threads and subconversations -
-									Does your group chat ever get off topic which results in an infinite amount of scrolling to figure out what happened while you were gone?
-									With disappearing subconversations, you never need to worry about it again! Subconversations allow for group conversations to separate topics into a
-									disappearing chat thread. After the chat disappears, a summery of the conversation is made so you don't have to worry about what you missed.
-								</li>
-								<li class="mdl-list__item">Unique talk only feature - Have fun conversations by limiting what type of messages users can send. Have a conversation in exclusively gifs
-									or images-or even limit word usage to one word. Watch the creative madness unroll!
-								</li>
+	<body>
+		<main class="mdl-layout__content" style="display:-webkit-box;">
+				<div class="content-grid">
+					<div class="page-content">
+						<div class="welcome-to-YACA">
 
-					</div>
+							<div class="welcome-to-YACA-left">
+								<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+									<div class="mdl-card__title">
+										<h2 class="mdl-card__title-text">Yet Another Chat App</h2>
+									</div>
+									<div class="mdl-card__subtitle">
+										<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+									</div>
+									<div class="mdl-card__supporting-text">
+										YACA was developed for the Google CodeU Summer 2018 program by our team, JavaChips.
+									</div>
+									<div class="mdl-card__actions mdl-card--border">
+										<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+											About JavaChips
+										</a>
+									</div>
+									<div class="mdl-card__menu">
+										<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+											<i class="material-icons">share</i>
+										</button>
+									</div>
+							</div>
+							<div class="welcome-to-YACA-right">
+								<div class="mdl-layout__title">
+									<h1>Welcome to YACA</h1>
+								</div>
+								<br>
+								<div class="mdl-layout__title">
+										YACA was developed for the Google CodeU Summer program by our team, JavaChips. Meet the JavaChips team&nbsp<a class="mdl-color-text--cyan" href="/about.jsp">here</a>.
+										<br>
+										Our goal was not only to develop a web chat app for the CodeU program, but also to enhance the chat user experience by providing a new conversational
+										organization to chats. Some of these features are outlined below and are currently being implemented by the JavaChips team!
+								</div>
+										<ul class="mdl-list">
+											<li class="mdl-list__item">Chat threads - Talk about any subject with a large amount of people in a forum-like chat.</li>
+											<li class="mdl-list__item">Conversation tagging - Organize and search for conversations based on tags that describe them.</li>
+											<li class="mdl-list__item">Disappearing chat threads and subconversations -
+												Does your group chat ever get off topic which results in an infinite amount of scrolling to figure out what happened while you were gone?
+												With disappearing subconversations, you never need to worry about it again! Subconversations allow for group conversations to separate topics into a
+												disappearing chat thread. After the chat disappears, a summery of the conversation is made so you don't have to worry about what you missed.
+											</li>
+											<li class="mdl-list__item">Unique talk only feature - Have fun conversations by limiting what type of messages users can send. Have a conversation in exclusively gifs
+												or images-or even limit word usage to one word. Watch the creative madness unroll!
+											</li>
+								</div>
+							</div>
+						</div>
 
-					<div class="page-content mdl-cell mdl-cel--2-col">
+						<div class="page-content mdl-cell mdl-cel--2-col">
 						<br><br><br>
-				    <ul class="mdl-list">
-				       <li class="mdl-list__item"><a class="mdl-color-text--cyan" href="/login">Login </a>&nbsp to begin chatting</li>
-				       <li class="mdl-list__item"><span>
-								Go to the &nbsp<a class="mdl-color-text--cyan" href="/conversations">conversations</a>&nbsp page to
-			          create or join a conversation.
-							</span>
-							</li>
-			        <li class="mdl-list__item">View the &nbsp<a class="mdl-color-text--cyan" href="/about.jsp">about</a>&nbsp page to learn more about the JavaChips team.</li>
-				    </ul>
-					</div>
-			  </div>
-	  	</div>
-	</main>
-</body>
+					    <ul class="mdl-list">
+					       <li class="mdl-list__item"><a class="mdl-color-text--cyan" href="/login">Login </a>&nbsp to begin chatting</li>
+					       <li class="mdl-list__item"><span>
+									Go to the &nbsp<a class="mdl-color-text--cyan" href="/conversations">conversations</a>&nbsp page to
+				          create or join a conversation.
+								</span>
+								</li>
+				        <li class="mdl-list__item">View the &nbsp<a class="mdl-color-text--cyan" href="/about.jsp">about</a>&nbsp page to learn more about the JavaChips team.</li>
+					    </ul>
+						</div>
+
+				  </div>
+
+				</div>
+		</main>
+	</body>
 </html>

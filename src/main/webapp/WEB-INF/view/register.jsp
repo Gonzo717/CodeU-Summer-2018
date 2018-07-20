@@ -91,7 +91,7 @@
 		</div>
 	</div>
 
-	<main class="mdl-layout__content">
+	<main class="mdl-layout__content" style="display:-webkit-box;">
 		<div class="page-content">
   		  	<div class="mdl-cell--stretch">
   			  	<div
