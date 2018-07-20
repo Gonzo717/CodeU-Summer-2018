@@ -75,20 +75,25 @@
 	#Crista{
 		background-size: auto;
 		background:
-				url('/images/crista.jpeg') left no-repeat #46B6AC;
+				url('/images/crista.jpeg') center no-repeat #46B6AC;
 		max-width: 100%;
 		max-height: 100%;
 
 	}
 
-
 	#Gonzalo{
 		background-size: auto;
 		background:
-				url('/images/gonzo.jpeg') center no-repeat #46B6AC;
+				url('/images/gonzo.jpeg') right no-repeat #46B6AC;
 		max-width: 100%;
 		max-height: 100%;
+		/* align: right; */
 
+	}
+
+	.demo-card-square.mdl-card {
+		width: 85%;
+		height: 500px;
 	}
   </style>
 
@@ -146,18 +151,18 @@
 			<div class="page-content">
 		  <div id="container">
 		    <div
-		      style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
+		      style="width:100%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-		      <h1 class="mdl-typography--text-center mdl-typography--display-1">About the Trill Chat App</h1>
-		      <p>
+		      <h1 class="mdl-typography--text-center">Yet Another Chat App</h1>
+		      <h5>
 		        This chat app started as a playground for us Google CodeU participants to
-		        practice our java and team working skills. We have decided to call this chat app
-		        Trill and hope to fill it with amazing features in the future!
-		      </p>
+		        practice our java and team working skills. We've decided to call this project YACA
+						and hope to fill it with amazing features in the future!
+		      </h5>
 
 		      <h1 class="mdl-typography--text-center mdl-typography--display-2"><Strong> Meet Team JavaChips:</strong></h1>
 		  </br>
-		  	<div class="mdl-cell--stretch">
+		  	<div class="mdl-cell--stretch dev-cards">
 			  <div class="demo-card-square mdl-card mdl-shadow--2dp">
 			    <div class="mdl-card__title mdl-card--expand" id="Gonzalo">
 			      <h2 class="mdl-card__title-text">Gonzalo Rosales</h2>
@@ -171,15 +176,18 @@
 			    </div>
 			    <div class="mdl-card__actions mdl-card--border">
 					<a href="https://www.linkedin.com/in/gonzalo-rosales17/">
-					<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
-  			        	<i class="fa fa-linkedin"></i>
-  			      	</button>
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
+	  			  	<i class="fa fa-linkedin"></i>
+	  			  </button>
+					</a>
+					<a href="https://github.com/Gonzo717s">
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
+							<i class="fa fa-github"></i>
+						</button>
 					</a>
 			    </div>
 			  </div>
-		  </div>
 		  </br></br>
-		  <div class="mdl-cell--stretch">
 			  <div class="demo-card-square mdl-card mdl-shadow--2dp">
 			    <div class="mdl-card__title mdl-card--expand" id="Crista">
 			      <h2 class="mdl-card__title-text">Crista Mondragon</h2>
@@ -193,16 +201,18 @@
 			    </div>
 			    <div class="mdl-card__actions mdl-card--border">
 			      <a href="https://www.linkedin.com/in/cristamondragon/">
-				  <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
-					<i class="fa fa-linkedin"></i>
-			      </button>
+						  <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
+								<i class="fa fa-linkedin"></i>
+					    </button>
 			  	  </a>
-
+						<a href="https://github.com/cmondragon15117">
+							<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
+								<i class="fa fa-github"></i>
+							</button>
+						</a>
 			    </div>
 			  </div>
-		  </div>
 		  </br></br>
-		  <div class="mdl-cell--stretch">
 			  <div class="demo-card-square mdl-card mdl-shadow--2dp">
 			    <div class="mdl-card__title mdl-card--expand" id="Luis">
 			      <h2 class="mdl-card__title-text">Luis Clague</h2>
@@ -219,6 +229,11 @@
 					<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
 					  <i class="fa fa-linkedin"></i>
 					</button>
+					</a>
+					<a href="https://github.com/clague17">
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
+							<i class="fa fa-github"></i>
+						</button>
 					</a>
 			    </div>
 			  </div>
