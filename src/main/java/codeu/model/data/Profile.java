@@ -12,7 +12,6 @@ public class Profile {
   private final HashSet<User> followers;
   private final HashSet<User> following;
   private final String college;
-  private final HashSet<String> classes;
   private final int brownie_points;
   private final HashSet<Conversation> pinnedConvos;
   private final String aboutMe;
@@ -20,25 +19,23 @@ public class Profile {
 /**
 * Constructs a new profile
 *
-* @param id              the id of this user
-* @param profilePicId      the id of this users profilePiStore
+* @param id              the id of this profile Store
+* @param profilePicId    the id of this users profilePicStore
 * @param followers       the list of Users that follow this user
 * @param following       the list of Users that this user is following
 * @param college         the college this user attends
-* @param classes         the classes this user has isTitleTaken
 * @param brownie_points  the number of brownie_points this user has
 * @param pinnedConvos    the conversations this user has pinned
 * @param aboutMe         the "about me" of this user
 */
 
-  public Profile(UUID id, UUID profilePicId, HashSet<User> followers, HashSet<User> following,String college,
-      HashSet<String> classes, int brownie_points, HashSet<Conversation> pinnedConvos, String aboutMe){
+  public Profile(UUID id, UUID profilePicId, HashSet<User> followers, HashSet<User> following, String college,
+      int brownie_points, HashSet<Conversation> pinnedConvos, String aboutMe){
         this.id = id;
         this.profilePicId = profilePicId;
         this.followers = followers;
         this.following = following;
         this.college = college;
-        this.classes = classes;
         this.brownie_points = brownie_points;
         this.pinnedConvos = pinnedConvos;
         this.aboutMe = aboutMe;
@@ -54,7 +51,7 @@ public class Profile {
    /**
     * Returns the profilePicId of this profile.
     */
-    public UUID getProfilePicID(){
+    public UUID getPicId(){
       return profilePicId;
     }
 
@@ -66,17 +63,16 @@ public class Profile {
     }
 
     /**
+     * Returns the HashSet of users this profile follows
+    */
+    public HashSet getFollowing(){
+      return following;
+    }
+    /**
      * Returns the college of this profile.
      */
     public String getCollege(){
       return college;
-    }
-
-    /**
-     * Returns the HashSet of classes in this profile.
-     */
-    public HashSet getClasses() {
-      return classes;
     }
 
     /**
