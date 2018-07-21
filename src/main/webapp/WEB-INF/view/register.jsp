@@ -86,7 +86,7 @@ limitations under the License.
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
 						<% } %>
 						<%-- <% if(request.getSession().getAttribute("admin") != null){ %> --%>
-						  <a href="/admin">Admin</a>
+						  <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
 						<%-- <% } %> --%>
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
@@ -102,7 +102,7 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-				<main class="mdl-layout__content">
+				<main class="mdl-layout__content" style="display:-webkit-box;">
 					<div class="page-content">
 						<div class="mdl-cell--stretch">
 							<div
