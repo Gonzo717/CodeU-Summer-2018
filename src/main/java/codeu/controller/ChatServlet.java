@@ -242,8 +242,8 @@ public class ChatServlet extends HttpServlet {
       messageStore.addMessage(message);
 
       // old way to add msg to activitystore, keeping for ref
-      // Activity msgActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), message.getId(), message.getCreationTime());
-      // activityStore.addActivity(msgActivity);
+      Activity msgActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), message.getAuthorId(), message.getId(), message.getCreationTime());
+      activityStore.addActivity(msgActivity);
 
       response.sendRedirect("/chat/" + conversationTitle);
     }
@@ -254,9 +254,12 @@ public class ChatServlet extends HttpServlet {
   @PostPut(kinds = {"chat-messages"}) // Only applies to chat-messages query
   void addActivity(PutContext context) {
     //adds activity into activityStore
-    System.out.println("PostPut running for new message");
-    Entity message = context.getCurrentElement();
-    Activity newActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), UUID.fromString((String) message.getProperty("author_uuid")), UUID.fromString((String) message.getProperty("uuid")), Instant.parse((String) message.getProperty("creation_time")));
-    activityStore.addActivity(newActivity);
+    // System.out.println("PostPut running for new message");
+    // Entity message = context.getCurrentElement();
+    // System.out.println(message.getProperty("content"));
+    // Activity newActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), UUID.fromString((String) message.getProperty("author_uuid")), UUID.fromString((String) message.getProperty("uuid")), Instant.parse((String) message.getProperty("creation_time")));
+
+    //This line not getting called
+    //activityStore.addActivity(newActivity);
   }
 }
