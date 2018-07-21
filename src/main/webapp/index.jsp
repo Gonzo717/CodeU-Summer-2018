@@ -23,6 +23,8 @@
 	<link rel="shortcut icon" href="/images/YACA.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	<style>
 	.content-grid {
@@ -89,6 +91,54 @@
 		color: #fff;
 	  height: 256px;
 	  background: url('/images/conversations1.png') left no-repeat;
+		background-color: #46B6AC;
+		background-size: contain;
+	}
+
+	.demo-card-profPage > .mdl-card__title {
+		color: #fff;
+		height: 256px;
+		background: url('/images/profPage.png') left no-repeat;
+		background-color: #46B6AC;
+		background-size: contain;
+	}
+
+	.demo-card-activityFeed > .mdl-card__title {
+		color: #fff;
+		height: 256px;
+		background: url('/images/activityFeed.png') left no-repeat;
+		background-color: #46B6AC;
+		background-size: contain;
+	}
+
+	.demo-card-adminStats > .mdl-card__title {
+		color: #fff;
+		height: 256px;
+		background: url('/images/adminStats.png') left no-repeat;
+		background-color: white;
+		background-size: contain;
+	}
+
+	.demo-card-addAdmin > .mdl-card__title {
+		color: #fff;
+		height: 256px;
+		background: url('/images/addAdmin.png') left no-repeat;
+		background-color: white;
+		background-size: contain;
+	}
+
+	.demo-card-playGame > .mdl-card__title {
+		color: #fff;
+		height: 256px;
+		background: url('/images/playGame.png') left no-repeat;
+		background-color: white;
+		background-size: contain;
+	}
+
+	.demo-card-sentMsg > .mdl-card__title {
+		color: #fff;
+	  height: 235px;
+	  background: url('/images/sentMsg.png') left no-repeat;
 		background-color: #46B6AC;
 		background-size: contain;
 	}
@@ -160,10 +210,10 @@
 
 						<div class="main-text-pane" id="light">
 							<div class="mdl-typography--text-left" style="padding-left: 10px; margin-top: 50px;" >
-								<h1>Have a Look Around...</h1>
+								<h1>Welcome to YACA</h1>
 							</div>
 							<div class="content-grid mdl-grid">
-								<div class="mdl-cell">
+								<div class="mdl-cell mdl-cell--6-col">
 									<div class="demo-card-codeU mdl-card mdl-shadow--2dp">
 										<div class="mdl-card__title">
 											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
@@ -184,7 +234,7 @@
 								</div>
 									<!-- add content here -->
 								</div>
-								<div class="mdl-cell">
+								<div class="mdl-cell mdl-cell--6-col">
 									<div class="demo-card-Javachips mdl-card mdl-shadow--2dp" >
 										<div class="mdl-card__title">
 											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
@@ -193,11 +243,11 @@
 											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
 										</div> --%>
 										<div class="mdl-card__supporting-text">
-											JAVACHIPS GOES HERE
+											Built with <i class="fa fa-heart" style="color:red"></i> by Gonzalo, Crista, and Luis.
 										</div>
 										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations.jsp">
-												Try Conversations
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/about.jsp">
+												Learn More
 											</a>
 										</div>
 										<div class="mdl-card__menu">
@@ -208,13 +258,79 @@
 							</div>
 						</div>
 
-						<div class="main-text-pane" id="light">
+					<div class="main-text-pane" id="dark">
 							<div class="mdl-typography--text-left" style="padding-left: 10px;">
 								<h1>Yet Another</h1>
 							</div>
+							<div class="content-grid mdl-grid">
+								<div class="mdl-cell mdl-cell--4-col">
+									<div class="demo-card-profPage mdl-card mdl-shadow--2dp">
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											You'll be able to view and edit your bio; your window to the world.
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/login">
+												view your profile
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+									<!-- add content here -->
+								</div>
+								<div class="mdl-cell mdl-cell--4-col">
+									<div class="demo-card-sentMsg mdl-card mdl-shadow--2dp" >
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											After registering, you'll be able to see your own sent messages!
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/login">
+												Check Your Messages
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+									<!-- also here -->
+								</div>
+								<div class="mdl-cell mdl-cell--4-col">
+									<div class="demo-card-activityFeed mdl-card mdl-shadow--2dp" >
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											Keep track of what's going on. Check your Activity Feed and see who's doing what.
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/about.jsp">
+												Login
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+									<!-- also here -->
+								</div>
+							</div>
+
 						</div>
 
-						<div class="main-text-pane" id="dark">
+						<div class="main-text-pane" id="light">
 							<div class="mdl-typography--text-left" style="padding-left:10px; height: 100px; width: 365px;">
 								<h1>Chat App.</h1>
 							</div>
@@ -249,10 +365,10 @@
 											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
 										</div> --%>
 										<div class="mdl-card__supporting-text">
-											Add/Remove Members and set an Expiry time
+											Add/Remove Members and set an Expiry time. Conversations can self-destruct!
 										</div>
 										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/about.jsp">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversation">
 												Go Converse
 											</a>
 										</div>
@@ -269,7 +385,72 @@
 
 						<div class="main-text-pane" id="color">
 							<div class="mdl-typography--text-left" style="padding-left: 10px;">
-								<h1>Try it out. </h1>
+								<h1 style="color: white;">Try it out. </h1>
+							</div>
+							<div class="content-grid mdl-grid">
+								<div class="mdl-cell">
+									<div class="demo-card-addAdmin mdl-card mdl-shadow--2dp" >
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											Try out our ground-breaking take on Public, Direct, and Group Conversations.
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations.jsp">
+												Try Conversations
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+									<!-- also here -->
+								</div>
+							  <div class="mdl-cell">
+									<div class="demo-card-adminStats mdl-card mdl-shadow--2dp">
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											Add/Remove Members and set an Expiry time. Conversations can self-destruct!
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversation">
+												Go Converse
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+							    <!-- add content here -->
+							  </div>
+								<div class="mdl-cell">
+									<div class="demo-card-playGame mdl-card mdl-shadow--2dp">
+										<div class="mdl-card__title">
+											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
+										</div>
+										<%-- <div class="mdl-card__subtitle">
+											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
+										</div> --%>
+										<div class="mdl-card__supporting-text">
+											Even play a game if you get bored! Coming soon to all users.
+										</div>
+										<div class="mdl-card__actions mdl-card--border">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/login">
+												Check it out.
+											</a>
+										</div>
+										<div class="mdl-card__menu">
+										</div>
+								</div>
+							    <!-- add content here -->
+							  </div>
 							</div>
 						</div>
 
@@ -277,6 +458,7 @@
 							<div class="mdl-typography--text-left" style="padding-left: 10px;">
 								<h1>Coming Soon... </h1>
 							</div>
+							<h2 style="text-align: center;">Lots of things</h2>
 						</div>
 
 				  </div>
