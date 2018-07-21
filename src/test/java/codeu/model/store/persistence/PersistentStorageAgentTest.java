@@ -113,7 +113,9 @@ public class PersistentStorageAgentTest {
 				new Message(idOne, conversationOne, authorOne, contentOne, creationOne);
 
 		persistentStorageAgent.writeThrough(inputMessageOne);
+		try {
 		Mockito.verify(mockPersistentDataStore).writeThrough(inputMessageOne);
+		}
 		catch(InterruptedException e) {}
     catch(ExecutionException e) {}
 	}
