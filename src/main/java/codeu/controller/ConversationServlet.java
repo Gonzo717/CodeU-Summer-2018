@@ -175,7 +175,7 @@ public class ConversationServlet extends HttpServlet {
  		// username at least 5 chars and cannot contain spaces
  		if (!conversationTitle.matches("^(?=\\S+$).{5,}$")) {
  			request.setAttribute("error", "Invalid username");
- 			request.getRequestDispatcher("/WEB-INF/view/conversations").forward(request, response);
+ 			request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
  			return;
  		}
 
