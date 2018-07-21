@@ -253,7 +253,7 @@
 									 		<span><%= conversation.getTitle() %></span>
 											<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
 									 <% }else { %>
-									 		<span><strike><%= conversation.getTitle() %></strike></span>
+									 		<span><%= conversation.getTitle() %></span>
 											<span class="mdl-list__item-sub-title"><strike><%= conversation.getDescription() %></strike></span>
 
 									 <% } %>

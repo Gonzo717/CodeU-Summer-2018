@@ -180,7 +180,7 @@
 	  			  	<i class="fa fa-linkedin"></i>
 	  			  </button>
 					</a>
-					<a href="https://github.com/Gonzo717s">
+					<a href="https://github.com/Gonzo717">
 						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect mdl-color--cyan">
 							<i class="fa fa-github"></i>
 						</button>
