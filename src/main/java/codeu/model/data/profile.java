@@ -19,8 +19,8 @@ public class Profile {
 /**
 * Constructs a new profile
 *
-* @param id              the id of this user
-* @param profilePicId      the id of this users profilePiStore
+* @param id              the id of this profile Store
+* @param profilePicId    the id of this users profilePicStore
 * @param followers       the list of Users that follow this user
 * @param following       the list of Users that this user is following
 * @param college         the college this user attends
@@ -51,7 +51,7 @@ public class Profile {
    /**
     * Returns the profilePicId of this profile.
     */
-    public UUID getProfilePicID(){
+    public UUID getPicId(){
       return profilePicId;
     }
 
@@ -62,6 +62,12 @@ public class Profile {
       return followers;
     }
 
+    /**
+     * Returns the HashSet of users this profile follows
+    */
+    public HashSet getFollowing(){
+      return following;
+    }
     /**
      * Returns the college of this profile.
      */
