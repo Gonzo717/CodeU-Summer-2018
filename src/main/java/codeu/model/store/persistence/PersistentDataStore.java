@@ -226,7 +226,7 @@ public class PersistentDataStore {
 	}
 
   /** Write a User object to the Datastore service. */
-  public void writeThrough(User user) {
+  public void writeThrough(User user) throws InterruptedException, ExecutionException {
     Entity userEntity = new Entity("chat-users", user.getId().toString());
     userEntity.setProperty("uuid", user.getId().toString());
     userEntity.setProperty("username", user.getName());
@@ -235,40 +235,44 @@ public class PersistentDataStore {
     if (user.getAboutMe() != null){
       userEntity.setProperty("about_me", user.getAboutMe().toString());
     }
-    datastore.put(userEntity);
+    Future result = datastore.put(userEntity);
+    result.get();
   }
 
   /** Write a Message object to the Datastore service. */
-  public void writeThrough(Message message) {
+  public void writeThrough(Message message) throws InterruptedException, ExecutionException {
     Entity messageEntity = new Entity("chat-messages", message.getId().toString());
     messageEntity.setProperty("uuid", message.getId().toString());
     messageEntity.setProperty("conv_uuid", message.getConversationId().toString());
     messageEntity.setProperty("author_uuid", message.getAuthorId().toString());
     messageEntity.setProperty("content", message.getContent());
     messageEntity.setProperty("creation_time", message.getCreationTime().toString());
-    datastore.put(messageEntity);
+    Future result = datastore.put(messageEntity);
+    result.get();
   }
 
   /** Write a Group object to the Datastore service. */
-  public void writeThrough(Group group) {
+  public void writeThrough(Group group) throws InterruptedException, ExecutionException {
     Entity groupEntity = new Entity("chat-group", group.getId().toString());
     groupEntity.setProperty("UUID", group.getId().toString());
     groupEntity.setProperty("owner", group.getOwnerId().toString());
     groupEntity.setProperty("Title", group.getTitle());
     groupEntity.setProperty("creation", group.getCreationTime().toString());
 	groupEntity.setProperty("users", group.getAllUsers().toString());
-    datastore.put(groupEntity);
+    Future result = datastore.put(groupEntity);
+    result.get();
   }
 
 
   /** Write a Conversation object to the Datastore service. */
-  public void writeThrough(Conversation conversation) {
+  public void writeThrough(Conversation conversation) throws InterruptedException, ExecutionException {
     Entity conversationEntity = new Entity("chat-conversations", conversation.getId().toString());
     conversationEntity.setProperty("uuid", conversation.getId().toString());
     conversationEntity.setProperty("owner_uuid", conversation.getOwnerId().toString());
     conversationEntity.setProperty("title", conversation.getTitle());
     conversationEntity.setProperty("creation_time", conversation.getCreationTime().toString());
-    datastore.put(conversationEntity);
+    Future result = datastore.put(conversationEntity);
+    result.get();
   }
 
   /** Write an Activity object to the Datastore service. */

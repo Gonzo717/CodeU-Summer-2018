@@ -116,22 +116,38 @@ public class PersistentStorageAgent {
 
 	/** Write a User object to the Datastore service. */
 	public void writeThrough(User user) {
+		try {
 		persistentDataStore.writeThrough(user);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 
 	/** Write a Conversation object to the Datastore service. */
 	public void writeThrough(Conversation conversation) {
+		try {
 		persistentDataStore.writeThrough(conversation);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 
   /** Write a Group Conversation object to the Datastore service. */
 	public void writeThrough(Group groupConversation) {
+		try {
 		persistentDataStore.writeThrough(groupConversation);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 
 	/** Write a Conversation object to the Datastore service. */
 	public void writeThrough(Message message) {
+		try {
 		persistentDataStore.writeThrough(message);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 
 	/** Write an Activity object to the Datastore service. */
