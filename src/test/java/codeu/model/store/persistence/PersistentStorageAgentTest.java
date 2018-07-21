@@ -44,7 +44,7 @@ public class PersistentStorageAgentTest {
 		persistentStorageAgent.loadMessages();
 		Mockito.verify(mockPersistentDataStore).loadMessages();
 	}
-	
+
 	@Test
 	public void testLoadActivities() throws PersistentDataStoreException {
 		persistentStorageAgent.loadActivities();
@@ -56,8 +56,10 @@ public class PersistentStorageAgentTest {
 		User user =
 				new User(
 						UUID.randomUUID(),
+						UUID.randomUUID(),
 						"test_username",
 						"$2a$10$5GNCbSPS1sqqM9.hdiE2hexn1w.vnNoR.CaHIztFEhdAD7h82tqX.",
+						false,
 						Instant.now());
 		persistentStorageAgent.writeThrough(user);
 		Mockito.verify(mockPersistentDataStore).writeThrough(user);
@@ -79,7 +81,7 @@ public class PersistentStorageAgentTest {
 		persistentStorageAgent.writeThrough(message);
 		Mockito.verify(mockPersistentDataStore).writeThrough(message);
 	}
-	
+
 	@Test
 	public void testWriteThroughActivity() {
 		Activity activity =
