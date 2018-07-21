@@ -65,9 +65,9 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 							<% } else{ %>
 								<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
 							<% } %>
-							<% if(request.getSession().getAttribute("admin") != null) { %>
+							<%-- <% if(request.getSession().getAttribute("admin") != null) { %> --%>
 								<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
-							<% } %>
+							<%-- <% } %> --%>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
 							<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>

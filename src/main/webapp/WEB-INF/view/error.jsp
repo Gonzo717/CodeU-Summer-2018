@@ -16,9 +16,9 @@
       <a href="/login">Login</a>
     <% } %>
     <!-- Add login checking for activity feed here -->
-    <% if(request.getSession().getAttribute("admin") != null){ %>
+    <%-- <% if(request.getSession().getAttribute("admin") != null){ %> --%>
       <a href="/admin">Admin</a>
-    <% } %>
+    <%-- <% } %> --%>
     <a href="/activityfeed">Activity Feed</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
       <a href ="/user/<%=request.getSession().getAttribute("user")%>">Your Profile Page</a>
