@@ -128,8 +128,7 @@
 						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
 						</div>
 
-						<sub style="color:teal"> At least 8 characters and must contain an upper case
-										letter, lower case letter, number, and punctuation character.
+						<sub style="color:teal"> Must not contain spaces. 
 						</sub>
 						<!-- ALL THE OPTIONS FOR TYPE -->
 						<%-- <h3>Select Conversation Type: </h3>
