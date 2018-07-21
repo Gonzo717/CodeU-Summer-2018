@@ -94,7 +94,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				</div>
 			</div>
 
-		<main class="mdl-layout__content">
+		<main class="mdl-layout__content" style="display:-webkit-box;">
 			<div class="content-grid">
 				<div class="page-content">
 					</br>

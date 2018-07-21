@@ -93,7 +93,7 @@
 
 	<jsp:useBean id="theGame" class="codeu.model.data.Tictactoe" scope="session"/>
 
-	<main class="mdl-layout__content">
+	<main class="mdl-layout__content" style="display:-webkit-box;">
 	<a name="top"></a>
 		<div class="container page-content">
 			<div class="content-grid mdl-grid">

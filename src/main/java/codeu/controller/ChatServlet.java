@@ -16,6 +16,7 @@ package codeu.controller;
 
 import codeu.model.data.Conversation;
 import codeu.model.data.Group;
+import org.javatuples.Pair;
 import java.util.ArrayList;
 import java.util.HashSet;
 import codeu.model.data.Message;
@@ -41,6 +42,11 @@ import com.google.appengine.api.datastore.PostPut;
 import com.google.appengine.api.datastore.PutContext;
 import com.google.appengine.api.datastore.Entity;
 
+import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 /** Servlet class responsible for the chat page. */
 public class ChatServlet extends HttpServlet {
 
@@ -63,9 +69,9 @@ public class ChatServlet extends HttpServlet {
   @Override
   public void init() throws ServletException {
     super.init();
-    setGroupConversationStore(GroupConversationStore.getInstance());
+		setGroupConversationStore(GroupConversationStore.getInstance());
     setConversationStore(ConversationStore.getInstance());
-    setActivityStore(ActivityStore.getInstance());
+		setActivityStore(ActivityStore.getInstance());
     setMessageStore(MessageStore.getInstance());
     setUserStore(UserStore.getInstance());
   }
@@ -83,7 +89,7 @@ public class ChatServlet extends HttpServlet {
   * for use by the test framework or the servlet's init() function.
   */
   void setGroupConversationStore(GroupConversationStore groupConversationStore) {
-    this.groupConversationStore = groupConversationStore;
+		this.groupConversationStore = groupConversationStore;
   }
 
   /**
@@ -121,19 +127,10 @@ public class ChatServlet extends HttpServlet {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
-    Group group = groupConversationStore.getGroupConversationWithTitle(conversationTitle);
-
-    if(conversation != null){
-      UUID conversationId = conversation.getId();
-      List<Message> messages = messageStore.getMessagesInConversation(conversationId);
-      request.setAttribute("messages", messages);
-      request.setAttribute("conversation", conversation);
-    } else if(group != null){
-      UUID groupId = group.getId();
-      List<Message> messages = messageStore.getMessagesInConversation(groupId);
-      request.setAttribute("messages", messages);
-      request.setAttribute("group", group);
-    }
+		UUID conversationId = conversation.getId();
+		List<Message> messages = messageStore.getMessagesInConversation(conversationId);
+		request.setAttribute("messages", messages);
+		request.setAttribute("conversation", conversation);
 
     request.getRequestDispatcher("/WEB-INF/view/chat.jsp").forward(request, response);
   }
@@ -164,82 +161,103 @@ public class ChatServlet extends HttpServlet {
 
     String requestUrl = request.getRequestURI();
 
-    // define some things
+		// define some things
+
     String conversationTitle = requestUrl.substring("/chat/".length());
-    Group group = groupConversationStore.getGroupConversationWithTitle(conversationTitle);
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
 
-    if (conversation == null && group == null) {
-      // couldn't find conversation or group, redirect to conversation list
+    if (conversation == null) {
+      // couldn't find conversation, redirect to conversation list
       response.sendRedirect("/conversations");
       return;
     }
 
-    String messageContent = request.getParameter("message");
-    //This block signals that the user wants to manipulate the members in the Group (add/remove)
+		//check if there was any media uploaded
+		BlobKey msgMedia = null;
+		if(request.getParameter("messageMedia")!= null){
+			String messageMediaString = request.getParameter("messageMedia"); //Have to get blobkey as a string, then convert it back to blobkey smh
+			msgMedia = new BlobKey(messageMediaString);
+		}
 
-    if(messageContent == null && conversation == null){
-      // because the user didn't type a message, he wants to change the members in the Group
-      boolean addUsers = false;
-      boolean removeUsers = false;
-      int checkedUsers = 0;
-      if(request.getParameter("addUsers") != null){
-        addUsers = true;
-        checkedUsers = (int) request.getSession().getAttribute("addUserCounter");//the number of checked users
-      }
-      else if(request.getParameter("removeUsers") != null){
-        removeUsers = true;
-        checkedUsers = (int) request.getSession().getAttribute("removeUserCounter");//the number of checked users
-      }
-      // getting the actual Users from number of ints checked in the chat.jsp
-      HashSet<String> mutableUsers = new HashSet<String>();
-      for(int i = 0; i <= checkedUsers; i++){
-        String counter = Integer.toString(i);
-        mutableUsers.add(request.getParameter(counter));
-      }
-      // Now do something with it!
-      for(String userName: mutableUsers){
-        if(userName != null){
-          // checks if the user is already allowed, do nothing; if not then add permission
-          User allowedUser = userStore.getUser(userName);
-          if(addUsers){
-            group.addUser(allowedUser);
-          }
-          else if(removeUsers){
-            if (!(group.getOwnerId() == allowedUser.getId())){
-              group.removeUser(allowedUser);
-            } else{
-              System.out.println("can't remove the owner bruv!");
-            }
-          }
-        }
-      }
+		String msgText = (String) request.getParameter("messageText");
+		String cleanedMessageText = null;
+		if(msgText != null){
+			cleanedMessageText = Jsoup.clean(msgText, Whitelist.none());
+		}
 
-      response.sendRedirect("/chat/" + conversationTitle);
+		Pair messageContent = new Pair<>(cleanedMessageText, msgMedia);
+		//So this might also be tough, how to format it? Because it isn't just text anymore so
+		if (conversation.getConversationVisibility().equals("GROUP") || conversation.getConversationVisibility().equals("DIRECT")){
+			//this loop signifies the ability to add more members to the convo
+			//This block signals that the user wants to manipulate the members in the Group (add/remove)
+			if(messageContent.getValue0() == null && messageContent.getValue1() == null){
+				// because the user didn't type a message, he wants to change the members in the Group
+				boolean addUsers = false;
+				boolean removeUsers = false;
+				int checkedUsers = 0;
+				if(request.getParameter("addUsers") != null){
+					addUsers = true;
+					checkedUsers = (int) request.getSession().getAttribute("addUserCounter");//the number of checked users
 
-    } else if(messageContent != null){
-      //then parse the message and do all that jazz
-      // this removes any HTML from the message content
-      Message message = null;
-      String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
-      if(group != null){
-        message =
-        new Message(
-        UUID.randomUUID(),
-        group.getId(),
-        user.getId(),
-        cleanedMessageContent,
-        Instant.now());
-      } else if (conversation != null){
-        message =
-        new Message(
-        UUID.randomUUID(),
-        conversation.getId(),
-        user.getId(),
-        cleanedMessageContent,
-        Instant.now());
-      }
-      messageStore.addMessage(message);
+					if(conversation.getConversationVisibility().equals("DIRECT")){
+						request.getSession().setAttribute("addedDirectMessageRecipient", "true");
+					}
+
+				}
+				else if(request.getParameter("removeUsers") != null){
+					removeUsers = true;
+					checkedUsers = (int) request.getSession().getAttribute("removeUserCounter");//the number of checked users
+				}
+				// getting the actual Users from number of ints checked in the chat.jsp
+				HashSet<String> mutableUsers = new HashSet<String>();
+				for(int i = 0; i <= checkedUsers; i++){
+					String counter = Integer.toString(i);
+					mutableUsers.add(request.getParameter(counter));
+				}
+				// Now do something with it!
+				for(String userName: mutableUsers){
+					if(userName != null){
+						// checks if the user is already allowed, do nothing; if not then add permission
+						User allowedUser = userStore.getUser(userName);
+						if(addUsers){
+							conversation.addMember(allowedUser);
+						}
+						else if(removeUsers){
+							if (!(conversation.getOwnerId() == allowedUser.getId())){
+								conversation.removeMember(allowedUser);
+							} else{
+								System.out.println("can't remove the owner bruv!");
+							}
+						}
+					}
+				}
+		}
+
+	    response.sendRedirect("/chat/" + conversationTitle);
+
+		}
+
+		if(messageContent.getValue0() != null){
+			//then parse the message and do all that jazz
+			// this removes any HTML from the message content
+			// Message message = null;
+			// BlobKey messageMedia = message.getMedia();
+			// String placeholder = (String) messageContent.getValue0();
+			//
+		  // String cleanedMessageText = Jsoup.clean(placeholder, Whitelist.none());
+			// //Somehow use the BlobKey to actually retrieve the image.
+			// messageContent.removeFrom0();
+			// messageContent.setAt0(cleanedMessageText);
+			// messageContent.setAt1(image); // Obviously have to change this...
+
+		Message	message =
+		        new Message(
+		            UUID.randomUUID(),
+		            conversation.getId(),
+		            user.getId(),
+		            messageContent,
+		            Instant.now());
+		  messageStore.addMessage(message);
 
       // old way to add msg to activitystore, keeping for ref
       Activity msgActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), message.getAuthorId(), message.getId(), message.getCreationTime());

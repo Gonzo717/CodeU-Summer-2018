@@ -16,6 +16,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.UUID" %>
 <%@ page import="codeu.model.data.Conversation" %>
+<%@ page import="codeu.model.data.Conversation.Type" %>
+<%@ page import="codeu.model.data.Conversation.Visibility" %>
 <%@ page import="codeu.model.data.Group" %>
 
 
@@ -100,7 +102,7 @@
 		</div>
 	</div>
 
-<main class="mdl-layout__content">
+<main class="mdl-layout__content" style="display:-webkit-box;">
 	<div class="content-grid">
 		<div class="page-content">
 		  <div id="container">
@@ -121,22 +123,88 @@
 		    <% if(request.getSession().getAttribute("user") != null){ %>
 		      <h1>New Conversation</h1>
 		      <form action="/conversations" method="POST">
-				  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-					  <input class="mdl-textfield__input" type="text" name="conversationTitle" id="conversationTitle">
-					  <label class="mdl-textfield__label" for="conversationTitle">Conversation Title...</label>
-				  </div>
-		          <%-- <div class="form-group">
-		            <label class="form-control-label">Title:</label>
-		          <input type="text" name="conversationTitle">
-		          </div> --%>
-				<button name="conversation" value="conversation" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
-		        <%-- <button type="submit" name="conversation" value="conversation">Create</button> --%>
+					  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						  <input class="mdl-textfield__input" type="text" name="conversationTitle" id="title">
+						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
+						</div>
+
+						<!-- ALL THE OPTIONS FOR TYPE -->
+						<%-- <h3>Select Conversation Type: </h3>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="MEDIA">
+						  <input type="radio" class="mdl-radio__button" id="MEDIA" name="conversationType" value="Media"></input>
+						  <span class="mdl-radio__label">Media Messages Only</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="TEXT">
+						  <input type="radio" class="mdl-radio__button" id="TEXT" name="conversationType" value="Text"></input>
+						  <span class="mdl-radio__label">Text Only</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="HYBRID">
+						  <input type="radio" class="mdl-radio__button" id="HYBRID" name="conversationType" value="Hybrid"></input>
+						  <span class="mdl-radio__label">No Restrictions</span>
+						</label> --%>
+
+						</br>
+						<!-- ALL THE OPTIONS FOR VISIBILITY -->
+						<h3>Select Conversation Visibility: </h3>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="DIRECT">
+						  <input class="mdl-radio__button" id="DIRECT" name="conversationVisibility" type="radio" value="Direct">
+						  <span class="mdl-radio__label">Direct Message</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="PUBLIC">
+						  <input checked class="mdl-radio__button" id="PUBLIC" name="conversationVisibility" type="radio" value="Public">
+						  <span class="mdl-radio__label">Public Conversation</span>
+						</label>
+						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="GROUP">
+						  <input class="mdl-radio__button" id="GROUP" name="conversationVisibility" type="radio" value="Group">
+						  <span class="mdl-radio__label">Group Message</span>
+						</label>
+						<%-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="conversationVisibility" id="visibility">
+							<label class="mdl-textfield__label" for="sample3">Visibility...</label>
+						</div> --%>
+
+						</br>
+						<!-- THE DROPDOWN FOR THE VALID TIME -->
+						<h3>Select Valid Time for the Conversation: </h3>
+
+				</br>
+				<label for="conversationValidTimeDigit" class="mdl-textfield__label">Digit</label>
+				<select name="conversationValidTimeDigit">
+					<option selected value="1000000">inf</option>
+					<option value="1">1</option>
+			    <option value="2">2</option>
+			    <option value="3">3</option>
+			    <option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+			  </select>
+
+				<label for="conversationValidTimeUnit" class="mdl-textfield__label">Unit of Time</label>
+				<select name="conversationValidTimeUnit">
+					<option value="DAYS" selected>Forever</option>
+					<option value="SECONDS">Seconds</option>
+					<option value="MINUTES">Minutes</option>
+					<option value="HOURS">Hours</option>
+					<option value="DAYS">Days</option>
+				</select>
+			</br>
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="conversationDescription" id="description">
+							<label class="mdl-textfield__label" for="description">Short Description...</label>
+						</div>
+						</br>
+					 	<button name="conversationParameters" value="conversationParameters" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
 		      </form>
 
-			  <form action="/conversations" method="POST">
+			  <%-- <form action="/conversations" method="POST">
 				  <h1>Group Message</h1>
 				  <button type="submit" name="group" value="group">Private Group</button>
-			   </form>
+			   </form> --%>
 		      <hr/>
 		    <% } %>
 
@@ -145,8 +213,7 @@
 		    <%
 		    List<Conversation> conversations =
 		      (List<Conversation>) request.getAttribute("conversations");
-			List<Group> groups =
-			  (List<Group>) request.getAttribute("groups");
+				UUID id = (UUID) request.getSession().getAttribute("id");
 		    if(conversations == null || conversations.isEmpty()){
 		    %>
 		      <p>Create a conversation to get started.</p>
@@ -154,53 +221,100 @@
 		    }
 		    else if(conversations != null){
 		    %>
-		      <ul class="mdl-list--text-center">
-		    <% //Display 10 conversations at a time
-		    for(Conversation conversation : conversations){
-		    %>
-			<li class="mdl-list__item">
-				<span class="mdl-list__item-primary-content">
-					<i class="material-icons mdl-list__item-avatar">group</i>
-					<a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
- 					   <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button>
- 				   </a>
-					<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
-					<%= conversation.getTitle() %></a> --%>
-				</span>
-			</li>
-		    <%
-		      }
-		    %>
-		      </ul>
+			    <% //Display 10 conversations at a time somehow
+			    for(Conversation conversation : conversations){
+			    %>
+
+					<% if(conversation.getConversationVisibility().equals("PUBLIC")){ %>
+						   <ul class="mdl-list--text-center">
+								 <li class="mdl-list__item mdl-list__item--two-line">
+								 	<span class="mdl-list__item-primary-content">
+										<i class="material-icons mdl-list__item-avatar">public</i>
+								 		<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
+										<span><%= conversation.getTitle() %></span>
+										<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
+									</span>
+									<a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
+								 		<%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
+								 	</a>
+								 		<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
+								 		<%= conversation.getTitle() %></a> --%>
+								 </li>
+							 </ul>
+					<% } %>
+
+					<%if(conversation.getConversationVisibility().equals("GROUP") && conversation.isAccessAllowed(id)){ %>
+							<ul class="mdl-list--text-center">
+								<li class="mdl-list__item mdl-list__item--two-line">
+								 <span class="mdl-list__item-primary-content">
+									 <i class="material-icons mdl-list__item-avatar">group</i>
+									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
+									 <% if(conversation.isActive()){ %>
+									 		<span><%= conversation.getTitle() %></span>
+											<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
+									 <% }else { %>
+									 		<span><strike><%= conversation.getTitle() %></strike></span>
+											<span class="mdl-list__item-sub-title"><strike><%= conversation.getDescription() %></strike></span>
+
+									 <% } %>
+									 <%-- <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span> --%>
+								 </span>
+								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
+									 <%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
+								 </a>
+									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
+									 <%= conversation.getTitle() %></a> --%>
+								</li>
+							</ul>
+					<% } %>
+
+					<%if(conversation.getConversationVisibility().equals("DIRECT") && conversation.isAccessAllowed(id)){ %>
+							<ul class="mdl-list--text-center">
+								<li class="mdl-list__item mdl-list__item--two-line">
+								 <span class="mdl-list__item-primary-content">
+									 <i class="material-icons mdl-list__item-avatar">person</i>
+									 <span><%= conversation.getTitle() %></span>
+									 <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
+								 </span>
+								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
+									 <%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
+								 </a>
+									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
+									 <%= conversation.getTitle() %></a> --%>
+								</li>
+							</ul>
+					<% } %>
+			    <%
+			      }
+			    %>
 		    <%
 		    }
 			%>
-			</hr>
-			<% if(request.getSession().getAttribute("uuid") != null){ // check if signed in!
-				UUID id = (UUID) request.getSession().getAttribute("uuid"); %>
-				<h1>Private Messages</h1>
-				<% if(groups != null){
-				%>
-					<ul class="mdl-list">
-			    <%
-			       for(Group group : groups){
-						if(group.isAccessAllowed(id)){
-					//only display the private conversation that the user is a part of
-			    %>
-			        <li class="mdl-list__item">
-						<span class="mdl-list__item-primary-content">
-							<i class="material-icons mdl-list__item-avatar">group</i>
-							<a class="mdl-navigation__link" href="/chat/<%= group.getTitle() %>">
-				          	<%= group.getTitle() %></a>
-						</span>
-				  	</li>
-			    <%
-			        	}
-					}
-			    %>
-			        </ul>
-				<% } %>
-			<% } %>
+			<%-- </hr>
+			<%if(request.getSession().getAttribute("id") != null){ // check if signed in!
+					UUID id = (UUID) request.getSession().getAttribute("id");
+
+					if(conversation.isAccessAllowed(id) && !conversation.getConversationType().equals("PUBLIC")){
+						 %>
+						<h1>Private Messages</h1>
+							<ul class="mdl-list">
+					    <%
+						    for(Conversation conversation : conversations){
+								//only display the private conversation that the user is a part of. This would break
+						    %>
+						        <li class="mdl-list__item">
+									<span class="mdl-list__item-primary-content">
+										<i class="material-icons mdl-list__item-avatar">group</i>
+										<a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
+							          	<%= conversation.getTitle() %></a>
+									</span>
+							  	</li>
+						    <%
+						    }
+						}
+			 			%>
+			    	</ul>
+		<% 	} %> --%>
 		    <hr/>
 		  </div>
 	  </div>

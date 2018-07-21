@@ -15,6 +15,9 @@
 package codeu.controller;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Conversation.Visibility;
+import codeu.model.data.Conversation.Type;
+import java.time.temporal.ChronoUnit;
 import codeu.model.data.Group;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
@@ -25,6 +28,7 @@ import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -79,9 +83,14 @@ public class ConversationServletTest {
 
 	@Test
 	public void testDoGet() throws IOException, ServletException {
+		HashSet members = new HashSet<>();
+		Conversation CONVERSATION_ONE =
+				new Conversation(
+						UUID.randomUUID(), UUID.randomUUID(), "conversation_one", Instant.now(),
+						 members, Type.TEXT, Visibility.PUBLIC,
+						"fakeURL", "3/SECONDS", "fake :D");
 		List<Conversation> fakeConversationList = new ArrayList<>();
-		fakeConversationList.add(
-				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now()));
+		fakeConversationList.add(CONVERSATION_ONE);
 		Mockito.when(mockConversationStore.getAllConversations()).thenReturn(fakeConversationList);
 		HashSet<User> users = new HashSet<>();
 		List<Group> fakeGroupList = new ArrayList<>();
@@ -107,7 +116,7 @@ public class ConversationServletTest {
 
 	@Test
 	public void testDoPost_InvalidUser() throws IOException, ServletException {
-		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
+		Mockito.when(mockSession.getAttribute("user")).thenReturn(null);
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(null);
 
 		conversationServlet.doPost(mockRequest, mockResponse);
@@ -121,6 +130,13 @@ public class ConversationServletTest {
 	public void testDoPost_BadConversationName() throws IOException, ServletException {
 		Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("bad !@#$% name");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
+		Mockito.when(mockRequest.getParameter("group")).thenReturn(null);
+		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
+		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
+		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
+		Mockito.when(mockRequest.getParameter("conversationValidTime")).thenReturn("3/SECONDS");
+		Mockito.when(mockRequest.getParameter("conversationDescription")).thenReturn("fake :D");
+
 
 		User fakeUser =
 				new User(
@@ -136,7 +152,7 @@ public class ConversationServletTest {
 
 		Mockito.verify(mockConversationStore, Mockito.never())
 				.addConversation(Mockito.any(Conversation.class));
-		Mockito.verify(mockRequest).setAttribute("error", "Please enter only letters and numbers.");
+		Mockito.verify(mockRequest).setAttribute("error", "Please enter only letters, numbers, and spaces.");
 		Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
 	}
 
@@ -144,6 +160,13 @@ public class ConversationServletTest {
 	public void testDoPost_ConversationNameTaken() throws IOException, ServletException {
 		Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("test_conversation");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
+		Mockito.when(mockRequest.getParameter("group")).thenReturn(null);
+		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
+		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
+		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
+		Mockito.when(mockRequest.getParameter("conversationValidTime")).thenReturn("DECADES");
+		Mockito.when(mockRequest.getParameter("conversationDescription")).thenReturn("fake :D");
+
 
 		User fakeUser =
 				new User(
@@ -168,9 +191,6 @@ public class ConversationServletTest {
 	public void testDoPost_NewConversation() throws IOException, ServletException {
 		Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("test_conversation");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
-		Mockito.when(mockRequest.getParameter("group")).thenReturn(null);
-		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
-
 		User fakeUser =
 				new User(
 						UUID.randomUUID(),
@@ -179,18 +199,27 @@ public class ConversationServletTest {
 						"$2a$10$eDhncK/4cNH2KE.Y51AWpeL8/5znNBQLuAFlyJpSYNODR/SJQ/Fg6",
 						false,
 						Instant.now());
-
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
+		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
+		Mockito.when(mockRequest.getParameter("conversationVisibility")).thenReturn("Public");
+		Mockito.when(mockRequest.getParameter("conversationType")).thenReturn("Text");
+		Mockito.when(mockRequest.getParameter("conversationValidTimeDigit")).thenReturn("5");
+		Mockito.when(mockRequest.getParameter("conversationValidTimeUnit")).thenReturn("DAYS");
+		Mockito.when(mockRequest.getParameter("conversationDescription")).thenReturn("fake :D");
 
 		Mockito.when(mockConversationStore.isTitleTaken("test_conversation")).thenReturn(false);
 
 		conversationServlet.doPost(mockRequest, mockResponse);
 
-		Conversation conversation = new Conversation(UUID.randomUUID(), fakeUser.getId(), "test_conversation", Instant.now());
+		HashSet members = new HashSet<>();
+		Conversation conversation =
+				new Conversation(
+						UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(),
+						 members, Type.TEXT, Visibility.PUBLIC,
+						"fakeURL", "5/DAYS", "fake :D");
 
-		ArgumentCaptor<Conversation> conversationArgumentCaptor =
-				ArgumentCaptor.forClass(Conversation.class);
-		//TODO fix this test next!!
+
+		ArgumentCaptor<Conversation> conversationArgumentCaptor = ArgumentCaptor.forClass(Conversation.class);
 		Mockito.verify(mockConversationStore).addConversation(conversationArgumentCaptor.capture());
 		Assert.assertEquals(conversationArgumentCaptor.getValue().getTitle(), "test_conversation");
 

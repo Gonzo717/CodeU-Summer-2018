@@ -7,6 +7,8 @@ import java.util.UUID;
 import codeu.model.data.User;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
+import org.javatuples.Pair;
+import com.google.appengine.api.blobstore.BlobKey;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -79,12 +81,16 @@ public class ProfileServletTest {
 
     UUID fakeConversationId = UUID.randomUUID();
     List<Message> fakeMessageList = new ArrayList<>();
+
+		BlobKey blobkey = null;
+		Pair contentOne = new Pair<>("TestContent", blobkey);
+
     fakeMessageList.add(
         new Message(
             UUID.randomUUID(),
             fakeConversationId,
             fakeUserId,
-            "test message",
+            contentOne,
             Instant.now()));
 
     Mockito.when(mockMessageStore.getMessagesByUser(fakeUserId))
@@ -96,7 +102,6 @@ public class ProfileServletTest {
     Mockito.verify(mockRequest).setAttribute("messages",fakeMessageList);
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
-
 
   @Test
   public void testDoGet_nullUser() throws IOException, ServletException {

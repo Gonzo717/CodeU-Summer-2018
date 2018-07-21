@@ -61,21 +61,21 @@ limitations under the License.
 					<a href="/about.jsp">About</a>
 				</nav> --%>
 
-				<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-					<div class="android-header mdl-layout__header mdl-layout__header--waterfall">
-						<div class="mdl-layout__header-row">
-							<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">YACA</span></a>
-							<!-- Image card -->
-							<!-- Add spacer, to align navigation to the right in desktop -->
-							<div class="android-header-spacer mdl-layout-spacer"></div>
-							<div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
-								<label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
-									<i class="material-icons">search</i>
-								</label>
-								<div class="mdl-textfield__expandable-holder">
-									<input class="mdl-textfield__input" type="text" id="search-field">
-									</div>
-								</div>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
+		<div class="mdl-layout__header-row">
+			<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">YACA</span></a>
+			<!-- Image card -->
+				  <!-- Add spacer, to align navigation to the right in desktop -->
+			<div class="android-header-spacer mdl-layout-spacer"></div>
+				<div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+					<label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+						<i class="material-icons">search</i>
+					</label>
+					<div class="mdl-textfield__expandable-holder">
+						<input class="mdl-textfield__input" type="text" id="search-field">
+					</div>
+				</div>
 				  <!-- Navigation -->
 				<div class="android-navigation-container">
 					<nav class="android-navigation mdl-navigation">
@@ -113,28 +113,26 @@ limitations under the License.
 								<% if(request.getAttribute("error") != null){ %>
 								<h2 style="color:red"><%= request.getAttribute("error") %></h2>
 								<% } %>
-
-								<form action="/register" method="POST">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="text" name="username" id="username">
-											<label class="mdl-textfield__label" for="username">Username...</label>
-										</div>
-									</br>
-									<sub style="color:teal"> At least 5 characters and must contain no spaces. </sub>
-									<%-- <label for="username">Username: </label> --%>
-									<br/>
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-										<input class="mdl-textfield__input" type="password" name="password" id="password">
-											<label class="mdl-textfield__label" for="password">Password...</label>
-										</div>
-									</br>
-									<sub style="color:teal"> At least 8 characters and must contain an upper case
-										letter, lower case letter, number, and punctuation character.
-									</sub>
-									<br/>
-									<br/>
-									<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="submitButton">Submit</button>
-								</form>
-								<br>
-								</body>
-							</html>
+					<form action="/register" method="POST">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="username" id="username">
+							<label class="mdl-textfield__label" for="username">Username...</label>
+						</div>
+					</br>
+						<sub style="color:teal"> At least 5 characters and must contain no spaces. </sub>
+					<%-- <label for="username">Username: </label> --%>
+					<br/>
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="password" name="password" id="password">
+							<label class="mdl-textfield__label" for="password">Password...</label>
+						</div>
+					</br>
+						<sub style="color:teal"> At least 8 characters and must contain an upper case
+			              letter, lower case letter, number, and punctuation character.
+			      </sub>
+					<br/>
+					<br/>
+					<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="submitButton">Submit</button>
+			</form>
+</body>
+</html>
