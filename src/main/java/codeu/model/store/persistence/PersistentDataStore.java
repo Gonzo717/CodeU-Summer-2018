@@ -80,14 +80,12 @@ public class PersistentDataStore {
     for (Entity entity : results.asIterable()) {
       try {
         UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
+        UUID profileId = UUID.fromString((String) entity.getProperty("profile_uuid"));
         String userName = (String) entity.getProperty("username");
         String passwordHash = (String) entity.getProperty("password_hash");
+        Boolean is_admin = Boolean.parseBoolean(String.valueOf(entity.getProperty("is_admin")));
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-        String aboutMe = (String) entity.getProperty("about_me");
-        User user = new User(uuid, userName, passwordHash, creationTime);
-        if (aboutMe != null){
-          user.setAboutMe(aboutMe);
-        }
+        User user = new User(uuid, profileId, userName, passwordHash, false, creationTime);
         users.add(user);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -301,12 +299,11 @@ public class PersistentDataStore {
   public void writeThrough(User user) {
     Entity userEntity = new Entity("chat-users", user.getId().toString());
     userEntity.setProperty("uuid", user.getId().toString());
+    userEntity.setProperty("profile_uuid", user.getProfileID().toString());
     userEntity.setProperty("username", user.getName());
     userEntity.setProperty("password_hash", user.getPasswordHash());
+    userEntity.setProperty("is_admin", String.valueOf(user.getType()));
     userEntity.setProperty("creation_time", user.getCreationTime().toString());
-    if (user.getAboutMe() != null){
-      userEntity.setProperty("about_me", user.getAboutMe().toString());
-    }
     datastore.put(userEntity);
   }
 

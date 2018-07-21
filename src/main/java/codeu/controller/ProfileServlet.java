@@ -60,13 +60,14 @@ public class ProfileServlet extends HttpServlet {
 			request.setAttribute("error", "THAT USER DOESN'T EXIST! ENTER A VALID USERNAME");
 			request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
 			return;
-		} else {
-			if (user.getAboutMe() != null){
-				about = user.getAboutMe();
-			}else{
-				about = "This user hasn't made a profile yet :(";
-			}
 		}
+		// } else {
+		// 	if (user.getAboutMe() != null){
+		// 		about = user.getAboutMe();
+		// 	}else{
+		// 		about = "This user hasn't made a profile yet :(";
+		// 	}
+		// }
 
 		//creates arrayList of all messages sent by user whose profile is being displayed
 		List<Message> messages = messageStore.getMessagesByUser(user.getId());
@@ -94,13 +95,13 @@ public class ProfileServlet extends HttpServlet {
 				 	response.sendRedirect("/login");
 				 	return;
 				 }
-				//get aboutMe content submitted through the form
-				String aboutMeContent = request.getParameter("about me");
-				//removes any HTML from aboutMe content
-				String cleanedAboutMeContent = Jsoup.clean(aboutMeContent, Whitelist.none());
-				//update user to include aboutMe data
-				user.setAboutMe(cleanedAboutMeContent);
-				userStore.updateUser(user);
+				// //get aboutMe content submitted through the form
+				// String aboutMeContent = request.getParameter("about me");
+				// //removes any HTML from aboutMe content
+				// String cleanedAboutMeContent = Jsoup.clean(aboutMeContent, Whitelist.none());
+				// //update user to include aboutMe data
+				// user.setAboutMe(cleanedAboutMeContent);
+				// userStore.updateUser(user);
 				response.sendRedirect("/user/" + username);
 			}
 }

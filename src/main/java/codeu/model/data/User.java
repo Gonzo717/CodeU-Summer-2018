@@ -20,53 +20,81 @@ import java.util.UUID;
 /** Class representing a registered user. */
 public class User {
   private final UUID id;
+  private final UUID profileId;
+  private final Boolean type;
   private final String name;
   private final String passwordHash;
   private final Instant creation;
-  private String aboutMe;
 
   /**
    * Constructs a new User.
    *
-   * @param id the ID of this User
-   * @param name the username of this User
+   * @param id           the ID of this User
+   * @param name         the username of this User
    * @param passwordHash the password hash of this User
-   * @param creation the creation time of this User
+   * @param creation     the creation time of this User
+   * @param type        the type of user (admin or not)
+   * @param profileId    the ID of this User's profileStore
    */
-  public User(UUID id, String name, String passwordHash, Instant creation) {
+
+   public User(UUID id, UUID profileId, String name, String passwordHash, Boolean type, Instant creation) {
     this.id = id;
+    this.profileId = profileId;
     this.name = name;
+    this.type = type;
     this.passwordHash = passwordHash;
     this.creation = creation;
   }
 
-  /** Returns the ID of this User. */
+  /**
+   * Returns the ID of this User.
+   */
   public UUID getId() {
     return id;
   }
 
-  /** Returns the username of this User. */
-  public String getName() {
-    return name;
+  /**
+   * Returns the type (admin or not) of this User.
+   */
+  public Boolean getType() {
+    return type;
   }
 
-  /** Returns the password hash of this User. */
+  /**
+   * Returns the profile UUID of this user.
+   */
+  public UUID getProfileID() {
+    return profileId;
+  }
+
+  /**
+   * Returns the name of this user.
+   */
+  public String getName(){
+    return name;
+  }
+  /**
+   * Returns the password hash of this User.
+   */
   public String getPasswordHash() {
     return passwordHash;
   }
 
-  /** Returns the creation time of this User. */
+  /**
+   * Returns the creation time of this User.
+   */
   public Instant getCreationTime() {
     return creation;
   }
-
-  /** adds aboutMe data to User object. */
-  public void setAboutMe(String aboutMe){
-    this.aboutMe = aboutMe;
-  }
-
-  /** Returns aboutMe data of this User. */
-  public String getAboutMe(){
-    return aboutMe;
-  }
 }
+
+  // /** adds aboutMe data to User object. */
+  // public void setAboutMe(String aboutMe){
+  //   this.aboutMe = aboutMe;
+  // }
+
+//   /** Returns aboutMe data of this User. */
+//   public String getAboutMe(){
+//     return aboutMe;
+//   }
+// }

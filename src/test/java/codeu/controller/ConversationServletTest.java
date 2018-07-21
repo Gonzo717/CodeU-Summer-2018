@@ -141,8 +141,10 @@ public class ConversationServletTest {
 		User fakeUser =
 				new User(
 						UUID.randomUUID(),
+						UUID.randomUUID(),
 						"test_username",
 						"$2a$10$eDhncK/4cNH2KE.Y51AWpeL8/5znNBQLuAFlyJpSYNODR/SJQ/Fg6",
+						false,
 						Instant.now());
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
@@ -169,8 +171,10 @@ public class ConversationServletTest {
 		User fakeUser =
 				new User(
 						UUID.randomUUID(),
+						UUID.randomUUID(),
 						"test_username",
 						"$2a$10$eDhncK/4cNH2KE.Y51AWpeL8/5znNBQLuAFlyJpSYNODR/SJQ/Fg6",
+						false,
 						Instant.now());
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
@@ -190,8 +194,10 @@ public class ConversationServletTest {
 		User fakeUser =
 				new User(
 						UUID.randomUUID(),
+						UUID.randomUUID(),
 						"test_username",
 						"$2a$10$eDhncK/4cNH2KE.Y51AWpeL8/5znNBQLuAFlyJpSYNODR/SJQ/Fg6",
+						false,
 						Instant.now());
 		Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 		Mockito.when(mockRequest.getParameter("conversation")).thenReturn("conversation");
