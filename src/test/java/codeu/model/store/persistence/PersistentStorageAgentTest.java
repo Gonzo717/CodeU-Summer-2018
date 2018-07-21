@@ -1,9 +1,11 @@
 package codeu.model.store.persistence;
-
+import java.lang.InterruptedException;
+import java.util.concurrent.ExecutionException;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import java.time.Instant;
 import java.util.UUID;
 import org.junit.Before;
@@ -71,7 +73,11 @@ public class PersistentStorageAgentTest {
 						false,
 						Instant.now());
 		persistentStorageAgent.writeThrough(user);
-		Mockito.verify(mockPersistentDataStore).writeThrough(user);
+    try {
+      Mockito.verify(mockPersistentDataStore).writeThrough(user);
+    }
+    catch(InterruptedException e) {}
+    catch(ExecutionException e) {}
 	}
 
 	@Test
@@ -88,7 +94,11 @@ public class PersistentStorageAgentTest {
 													visibility, avatarImageURL, validTime, description);
 
 		persistentStorageAgent.writeThrough(conversation);
-		Mockito.verify(mockPersistentDataStore).writeThrough(conversation);
+    try {
+      Mockito.verify(mockPersistentDataStore).writeThrough(conversation);
+    }
+    catch(InterruptedException e) {}
+    catch(ExecutionException e) {}
 	}
 
 	@Test
@@ -104,13 +114,19 @@ public class PersistentStorageAgentTest {
 
 		persistentStorageAgent.writeThrough(inputMessageOne);
 		Mockito.verify(mockPersistentDataStore).writeThrough(inputMessageOne);
+		catch(InterruptedException e) {}
+    catch(ExecutionException e) {}
 	}
 
 	@Test
 	public void testWriteThroughActivity() {
 		Activity activity =
-				new Activity("newUser", UUID.randomUUID(), UUID.randomUUID(), Instant.now());
+				new Activity(ActivityType.USER, UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), Instant.now());
 		persistentStorageAgent.writeThrough(activity);
-		Mockito.verify(mockPersistentDataStore).writeThrough(activity);
+    try {
+      Mockito.verify(mockPersistentDataStore).writeThrough(activity);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 }

@@ -22,6 +22,7 @@ import java.util.HashSet;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.MessageStore;
@@ -37,6 +38,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import com.google.appengine.api.datastore.PostPut;
+import com.google.appengine.api.datastore.PutContext;
+import com.google.appengine.api.datastore.Entity;
 
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -73,53 +77,53 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * Sets the ConversationStore used by this servlet. This function provides a common setup method
-   * for use by the test framework or the servlet's init() function.
-   */
+  * Sets the ConversationStore used by this servlet. This function provides a common setup method
+  * for use by the test framework or the servlet's init() function.
+  */
   void setConversationStore(ConversationStore conversationStore) {
     this.conversationStore = conversationStore;
   }
 
   /**
-   * Sets the groupConversationStore used by this servlet. This function provides a common setup method
-   * for use by the test framework or the servlet's init() function.
-   */
+  * Sets the groupConversationStore used by this servlet. This function provides a common setup method
+  * for use by the test framework or the servlet's init() function.
+  */
   void setGroupConversationStore(GroupConversationStore groupConversationStore) {
 		this.groupConversationStore = groupConversationStore;
   }
 
   /**
-   * Sets the ActivityStore used by this servlet. This function provides a common setup method
-   * for use by the test framework or the servlet's init() function.
-   */
+  * Sets the ActivityStore used by this servlet. This function provides a common setup method
+  * for use by the test framework or the servlet's init() function.
+  */
   void setActivityStore(ActivityStore activityStore) {
-	this.activityStore = activityStore;
+    this.activityStore = activityStore;
   }
 
   /**
-   * Sets the MessageStore used by this servlet. This function provides a common setup method for
-   * use by the test framework or the servlet's init() function.
-   */
+  * Sets the MessageStore used by this servlet. This function provides a common setup method for
+  * use by the test framework or the servlet's init() function.
+  */
   void setMessageStore(MessageStore messageStore) {
     this.messageStore = messageStore;
   }
 
   /**
-   * Sets the UserStore used by this servlet. This function provides a common setup method for use
-   * by the test framework or the servlet's init() function.
-   */
+  * Sets the UserStore used by this servlet. This function provides a common setup method for use
+  * by the test framework or the servlet's init() function.
+  */
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
   }
 
   /**
-   * This function fires when a user navigates to the chat page. It gets the conversation title from
-   * the URL, finds the corresponding Conversation, and fetches the messages in that Conversation.
-   * It then forwards to chat.jsp for rendering.
-   */
+  * This function fires when a user navigates to the chat page. It gets the conversation title from
+  * the URL, finds the corresponding Conversation, and fetches the messages in that Conversation.
+  * It then forwards to chat.jsp for rendering.
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+  throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
     String conversationTitle = requestUrl.substring("/chat/".length());
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
@@ -132,14 +136,14 @@ public class ChatServlet extends HttpServlet {
   }
 
   /**
-   * This function fires when a user submits the form on the chat page. It gets the logged-in
-   * username from the session, the conversation title from the URL, and the chat message from the
-   * submitted form data. It creates a new Message from that data, adds it to the model, and then
-   * redirects back to the chat page.
-   */
+  * This function fires when a user submits the form on the chat page. It gets the logged-in
+  * username from the session, the conversation title from the URL, and the chat message from the
+  * submitted form data. It creates a new Message from that data, adds it to the model, and then
+  * redirects back to the chat page.
+  */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+  throws IOException, ServletException {
 
     String username = (String) request.getSession().getAttribute("user");
     if (username == null) {
@@ -255,12 +259,25 @@ public class ChatServlet extends HttpServlet {
 		            Instant.now());
 		  messageStore.addMessage(message);
 
-			Activity msgAct = new Activity("newMessage", UUID.randomUUID(), user.getId(), message.getCreationTime());
-			activityStore.addActivity(msgAct);
+      // old way to add msg to activitystore, keeping for ref
+      Activity msgActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), message.getAuthorId(), message.getId(), message.getCreationTime());
+      activityStore.addActivity(msgActivity);
 
-			response.sendRedirect("/chat/" + conversationTitle);
-		}
-
+      response.sendRedirect("/chat/" + conversationTitle);
+    }
     // redirect to a GET request
+  }
+
+  //PostPut runs when the messages datastore has a message put into it
+  @PostPut(kinds = {"chat-messages"}) // Only applies to chat-messages query
+  void addActivity(PutContext context) {
+    //adds activity into activityStore
+    // System.out.println("PostPut running for new message");
+    // Entity message = context.getCurrentElement();
+    // System.out.println(message.getProperty("content"));
+    // Activity newActivity = new Activity(ActivityType.MESSAGE, UUID.randomUUID(), UUID.fromString((String) message.getProperty("author_uuid")), UUID.fromString((String) message.getProperty("uuid")), Instant.parse((String) message.getProperty("creation_time")));
+
+    //This line not getting called
+    //activityStore.addActivity(newActivity);
   }
 }

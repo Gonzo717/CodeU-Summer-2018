@@ -122,6 +122,7 @@
 					<form action="/register" method="get">
 						<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="submitButton">Register</button>
 					</form>
+          <br>
 
 			</div>
 		</div>

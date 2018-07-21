@@ -23,6 +23,7 @@ import codeu.model.data.User;
 import codeu.model.data.Group;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import codeu.model.store.basic.GroupConversationStore;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ActivityStore;
@@ -50,6 +51,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.appengine.api.datastore.PostPut;
+import com.google.appengine.api.datastore.PutContext;
+import com.google.appengine.api.datastore.Entity;
 
 /** Servlet class responsible for the conversations page. */
 public class ConversationServlet extends HttpServlet {
@@ -71,9 +75,9 @@ public class ConversationServlet extends HttpServlet {
 	private ImagesService imagesService = ImagesServiceFactory.getImagesService();
 
   /**
-   * Set up state for handling conversation-related requests. This method is only called when
-   * running in a server, not when running in a test.
-   */
+  * Set up state for handling conversation-related requests. This method is only called when
+  * running in a server, not when running in a test.
+  */
   @Override
   public void init() throws ServletException {
     super.init();
@@ -84,17 +88,17 @@ public class ConversationServlet extends HttpServlet {
   }
 
   /**
-   * Sets the UserStore used by this servlet. This function provides a common setup method for use
-   * by the test framework or the servlet's init() function.
-   */
+  * Sets the UserStore used by this servlet. This function provides a common setup method for use
+  * by the test framework or the servlet's init() function.
+  */
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
   }
 
   /**
-   * Sets the ConversationStore used by this servlet. This function provides a common setup method
-   * for use by the test framework or the servlet's init() function.
-   */
+  * Sets the ConversationStore used by this servlet. This function provides a common setup method
+  * for use by the test framework or the servlet's init() function.
+  */
   void setConversationStore(ConversationStore conversationStore) {
     this.conversationStore = conversationStore;
   }
@@ -108,12 +112,12 @@ public class ConversationServlet extends HttpServlet {
   }
 
   /**
-   * This function fires when a user navigates to the conversations page. It gets all of the
-   * conversations from the model and forwards to conversations.jsp for rendering the list.
-   */
+  * This function fires when a user navigates to the conversations page. It gets all of the
+  * conversations from the model and forwards to conversations.jsp for rendering the list.
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+  throws IOException, ServletException {
     List<Conversation> conversations = conversationStore.getAllConversations();
 		List<Group> groups = groupConversationStore.getAllGroupConversations();
 		/* for every conversation in conversationStore{
@@ -133,7 +137,7 @@ public class ConversationServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+  throws IOException, ServletException {
 
     String username = (String) request.getSession().getAttribute("user");
     if (username == null) {
@@ -311,9 +315,19 @@ public class ConversationServlet extends HttpServlet {
 			request.setAttribute("conversation", conversation);
 			// response.sendRedirect("/chat/" + conversationTitle);
 
-			Activity convoAct = new Activity("newConvo", UUID.randomUUID(), user.getId(), conversation.getCreationTime());
-			activityStore.addActivity(convoAct);
+			Activity convoActivity = new Activity(ActivityType.CONVERSATION, UUID.randomUUID(), conversation.getOwnerId(), conversation.getId(), conversation.getCreationTime());
+      activityStore.addActivity(convoActivity);
 
 			response.sendRedirect("/chat/" + conversationTitle);
 	}
+	//PostPut runs when the user datastore has a user put into it
+  @PostPut(kinds = {"chat-conversations"}) // Only applies to chat-convos query
+  void addActivity(PutContext context) {
+    //adds activity into activityStore
+    // System.out.println("PostPut running for new conversation");
+    // Entity convo = context.getCurrentElement();
+    // Activity newActivity = new Activity(ActivityType.CONVERSATION, UUID.randomUUID(), UUID.fromString((String) convo.getProperty("owner_uuid")), UUID.fromString((String) convo.getProperty("uuid")), Instant.parse((String) convo.getProperty("creation_time")));
+    // activityStore.addActivity(newActivity);
+  }
+
 }

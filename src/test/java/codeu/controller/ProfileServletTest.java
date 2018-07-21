@@ -104,44 +104,6 @@ public class ProfileServletTest {
   }
 
   @Test
-  public void testDoGet_noAboutMe() throws IOException, ServletException {
-    Mockito.when(mockRequest.getRequestURI()).thenReturn("/user/test_user");
-
-    UUID fakeUserId = UUID.randomUUID();
-    User user =
-          new User(
-              fakeUserId,
-              "test_user",
-              "$2a$10$.e.4EEfngEXmxAO085XnYOmDntkqod0C384jOR9oagwxMnPNHaGLa",
-              Instant.now());
-
-    Mockito.when(mockUserStore.getUser("test_user")).thenReturn(user);
-
-		BlobKey blobkey = null;
-		Pair contentOne = new Pair<>("TestContent", blobkey);
-
-    UUID fakeConversationId = UUID.randomUUID();
-    List<Message> fakeMessageList = new ArrayList<>();
-    fakeMessageList.add(
-        new Message(
-            UUID.randomUUID(),
-            fakeConversationId,
-            fakeUserId,
-            contentOne,
-            Instant.now()));
-
-    Mockito.when(mockMessageStore.getMessagesByUser(fakeUserId))
-        .thenReturn(fakeMessageList);
-
-    profileServlet.doGet(mockRequest, mockResponse);
-
-    Mockito.verify(mockRequest).setAttribute("about","This user hasn't made a profile yet :(");
-    Mockito.verify(mockRequest).setAttribute("currentProfile", "test_user");
-    Mockito.verify(mockRequest).setAttribute("messages",fakeMessageList);
-    Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
-  }
-
-  @Test
   public void testDoGet_nullUser() throws IOException, ServletException {
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/user/test_user");
 

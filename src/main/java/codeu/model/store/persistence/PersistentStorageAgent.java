@@ -23,6 +23,9 @@ import codeu.model.data.Group;
 import codeu.model.store.persistence.PersistentDataStore;
 import java.util.List;
 
+import java.lang.InterruptedException;
+import java.util.concurrent.ExecutionException;
+
 /**
  * This class is the interface between the application and PersistentDataStore, which handles
  * interactions with Google App Engine's Datastore service. Currently this class simply passes
@@ -113,26 +116,46 @@ public class PersistentStorageAgent {
 
 	/** Write a User object to the Datastore service. */
 	public void writeThrough(User user) {
+		try {
 		persistentDataStore.writeThrough(user);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 
 	/** Write a Conversation object to the Datastore service. */
 	public void writeThrough(Conversation conversation) {
+		try {
 		persistentDataStore.writeThrough(conversation);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 
   /** Write a Group Conversation object to the Datastore service. */
 	public void writeThrough(Group groupConversation) {
+		try {
 		persistentDataStore.writeThrough(groupConversation);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 
 	/** Write a Conversation object to the Datastore service. */
 	public void writeThrough(Message message) {
+		try {
 		persistentDataStore.writeThrough(message);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 
 	/** Write an Activity object to the Datastore service. */
 	public void writeThrough(Activity activity) {
-		persistentDataStore.writeThrough(activity);
+		try {
+			persistentDataStore.writeThrough(activity);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 }
