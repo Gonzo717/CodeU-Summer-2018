@@ -15,37 +15,36 @@ limitations under the License.
 --%>
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" href="/css/main.css">
-			<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
-			<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-				<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
-					<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-					<style>
-					.content-grid {
-						max-width: 960px;
-						display: inline-block;
-					}
-					.page-content{
-						padding-top: 50px;
-						margin-left: 8.33%;
-						margin-right: 8.33%;
-						width: 800px;
-					}
-					#view-source {
-						position: fixed;
-						display: block;
-						right: 0;
-						bottom: 0;
-						margin-right: 40px;
-						margin-bottom: 40px;
-						z-index: 900;
-					}
-					.submitButton {
-						display: inline-block;
-					}
-					</style>
-
+<head>
+	<link rel="stylesheet" href="/css/main.css">
+    <link rel="shortcut icon" href="/images/YACA.png" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <style>
+    .content-grid {
+  	max-width: 960px;
+  	display: inline-block;
+    }
+    .page-content{
+  	  padding-top: 50px;
+  	  margin-left: 8.33%;
+  	  margin-right: 8.33%;
+  	  width: 800px;
+    }
+    #view-source {
+  	position: fixed;
+  	display: block;
+  	right: 0;
+  	bottom: 0;
+  	margin-right: 40px;
+  	margin-bottom: 40px;
+  	z-index: 900;
+    }
+    .submitButton {
+  	  display: inline-block;
+    }
+    </style>
 				</head>
 				<body>
 
@@ -77,42 +76,32 @@ limitations under the License.
 									<input class="mdl-textfield__input" type="text" id="search-field">
 									</div>
 								</div>
-								<!-- Navigation -->
-								<div class="android-navigation-container">
-									<nav class="android-navigation mdl-navigation">
-										<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a>
-										<% if(request.getSession().getAttribute("user") != null){ %>
-										<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
-										<% } else{ %>
-										<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
-										<% } %>
-										<% if(request.getSession().getAttribute("admin") != null){ %>
-										<a href="/admin">Admin</a>
-										<% } %>
-										<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
-										<% if(request.getSession().getAttribute("user") != null){ %>
-										<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
-										<% } %>
-									</nav>
-								</div>
-								<span class="android-mobile-title mdl-layout-title">
-									<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">
-										<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
-										</a>
-									</span>
-									<%-- <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-									<i class="material-icons">more_vert</i>
-								</button>
-								<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-								<li class="mdl-menu__item">Add something here!</li>
-								<li class="mdl-menu__item">Perhaps another?</li>
-								<li disabled class="mdl-menu__item">Another one</li>
-								<li class="mdl-menu__item">Anotha 1</li>
-							</ul> --%>
-						</div>
-					</div>
+				  <!-- Navigation -->
+				<div class="android-navigation-container">
+					<nav class="android-navigation mdl-navigation">
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a>
+						<% if(request.getSession().getAttribute("user") != null){ %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
+						<% } else{ %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
+						<% } %>
+						<% if(request.getSession().getAttribute("admin") != null){ %>
+						  <a href="/admin">Admin</a>
+						<% } %>
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
+						<% if(request.getSession().getAttribute("user") != null){ %>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
+						<% } %>
+					</nav>
 				</div>
-
+				<span class="android-mobile-title mdl-layout-title">
+					<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">
+					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
+					</a>
+				</span>
+			</div>
+		</div>
+	</div>
 				<main class="mdl-layout__content">
 					<div class="page-content">
 						<div class="mdl-cell--stretch">

@@ -11,7 +11,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 <html>
 	<head>
 		<link rel="stylesheet" href="/css/main.css">
-		<link rel="shortcut icon" href="/images/JavaChipsLogo.png" />
+		<link rel="shortcut icon" href="/images/YACA.png" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
 		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
@@ -43,7 +43,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 		  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 			<div class="mdl-layout__header-row">
-				<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">YACA</span></a>
+				<a class="mdl-navigation__link" href="/index.jsp"><span class="mdl-layout-title">YACA</span></a>
 				<!-- Image card -->
 					  <!-- Add spacer, to align navigation to the right in desktop -->
 				<div class="android-header-spacer mdl-layout-spacer"></div>
@@ -82,15 +82,6 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 						<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 						</a>
 					</span>
-					<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-						<i class="material-icons">more_vert</i>
-					</button>
-					<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-						<li class="mdl-menu__item">Add something here!</li>
-						<li class="mdl-menu__item">Perhaps another?</li>
-						<li disabled class="mdl-menu__item">Another one</li>
-						<li class="mdl-menu__item">Anotha 1</li>
-					</ul>
 				</div>
 			</div>
 		</div>
