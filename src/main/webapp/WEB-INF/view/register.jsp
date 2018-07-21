@@ -133,6 +133,8 @@ limitations under the License.
 					<br/>
 					<br/>
 					<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="submitButton">Submit</button>
+					<br/>
+					<br>
 			</form>
 </body>
 </html>
