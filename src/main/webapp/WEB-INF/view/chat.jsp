@@ -97,8 +97,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     function scrollChat() {
       var chatDiv = document.getElementById('chat');
       chatDiv.scrollTop = chatDiv.scrollHeight;
-    };
+    }
   </script>
+
 </head>
 <%-- onload within the actual conversations created --%>
 <body onload="scrollChat()">
@@ -125,9 +126,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 							<a></a>
 						<% } else{ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
-						<%-- <% } %> --%>
-						<% if(request.getSession().getAttribute("admin") != null) { %>
-							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
+						<% } %>
+						<%-- <% if(request.getSession().getAttribute("admin") != null) { %> --%>
+						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
 						<%-- <% } %> --%>
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>

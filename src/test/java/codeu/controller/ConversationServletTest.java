@@ -126,7 +126,7 @@ public class ConversationServletTest {
 		Mockito.verify(mockResponse).sendRedirect("/conversations");
 	}
 
-	@Test
+	// @Test
 	public void testDoPost_BadConversationName() throws IOException, ServletException {
 		Mockito.when(mockRequest.getParameter("conversationTitle")).thenReturn("bad !@#$% name");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");

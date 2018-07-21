@@ -172,6 +172,13 @@ public class ConversationServlet extends HttpServlet {
 		 // --description-- set to null initially, not needed upon creation but can change later.
 		 String conversationParameters = request.getParameter("conversationParameters");
 		 String conversationTitle = request.getParameter("conversationTitle");
+ 		// username at least 5 chars and cannot contain spaces
+ 		if (!conversationTitle.matches("^(?=\\S+$).{5,}$")) {
+ 			request.setAttribute("error", "Invalid username");
+ 			request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+ 			return;
+ 		}
+
 		 String visibility = (String) request.getParameter("conversationVisibility");
 		 Visibility conversationVisibility = null;
 		 if(visibility.equals("Public")){
