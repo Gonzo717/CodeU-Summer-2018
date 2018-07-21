@@ -317,7 +317,7 @@
 											Keep track of what's going on. Check your Activity Feed and see who's doing what.
 										</div>
 										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/about.jsp">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/login">
 												Login
 											</a>
 										</div>
@@ -347,7 +347,7 @@
 											Try out our ground-breaking take on Public, Direct, and Group Conversations.
 										</div>
 										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations.jsp">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations">
 												Try Conversations
 											</a>
 										</div>
@@ -368,7 +368,7 @@
 											Add/Remove Members and set an Expiry time. Conversations can self-destruct!
 										</div>
 										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversation">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations">
 												Go Converse
 											</a>
 										</div>
@@ -400,7 +400,7 @@
 											Try out our ground-breaking take on Public, Direct, and Group Conversations.
 										</div>
 										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations.jsp">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations">
 												Try Conversations
 											</a>
 										</div>
@@ -421,7 +421,7 @@
 											Add/Remove Members and set an Expiry time. Conversations can self-destruct!
 										</div>
 										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversation">
+											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations">
 												Go Converse
 											</a>
 										</div>
