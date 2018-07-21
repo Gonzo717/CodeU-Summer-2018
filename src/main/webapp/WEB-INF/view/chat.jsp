@@ -380,7 +380,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 										<h3 style="color:green;">All users are currently in this group!</h3>
 									<% }%>
 								<hr/>
-								<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=addDirectMessageRecipient()>Select User</button>
+								<%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=addDirectMessageRecipient()>Select User</button> --%>
 								<input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=addDirectMessageRecipient() type="submit" name="addUsers" value="Add Checked Members">
 								</form>
 								</div>
