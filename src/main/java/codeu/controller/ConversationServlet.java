@@ -139,11 +139,11 @@ public class ConversationServlet extends HttpServlet {
       conversationTitle = request.getParameter("conversationTitle");
     }
 
-    // if (!conversationTitle.matches("[\\w*]*")) {
-    //   request.setAttribute("error", "Please enter only letters and numbers.");
-    //   request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
-    //   return;
-    // }
+    if (!conversationTitle.matches("[\\w*]*")) {
+      request.setAttribute("error", "Please enter only letters and numbers.");
+      request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
+      return;
+    }
 
     if (conversationStore.isTitleTaken(conversationTitle)) {
       // conversation title is already taken, just go into that conversation instead of creating a
