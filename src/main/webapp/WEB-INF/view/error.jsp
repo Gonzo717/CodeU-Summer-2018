@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <head>
   <a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">YACA</span></a>
   <link rel="stylesheet" href="/css/main.css">
@@ -30,6 +31,8 @@
     <% } %>
   </nav>
 =======
+=======
+>>>>>>> 7002f0b56e87485d9751c941cad259c57902fcf1
   <head>
 		<link rel="stylesheet" href="/css/main.css">
 		<link rel="shortcut icon" href="/images/YACA.png" />
@@ -54,6 +57,9 @@
 		  bottom: 0;
 		  margin-right: 40px;
 		  margin-bottom: 40px;
+<<<<<<< HEAD
+>>>>>>> 7002f0b56e87485d9751c941cad259c57902fcf1
+=======
 >>>>>>> 7002f0b56e87485d9751c941cad259c57902fcf1
 
 		  z-index: 900;
