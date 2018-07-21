@@ -4,8 +4,11 @@ import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import java.lang.InterruptedException;
+import java.util.concurrent.ExecutionException;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -56,8 +59,12 @@ public class PersistentDataStoreTest {
 		User inputUserTwo = new User(idTwo, profileIdTwo, nameTwo, passwordHashTwo, typeTwo, creationTwo);
 
 		// save
-		persistentDataStore.writeThrough(inputUserOne);
-		persistentDataStore.writeThrough(inputUserTwo);
+    try {
+      persistentDataStore.writeThrough(inputUserOne);
+  		persistentDataStore.writeThrough(inputUserTwo);
+    }
+    catch(InterruptedException e) {}
+    catch(ExecutionException e) {}
 
 		// load
 		List<User> resultUsers = persistentDataStore.loadUsers();
@@ -91,8 +98,12 @@ public class PersistentDataStoreTest {
 		Conversation inputConversationTwo = new Conversation(idTwo, ownerTwo, titleTwo, creationTwo);
 
 		// save
-		persistentDataStore.writeThrough(inputConversationOne);
-		persistentDataStore.writeThrough(inputConversationTwo);
+    try {
+      persistentDataStore.writeThrough(inputConversationOne);
+  		persistentDataStore.writeThrough(inputConversationTwo);
+    }
+    catch(InterruptedException e) {}
+    catch(ExecutionException e) {}
 
 		// load
 		List<Conversation> resultConversations = persistentDataStore.loadConversations();
@@ -130,8 +141,13 @@ public class PersistentDataStoreTest {
 				new Message(idTwo, conversationTwo, authorTwo, contentTwo, creationTwo);
 
 		// save
-		persistentDataStore.writeThrough(inputMessageOne);
-		persistentDataStore.writeThrough(inputMessageTwo);
+    try {
+      persistentDataStore.writeThrough(inputMessageOne);
+  		persistentDataStore.writeThrough(inputMessageTwo);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
+
 
 		// load
 		List<Message> resultMessages = persistentDataStore.loadMessages();
@@ -162,39 +178,51 @@ public class PersistentDataStoreTest {
 		UUID idFive = UUID.fromString("10000004-2222-3333-4444-555555555555");
 		UUID idSix = UUID.fromString("10000005-2222-3333-4444-555555555555");
 
+    UUID idSeven = UUID.fromString("10000006-2222-3333-4444-555555555555");
+    UUID idEight = UUID.fromString("10000007-2222-3333-4444-555555555555");
+    UUID idNine = UUID.fromString("10000008-2222-3333-4444-555555555555");
+
 		Instant creationOne = Instant.ofEpochMilli(1000);
 		Instant creationTwo = Instant.ofEpochMilli(2000);
 		Instant creationThree = Instant.ofEpochMilli(3000);
 
-		Activity userAct = new Activity( "newUser", idOne, idFour, creationOne);
-		Activity convoAct = new Activity( "newConvo", idTwo, idFive, creationTwo);
-		Activity msgAct = new Activity( "newMessage", idThree, idSix, creationThree);
+		Activity userAct = new Activity(ActivityType.USER, idOne, idFour, idSeven, creationOne);
+		Activity convoAct = new Activity(ActivityType.CONVERSATION, idTwo, idFive, idEight, creationTwo);
+		Activity msgAct = new Activity(ActivityType.MESSAGE, idThree, idSix, idNine, creationThree);
 
 		//save
-		persistentDataStore.writeThrough(userAct);
-		persistentDataStore.writeThrough(convoAct);
-		persistentDataStore.writeThrough(msgAct);
+    try {
+      persistentDataStore.writeThrough(userAct);
+  		persistentDataStore.writeThrough(convoAct);
+  		persistentDataStore.writeThrough(msgAct);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
+
 
 		//load
 		List<Activity> resultActivities = persistentDataStore.loadActivities();
 
 		//confirm that what we saved matches what we loaded
 		Activity resultUserAct = resultActivities.get(2);
-		Assert.assertEquals("newUser", resultUserAct.getType());
+		Assert.assertEquals(ActivityType.USER, resultUserAct.getType());
 		Assert.assertEquals(idOne, resultUserAct.getId());
-		Assert.assertEquals(idFour, resultUserAct.getOwner());
+		Assert.assertEquals(idFour, resultUserAct.getOwnerId());
+    Assert.assertEquals(idSeven, resultUserAct.getActivityId());
 		Assert.assertEquals(creationOne, resultUserAct.getCreationTime());
 
 		Activity resultConvoAct = resultActivities.get(1);
-		Assert.assertEquals("newConvo", resultConvoAct.getType());
+		Assert.assertEquals(ActivityType.CONVERSATION, resultConvoAct.getType());
 		Assert.assertEquals(idTwo, resultConvoAct.getId());
-		Assert.assertEquals(idFive, resultConvoAct.getOwner());
+		Assert.assertEquals(idFive, resultConvoAct.getOwnerId());
+    Assert.assertEquals(idEight, resultConvoAct.getActivityId());
 		Assert.assertEquals(creationTwo, resultConvoAct.getCreationTime());
 
 		Activity resultMsgAct = resultActivities.get(0);
-		Assert.assertEquals("newMessage", resultMsgAct.getType());
+		Assert.assertEquals(ActivityType.MESSAGE, resultMsgAct.getType());
 		Assert.assertEquals(idThree, resultMsgAct.getId());
-		Assert.assertEquals(idSix, resultMsgAct.getOwner());
+		Assert.assertEquals(idSix, resultMsgAct.getOwnerId());
+    Assert.assertEquals(idNine, resultMsgAct.getActivityId());
 		Assert.assertEquals(creationThree, resultMsgAct.getCreationTime());
 	}
 }
