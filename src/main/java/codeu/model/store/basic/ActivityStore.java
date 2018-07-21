@@ -58,6 +58,7 @@ public class ActivityStore {
 
   /* Add a new activity to the current set of activities known to the application. */
   public void addActivity(Activity activity) {
+    System.out.println("ADDING ACTIVITY IN ACTIVITYSTORE");
     activities.add(activity);
     persistentStorageAgent.writeThrough(activity);
   }
