@@ -128,7 +128,7 @@
 						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
 						</div>
 
-						<sub style="color:teal"> Must not contain spaces. 
+						<sub style="color:teal"> Must not contain spaces. At least two characters long. 
 						</sub>
 						<!-- ALL THE OPTIONS FOR TYPE -->
 						<%-- <h3>Select Conversation Type: </h3>

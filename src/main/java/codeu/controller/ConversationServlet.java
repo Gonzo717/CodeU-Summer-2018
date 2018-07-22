@@ -173,7 +173,7 @@ public class ConversationServlet extends HttpServlet {
 		 String conversationParameters = request.getParameter("conversationParameters");
 		 String conversationTitle = request.getParameter("conversationTitle");
  		// username at least 5 chars and cannot contain spaces
- 		if (!conversationTitle.matches("^(?=\\S+$).{5,}$")) {
+ 		if (!conversationTitle.matches("^(?=\\S+$).{2,}$")) {
  			request.setAttribute("error", "Invalid conversation Title");
  			request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
  			return;
