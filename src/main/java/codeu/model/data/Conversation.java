@@ -191,6 +191,10 @@ public class Conversation {
 		return avatarImageURL;
 	}
 
+	public void setAvatarImageURL(String newURL) {
+		this.avatarImageURL = newURL;
+	}
+
 	/* This stuff deals with the time-restrictions/validity of a conversation */
 
   public int timeRemaining(Instant now){

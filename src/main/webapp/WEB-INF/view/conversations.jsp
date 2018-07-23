@@ -128,7 +128,7 @@
 						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
 						</div>
 
-						<sub style="color:teal"> Must not contain spaces. At least two characters long. 
+						<sub style="color:teal"> Must not contain spaces. At least two characters long.
 						</sub>
 						<!-- ALL THE OPTIONS FOR TYPE -->
 						<%-- <h3>Select Conversation Type: </h3>
@@ -231,7 +231,11 @@
 						   <ul class="mdl-list--text-center">
 								 <li class="mdl-list__item mdl-list__item--two-line">
 								 	<span class="mdl-list__item-primary-content">
-										<i class="material-icons mdl-list__item-avatar">public</i>
+										<%if(conversation.getAvatarImageURL() != null){%>
+											<i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage"></i>
+										<% } else {%>
+											<i class="material-icons mdl-list__item-avatar">public</i>
+										<% } %>
 								 		<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
 										<span><%= conversation.getTitle() %></span>
 										<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>

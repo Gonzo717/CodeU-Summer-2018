@@ -258,39 +258,6 @@ public class ConversationServlet extends HttpServlet {
 
 		String avatarImageURL = null;
 
-		if(request.getParameter("avatarImage/" + conversationTitle) != null){
-			//now the big boy, handling the avatarImage :/ !!!!!!!!!!!!!!!!!!!!!!!!
-			BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-
-			// Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(request);
-			Map<String, List<BlobKey>> allBlobs = blobstoreService.getUploads(request);
-			List<BlobKey> blobKeys = allBlobs.get("avatarImage/" + conversationTitle);
-			//by convention, the actual image should be stored in the last index of this blobKeys list.
-
-			BlobKey avatarBlobKey = blobKeys.get((blobKeys.size()-1));
-			ServingUrlOptions servingURLOptions = ServingUrlOptions.Builder.withBlobKey(avatarBlobKey);
-			avatarImageURL = imagesService.getServingUrl(servingURLOptions);
-			System.out.println("avatarImageURL");
-			System.out.println(avatarImageURL);
-
-			// response.sendRedirect("/serve?blob-key=" + blobKey.getKeyString());
-			// String avatarImageURL = blobstoreService.createUploadUrl("/upload");
-			// log.info("blobkeys size:"+blobKeys.size());
-
-					// BlobKeyCache bc = BlobKeyCache.getBlobKeyCache();
-
-					// if (blobKeys == null){
-					// 	log.info("blobkey is null");
-					// 	System.out.println("blobkey is null");
-					// }
-					// else {
-					// 	// for(BlobKey blobkey:blobKeys){
-					// 	// 	bc.add(blobkey);
-					// 	// }
-					// 		// response.sendRedirect("/serve.jsp?blob-key=" + blobKeys.get(0).getKeyString() + );
-					// }
-		}
-
 	//now handle the requests for each of the cases:
 	//Type = GROUP
 	//Type = PUBLIC

@@ -17,6 +17,7 @@ package codeu.controller;
 import codeu.model.data.Conversation;
 import codeu.model.data.Group;
 import org.javatuples.Pair;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashSet;
 import codeu.model.data.Message;
@@ -46,6 +47,11 @@ import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.Image;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.images.ServingUrlOptions.Builder;
 
 /** Servlet class responsible for the chat page. */
 public class ChatServlet extends HttpServlet {
@@ -64,6 +70,9 @@ public class ChatServlet extends HttpServlet {
 
   /** Store class that gives access to Activities. */
   private ActivityStore activityStore;
+
+	private ImagesService imagesService = ImagesServiceFactory.getImagesService();
+
 
   /** Set up state for handling chat requests. */
   @Override
@@ -171,6 +180,44 @@ public class ChatServlet extends HttpServlet {
       response.sendRedirect("/conversations");
       return;
     }
+
+		//option for uploading conversation avatarImage
+		System.out.println(request.getParameter("avatarImage/" + conversationTitle));
+		if(request.getParameter("avatarImage/" + conversationTitle) != null){
+			//now the big boy, handling the avatarImage :/ !!!!!!!!!!!!!!!!!!!!!!!!
+			System.out.println("SOMETHING HAPPENED");
+			BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+
+			// Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(request);
+			Map<String, List<BlobKey>> allBlobs = blobstoreService.getUploads(request);
+			List<BlobKey> blobKeys = allBlobs.get("avatarImage/" + conversationTitle);
+			//by convention, the actual image should be stored in the last index of this blobKeys list.
+			System.out.println(blobKeys);
+			BlobKey avatarBlobKey = blobKeys.get((blobKeys.size()-1));
+			ServingUrlOptions servingURLOptions = ServingUrlOptions.Builder.withBlobKey(avatarBlobKey);
+			String avatarImageURL = imagesService.getServingUrl(servingURLOptions);
+			System.out.println("avatarImageURL");
+			System.out.println(avatarImageURL);
+
+			// response.sendRedirect("/serve?blob-key=" + blobKey.getKeyString());
+			// String avatarImageURL = blobstoreService.createUploadUrl("/upload");
+			// log.info("blobkeys size:"+blobKeys.size());
+
+					// BlobKeyCache bc = BlobKeyCache.getBlobKeyCache();
+
+					// if (blobKeys == null){
+					// 	log.info("blobkey is null");
+					// 	System.out.println("blobkey is null");
+					// }
+					// else {
+					// 	// for(BlobKey blobkey:blobKeys){
+					// 	// 	bc.add(blobkey);
+					// 	// }
+					// 		// response.sendRedirect("/serve.jsp?blob-key=" + blobKeys.get(0).getKeyString() + );
+					// }
+		}
+
+
 
 		//check if there was any media uploaded
 		BlobKey msgMedia = null;

@@ -28,7 +28,6 @@
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
 
 <% BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(); %>
-
 <%
 Conversation conversation = (Conversation) request.getAttribute("conversation");
 // Group group = (Group) request.getAttribute("group");
@@ -195,6 +194,24 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				    }
 				}, 100); //1000
 				</script>
+
+				<div class="add_avatarImage">
+					<form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="POST" enctype="multipart/form-data">
+					<h3>File :
+						<input type="text" name="conversation" value="<%= conversation.getTitle() %>"/>
+						<input type="file" name="<%=conversation.getTitle()%>"/>
+						<input type="submit" value="Upload Photo"/>
+					</h3>
+					</form>
+					<h3>After uploading photo, click here to see changes!
+						<form action="/chat/" method="POST" id="chatServlet">
+							<input type="submit" name="<%=conversation.getTitle()%>" value="Refresh Changes"/>
+						</form>
+					</h3>
+
+				</div>
+
+
 			  <% if(conversation.getConversationVisibility().equals("GROUP") || conversation.getConversationVisibility().equals("DIRECT")){ %>
 
 					<% if(!(conversation.isAccessAllowed(id))){ %>
