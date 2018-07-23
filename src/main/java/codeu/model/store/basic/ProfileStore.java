@@ -5,6 +5,7 @@ import codeu.model.data.Profile;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /*
  * Store class that uses in-memory data structures to hold values and automatically loads from and
@@ -65,4 +66,23 @@ public class ProfileStore {
   public void setProfiles(List<Profile> profiles) {
     this.profiles = profiles;
   }
+
+  /* Update an existing profile */
+  public void updateProfile(Profile profile) {
+    persistentStorageAgent.writeThrough(profile);
+  }
+
+  /**
+   * Access the Profile object with the given UUID.
+   *
+   * @return null if the UUID does not match any existing Profile.
+   */
+   public Profile getProfile(UUID id) {
+     for (Profile profile : profiles) {
+       if (profile.getId().equals(id)) {
+         return profile;
+       }
+     }
+     return null;
+   }
 }

@@ -236,16 +236,20 @@ public class PersistentDataStore {
     for(Entity entity : results.asIterable()) {
       try {
         UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
-        UUID picId = UUID.fromString((String) entity.getProperty("pic_id"));
-        // Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-        HashSet<User> followers = (HashSet) entity.getProperty("followers");
-        HashSet<User> following = (HashSet) entity.getProperty("following");
-        String college = (String) entity.getProperty("college");
-        int points = (int) entity.getProperty("points");
-        HashSet<Conversation> pinnedConvos = (HashSet) entity.getProperty("pinned_convos");
+        Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+        // UUID picId = UUID.fromString((String) entity.getProperty("pic_id"));
+        // // Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+        // HashSet<User> followers = (HashSet) entity.getProperty("followers");
+        // HashSet<User> following = (HashSet) entity.getProperty("following");
+        // String college = (String) entity.getProperty("college");
+        // int points = (int) entity.getProperty("points");
+        // HashSet<Conversation> pinnedConvos = (HashSet) entity.getProperty("pinned_convos");
+        // String aboutMe = (String) entity.getProperty("about_me");
         String aboutMe = (String) entity.getProperty("about_me");
-        Profile profile = new Profile(uuid, picId, followers, following, college, points,
-            pinnedConvos, aboutMe);
+        Profile profile = new Profile(uuid, creationTime);
+        if (aboutMe != null){
+          profile.setAboutMe(aboutMe);
+       }
         profiles.add(profile);
       } catch (Exception e) {
         throw new PersistentDataStoreException(e);
@@ -314,13 +318,17 @@ public class PersistentDataStore {
   public void writeThrough(Profile profile) {
     Entity profileEntity = new Entity("chat-profiles", profile.getId().toString());
     profileEntity.setProperty("uuid", profile.getId().toString());
-    profileEntity.setProperty("pic_id", profile.getPicId().toString());
-    profileEntity.setProperty("followers", profile.getFollowers().toString());
-    profileEntity.setProperty("following", profile.getFollowing().toString());
-    profileEntity.setProperty("college", profile.getCollege());
-    profileEntity.setProperty("points", profile.getPoints());
-    profileEntity.setProperty("pinned_convos", profile.getPinnedConvos().toString());
-    profileEntity.setProperty("about_me", profile.getAboutMe());
+    profileEntity.setProperty("creation_time", profile.getCreationTime().toString());
+    if (profile.getAboutMe() != null){
+       profileEntity.setProperty("about_me", profile.getAboutMe());
+    }
+    // profileEntity.setProperty("pic_id", profile.getPicId().toString());
+    // profileEntity.setProperty("followers", profile.getFollowers().toString());
+    // profileEntity.setProperty("following", profile.getFollowing().toString());
+    // profileEntity.setProperty("college", profile.getCollege());
+    // profileEntity.setProperty("points", profile.getPoints());
+    // profileEntity.setProperty("pinned_convos", profile.getPinnedConvos().toString());
+    // profileEntity.setProperty("about_me", profile.getAboutMe());
     datastore.put(profileEntity);
   }
 }
