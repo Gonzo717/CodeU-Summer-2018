@@ -2,8 +2,10 @@ package codeu.controller;
 
 import codeu.model.data.User;
 import codeu.model.data.Message;
+import codeu.model.data.Profile;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.MessageStore;
+import codeu.model.store.basic.ProfileStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
@@ -21,6 +23,8 @@ public class ProfileServlet extends HttpServlet {
 	private MessageStore messageStore;
 	/** Store class that gives access to Users. */
 	private UserStore userStore;
+	/** Store class that gives access to Profiles. */
+	private ProfileStore profileStore;
 	/**
 	 * Set up state for handling login-related requests. This method is only called when running in a
 	 * server, not when running in a test.
@@ -30,6 +34,7 @@ public class ProfileServlet extends HttpServlet {
 		super.init();
 		setUserStore(UserStore.getInstance());
 		setMessageStore(MessageStore.getInstance());
+		setProfileStore(ProfileStore.getInstance());
 	}
 
 	/**
@@ -48,6 +53,14 @@ public class ProfileServlet extends HttpServlet {
     this.messageStore = messageStore;
   }
 
+	/**
+   * Sets the ProfileStore used by this servlet. This function provides a common setup method for
+   * use by the test framework or the servlet's init() function.
+   */
+	void setProfileStore(ProfileStore profileStore) {
+		this.profileStore = profileStore;
+	}
+
 	@Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
@@ -55,19 +68,19 @@ public class ProfileServlet extends HttpServlet {
 		String currentProfile = requestUrl.substring("/user/".length());
 		User user = userStore.getUser(currentProfile);
 		String about = "";
+		Profile profile = profileStore.getProfile(user.getProfileID());
 
 		if (user == null){
 			request.setAttribute("error", "THAT USER DOESN'T EXIST! ENTER A VALID USERNAME");
 			request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
 			return;
+		}else {
+			if (profile == null){
+				about = "this user hasn't made a profile yet";
+			}else{
+				about = profile.getAboutMe();
+			}
 		}
-		// } else {
-		// 	if (user.getAboutMe() != null){
-		// 		about = user.getAboutMe();
-		// 	}else{
-		// 		about = "This user hasn't made a profile yet :(";
-		// 	}
-		// }
 
 		//creates arrayList of all messages sent by user whose profile is being displayed
 		List<Message> messages = messageStore.getMessagesByUser(user.getId());
@@ -90,18 +103,23 @@ public class ProfileServlet extends HttpServlet {
 				 }
 
 				User user = userStore.getUser(username);
+				Profile profile = profileStore.getProfile(user.getProfileID());
+				if (profile == null){
+					profile = new Profile(user.getProfileID(), Instant.now());
+					profileStore.addProfile(profile);
+				}
 				if (user == null){
 				 	//user is not logged in, redirect to login page
 				 	response.sendRedirect("/login");
 				 	return;
 				 }
-				// //get aboutMe content submitted through the form
-				// String aboutMeContent = request.getParameter("about me");
-				// //removes any HTML from aboutMe content
-				// String cleanedAboutMeContent = Jsoup.clean(aboutMeContent, Whitelist.none());
-				// //update user to include aboutMe data
-				// user.setAboutMe(cleanedAboutMeContent);
-				// userStore.updateUser(user);
+				//get aboutMe content submitted through the form
+				String aboutMeContent = request.getParameter("about me");
+				//removes any HTML from aboutMe content
+				String cleanedAboutMeContent = Jsoup.clean(aboutMeContent, Whitelist.none());
+				//update profile to include aboutMe data
+				profile.setAboutMe(cleanedAboutMeContent);
+			  profileStore.updateProfile(profile);
 				response.sendRedirect("/user/" + username);
 			}
 }
