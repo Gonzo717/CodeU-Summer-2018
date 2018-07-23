@@ -11,6 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.HashSet;
+import org.javatuples.Pair;
+
+import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.blobstore.BlobKey;
+
 
 public class MessageStoreTest {
 
@@ -18,26 +24,36 @@ public class MessageStoreTest {
   private PersistentStorageAgent mockPersistentStorageAgent;
 
   private final UUID CONVERSATION_ID_ONE = UUID.randomUUID();
+
+	BlobKey blobkey = null;
+
+	Pair contentOne = new Pair<>("TestContent", blobkey);
+
+	Pair contentTwo = new Pair<>("TestContent2", blobkey);
+
+	Pair contentThree = new Pair<>("TestContent3", blobkey);
+
+
   private final Message MESSAGE_ONE =
       new Message(
           UUID.randomUUID(),
           CONVERSATION_ID_ONE,
           UUID.randomUUID(),
-          "message one",
+          contentOne,
           Instant.ofEpochMilli(1000));
   private final Message MESSAGE_TWO =
       new Message(
           UUID.randomUUID(),
           CONVERSATION_ID_ONE,
           UUID.randomUUID(),
-          "message two",
+          contentTwo,
           Instant.ofEpochMilli(2000));
   private final Message MESSAGE_THREE =
       new Message(
           UUID.randomUUID(),
           UUID.randomUUID(),
           UUID.randomUUID(),
-          "message three",
+          contentThree,
           Instant.ofEpochMilli(3000));
 
   @Before
@@ -64,12 +80,16 @@ public class MessageStoreTest {
   @Test
   public void testAddMessage() {
     UUID inputConversationId = UUID.randomUUID();
+
+		BlobKey blobkey = null;
+		Pair contentOne = new Pair<>("TestContent", blobkey);
+
     Message inputMessage =
         new Message(
             UUID.randomUUID(),
             inputConversationId,
             UUID.randomUUID(),
-            "test message",
+            contentOne,
             Instant.now());
 
     messageStore.addMessage(inputMessage);

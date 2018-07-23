@@ -51,7 +51,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 			<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 				<div class="mdl-layout__header-row">
-					<span class="mdl-layout-title">YACA</span>
+					<a class="mdl-navigation__link" href="/index.jsp"><span class="mdl-layout-title">YACA</span></a>
 					<!-- Image card -->
 						  <!-- Add spacer, to align navigation to the right in desktop -->
 					<div class="android-header-spacer mdl-layout-spacer"></div>
@@ -73,9 +73,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 								<% } else{ %>
 									<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
 								<% } %>
-								<% if(request.getSession().getAttribute("admin") != null) { %>
+								<%-- <% if(request.getSession().getAttribute("admin") != null) { %> --%>
 									<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
-								<% } %>
+								<%-- <% } %> --%>
 								<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
 								<% if(request.getSession().getAttribute("user") != null){ %>
 								<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
@@ -90,20 +90,11 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 							<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 							</a>
 						</span>
-						<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-							<i class="material-icons">more_vert</i>
-						</button>
-						<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-							<li class="mdl-menu__item">Add something here!</li>
-							<li class="mdl-menu__item">Perhaps another?</li>
-							<li disabled class="mdl-menu__item">Another one</li>
-							<li class="mdl-menu__item">Anotha 1</li>
-						</ul>
 					</div>
 				</div>
 			</div>
 
-		<main class="mdl-layout__content">
+		<main class="mdl-layout__content" style="display:-webkit-box;">
 			<div class="content-grid">
 				<div class="page-content">
 					</br>

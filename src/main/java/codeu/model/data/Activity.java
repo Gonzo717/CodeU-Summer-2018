@@ -8,15 +8,32 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class Activity {
-
-	/* String type - type helps differentiate what type of activity it is based on the following:
-	 * newUser - user has joined
-	 * newConvo - conversation has been made
-	 * newMessage - message has been sent
+	/*
+	 * ActivityType helps differentiate what type of activity it is based on the following:
+	 * UserAct - user has joined
+	 * ConversationAct - conversation has been made
+	 * MessageAct - message has been sent
 	*/
-	public final String type;
-	public final UUID id; //id of activity
-	public final UUID owner; //user that "owns" this activity
+
+	public enum ActivityType {
+		USER("USER"),
+		CONVERSATION("CONVERSATION"),
+		MESSAGE("MESSAGE");
+
+		private final String typeDescription;
+		private ActivityType(String value) {
+			this.typeDescription = value;
+		}
+
+		public String toString() {
+			return typeDescription;
+		}
+	};
+
+	public final ActivityType type;
+	public final UUID id; //id of this activity object
+	public final UUID ownerId; //user that "owns" this activity
+	public final UUID activityId; //id of the new user/convo/msg
 	public final Instant creation;
 
 	/*
@@ -26,16 +43,17 @@ public class Activity {
 	* @param id is the ID of who ever made the activity
 	* @param creation is the creation time of this activity
 	*/
-	public Activity(String type, UUID id, UUID owner, Instant creation) {
+	public Activity(ActivityType type, UUID id, UUID ownerId, UUID activityId, Instant creation) {
 		this.type = type;
 		this.id = id;
-		this.owner = owner;
+		this.ownerId = ownerId;
+		this.activityId = activityId;
 		this.creation = creation;
 
 	}
 
 	/* Returns the activity type */
-	public String getType() {
+	public ActivityType getType() {
 		return type;
 	}
 
@@ -45,8 +63,12 @@ public class Activity {
 	}
 
 	/* Returns the ID of the user who has initiated tha activity */
-	public UUID getOwner() {
-		return owner;
+	public UUID getOwnerId() {
+		return ownerId;
+	}
+
+	public UUID getActivityId() {
+		return activityId;
 	}
 
 	/* Returns the creation time of this activity */

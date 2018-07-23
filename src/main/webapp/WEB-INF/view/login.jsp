@@ -74,9 +74,9 @@
 						<% } else{ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
 						<% } %>
-						<% if(request.getSession().getAttribute("admin") != null){ %>
-						  <a href="/admin">Admin</a>
-						<% } %>
+						<%-- <% if(request.getSession().getAttribute("admin") != null){ %> --%>
+						  <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
+						<%-- <% } %> --%>
 						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
@@ -88,20 +88,11 @@
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 					</a>
 				</span>
-				<%-- <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-					<i class="material-icons">more_vert</i>
-				</button>
-				<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-					<li class="mdl-menu__item">Add something here!</li>
-					<li class="mdl-menu__item">Perhaps another?</li>
-					<li disabled class="mdl-menu__item">Another one</li>
-					<li class="mdl-menu__item">Anotha 1</li>
-				</ul> --%>
 			</div>
 		</div>
 	</div>
 
-  <main class="mdl-layout__content">
+	<main class="mdl-layout__content" style="display:-webkit-box;">
 	  <div class="page-content">
 		  <div class="mdl-cell--stretch">
 			  <div
@@ -131,6 +122,7 @@
 					<form action="/register" method="get">
 						<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="submitButton">Register</button>
 					</form>
+          <br>
 
 			</div>
 		</div>

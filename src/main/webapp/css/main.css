@@ -13,14 +13,33 @@
  * limitations under the License.
  */
 
+ .mdl-layout__content {
+     -ms-flex: 0 1 auto;
+     position: relative;
+     display: -webkit-box;
+     overflow-y: auto;
+     overflow-x: hidden;
+     -webkit-flex-grow: 1;
+     -ms-flex-positive: 1;
+     flex-grow: 1;
+     z-index: 1;
+     -webkit-overflow-scrolling: touch;
+ }
+
 body {
   margin: 0;
   font-family: sans-serif;
-  line-height: 1.6;
-  font-size: 18px;
-  line-height: 1.6;
+  /* line-height: 2; */
+  font-size: 20px;
+  line-height: 2;
   color: #444;
   background-color: #eeeeee;
+}
+
+main {
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /*nav {
@@ -69,14 +88,6 @@ table td{
   border-radius: 50%;
 }
 
-/*#game:hover input ~ .checkmark{
-  background-color: #ccc;
-}
-*/
-/*#game input:checked ~ .checkmark {
-  background-color: #2196F3;
-}*/
-
 h1 {
   color: #757575;
 }
@@ -87,4 +98,14 @@ input {
 
 button {
   font-size: 18px;
+}
+
+.mdl-layout-title {
+  font-weight: bold;
+}
+
+.two-containers {
+  float: left;
+  width: 50%;
+  padding: 10px;
 }

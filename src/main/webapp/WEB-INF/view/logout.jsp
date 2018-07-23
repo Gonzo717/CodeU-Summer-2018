@@ -16,12 +16,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>YACA</title>
+	<a class="mdl-navigation__link" href="/"><span class="mdl-layout-title">YACA</span></a>
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
-<% 	System.out.println("WE ARE LOGGIN OUT!");
+<% 	System.out.println("WE ARE LOGGING OUT!");
 	request.getSession().invalidate();
 	response.sendRedirect("/index.jsp"); %>
 

@@ -1,14 +1,25 @@
 package codeu.model.store.persistence;
-
+import java.lang.InterruptedException;
+import java.util.concurrent.ExecutionException;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import java.time.Instant;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import codeu.model.data.Conversation.Visibility;
+import codeu.model.data.Conversation.Type;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import org.javatuples.Pair;
+
+import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.blobstore.BlobKey;
 
 /**
  * Contains tests of the PersistentStorageAgent class. Currently that class is just a pass-through
@@ -62,31 +73,62 @@ public class PersistentStorageAgentTest {
 						false,
 						Instant.now());
 		persistentStorageAgent.writeThrough(user);
-		Mockito.verify(mockPersistentDataStore).writeThrough(user);
+    try {
+      Mockito.verify(mockPersistentDataStore).writeThrough(user);
+    }
+    catch(InterruptedException e) {}
+    catch(ExecutionException e) {}
 	}
 
 	@Test
 	public void testWriteThroughConversation() {
+		HashSet members = new HashSet<>();
+		Type type = Type.TEXT;
+		Visibility visibility = Visibility.PUBLIC;
+		String avatarImageURL = "fakeURL";
+		String validTime = "5/MINUTES";
+		String description = "fake :D";
+
 		Conversation conversation =
-				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now());
+				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
+													visibility, avatarImageURL, validTime, description);
+
 		persistentStorageAgent.writeThrough(conversation);
-		Mockito.verify(mockPersistentDataStore).writeThrough(conversation);
+    try {
+      Mockito.verify(mockPersistentDataStore).writeThrough(conversation);
+    }
+    catch(InterruptedException e) {}
+    catch(ExecutionException e) {}
 	}
 
 	@Test
 	public void testWriteThroughMessage() {
-		Message message =
-				new Message(
-						UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), "test content", Instant.now());
-		persistentStorageAgent.writeThrough(message);
-		Mockito.verify(mockPersistentDataStore).writeThrough(message);
+		UUID idOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
+		UUID conversationOne = UUID.fromString("10000001-2222-3333-4444-555555555555");
+		UUID authorOne = UUID.fromString("10000002-2222-3333-4444-555555555555");
+		BlobKey blobkey = null;
+		Pair contentOne = new Pair<>("TestContent", blobkey);
+		Instant creationOne = Instant.ofEpochMilli(1000);
+		Message inputMessageOne =
+				new Message(idOne, conversationOne, authorOne, contentOne, creationOne);
+
+		persistentStorageAgent.writeThrough(inputMessageOne);
+		try {
+		Mockito.verify(mockPersistentDataStore).writeThrough(inputMessageOne);
+		}
+		catch(InterruptedException e) {}
+    catch(ExecutionException e) {}
 	}
 
 	@Test
 	public void testWriteThroughActivity() {
 		Activity activity =
-				new Activity("newUser", UUID.randomUUID(), UUID.randomUUID(), Instant.now());
+				new Activity(ActivityType.USER, UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), Instant.now());
 		persistentStorageAgent.writeThrough(activity);
-		Mockito.verify(mockPersistentDataStore).writeThrough(activity);
+    try {
+      Mockito.verify(mockPersistentDataStore).writeThrough(activity);
+		}
+		catch(InterruptedException e) {}
+		catch(ExecutionException e) {}
 	}
 }

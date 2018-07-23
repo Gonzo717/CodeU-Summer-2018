@@ -2,6 +2,7 @@
 <%@ page import="codeu.model.data.Activity" %>
 <%@ page import="codeu.model.store.basic.ActivityStore" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
+<%@ page import="codeu.model.data.Activity.ActivityType" %>
 
 <%
 List<Activity> activities = (List<Activity>) request.getAttribute("activities");
@@ -9,8 +10,6 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 <!DOCTYPE>
 <html>
 	<head>
-		<title>Activity Feed</title>
-
 		<link rel="stylesheet" href="/css/main.css">
 		<link rel="shortcut icon" href="/images/YACA.png" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -44,7 +43,7 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 		  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">YACA</span>
+				<a class="mdl-navigation__link" href="/index.jsp"><span class="mdl-layout-title">YACA</span></a>
 				<!-- Image card -->
 					  <!-- Add spacer, to align navigation to the right in desktop -->
 				<div class="android-header-spacer mdl-layout-spacer"></div>
@@ -66,9 +65,9 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 							<% } else{ %>
 								<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
 							<% } %>
-							<% if(request.getSession().getAttribute("admin") != null) { %>
+							<%-- <% if(request.getSession().getAttribute("admin") != null) { %> --%>
 								<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
-							<% } %>
+							<%-- <% } %> --%>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
 							<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
@@ -83,19 +82,10 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 						<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 						</a>
 					</span>
-					<button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-						<i class="material-icons">more_vert</i>
-					</button>
-					<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-						<li class="mdl-menu__item">Add something here!</li>
-						<li class="mdl-menu__item">Perhaps another?</li>
-						<li disabled class="mdl-menu__item">Another one</li>
-						<li class="mdl-menu__item">Anotha 1</li>
-					</ul>
 				</div>
 			</div>
 		</div>
-	<main class="mdl-layout__content">
+		<main class="mdl-layout__content" style="display:-webkit-box;">
 		<div class="content-grid">
 			<div class="page-content">
 				<h1 id="container">
@@ -113,24 +103,24 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 						<%
 						for(Activity activity : activities) {
 							if(activity != null) {
-								if(activity.getType().equals("newUser")) {
+								if(activity.getType().equals(ActivityType.USER)) {
 								%>
 									<span><b><%=activity.getCreationTimeFormatted()%></b> New user has been created! Welcome, <%=UserStore.getInstance()
-									.getUser(activity.getOwner()).getName()%></span>
+									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
 								}
-								else if(activity.getType().equals("newConvo")) {
+								else if(activity.getType().equals(ActivityType.CONVERSATION)) {
 								%>
 									<span><b><%=activity.getCreationTimeFormatted()%></b>New conversation has been created by <%=UserStore.getInstance()
-									.getUser(activity.getOwner()).getName()%></span>
+									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
 								}
-								else if(activity.getType().equals("newMessage")) {
+								else if(activity.getType().equals(ActivityType.MESSAGE)) {
 								%>
 									<span><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
-									.getUser(activity.getOwner()).getName()%></span>
+									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
 								}

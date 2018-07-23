@@ -51,11 +51,23 @@
       <artifactId>jsoup</artifactId>
       <version>1.8.3</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.mindrot</groupId>
       <artifactId>jbcrypt</artifactId>
       <version>0.3m</version>
+    </dependency>
+
+		<dependency>
+	    <groupId>org.javatuples</groupId>
+	    <artifactId>javatuples</artifactId>
+	    <version>1.2</version>
+		</dependency>
+
+    <dependency>
+      <groupId>com.google.appengine.tools</groupId>
+      <artifactId>appengine-gcs-client</artifactId>
+      <version>0.7</version>
     </dependency>
 
     <dependency>
@@ -113,4 +125,3 @@
   </build>
 
 </project>
-

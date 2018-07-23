@@ -7,6 +7,8 @@ import java.util.UUID;
 import codeu.model.data.User;
 import codeu.model.data.Conversation;
 import codeu.model.data.Message;
+import org.javatuples.Pair;
+import com.google.appengine.api.blobstore.BlobKey;
 
 import java.util.List;
 import java.util.ArrayList;

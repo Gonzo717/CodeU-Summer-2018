@@ -13,8 +13,14 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import codeu.model.data.User;
 import codeu.model.data.Activity;
+import codeu.model.data.Activity.ActivityType;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ActivityStore;
+
+import com.google.appengine.api.datastore.PrePut;
+import com.google.appengine.api.datastore.PostPut;
+import com.google.appengine.api.datastore.PutContext;
+import com.google.appengine.api.datastore.Entity;
 
 public class RegisterServlet extends HttpServlet {
 
@@ -95,10 +101,26 @@ public class RegisterServlet extends HttpServlet {
 		User user = new User(UUID.randomUUID(), UUID.randomUUID(), username, hashedPassword, isAdmin, Instant.now());
 		userStore.addUser(user);
 
-		// adds user activity to ActivityStore
-		Activity userAct = new Activity("newUser", UUID.randomUUID(), user.getId(), user.getCreationTime());
+		// old way to add user activity to ActivityStore, keeping for ref
+		Activity userAct = new Activity(ActivityType.USER, UUID.randomUUID(), user.getId(), user.getId(), user.getCreationTime());
 		activityStore.addActivity(userAct);
 
 		response.sendRedirect("/login");
+	}
+
+	@PrePut
+	void testingPrePutCallback(PutContext context) {
+		System.out.println("PRE PUT WAS CALLED WHOO");
+	}
+
+	//PostPut runs when the user datastore has a user put into it
+	@PostPut(kinds = {"chat-users"}) // Only applies to chat-users query
+	void addActivity(PutContext context) {
+		//adds activity into activityStore
+		// System.out.println("PostPut running for user register");
+		//
+		// Entity user = context.getCurrentElement();
+		// Activity newActivity = new Activity(ActivityType.USER, UUID.randomUUID(), UUID.fromString((String) user.getProperty("uuid")), UUID.fromString((String) user.getProperty("uuid")), Instant.parse((String) user.getProperty("creation_time")));
+		// activityStore.addActivity(newActivity);
 	}
 }

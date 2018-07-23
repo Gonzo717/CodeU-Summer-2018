@@ -24,6 +24,10 @@ import codeu.model.data.Message;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.time.temporal.ChronoUnit;
+import codeu.model.data.Conversation.Type;
+import codeu.model.data.Conversation.Visibility;
 import codeu.model.store.basic.UserStore;
 import codeu.model.store.basic.ConversationStore;
 import codeu.model.store.basic.MessageStore;
@@ -32,6 +36,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.javatuples.Pair;
+import com.google.appengine.api.blobstore.BlobKey;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -66,12 +73,12 @@ public class AdminServletTest {
     mockMessage = Mockito.mock(Message.class);
 
     UUID fakeConversationId = UUID.randomUUID();
+		HashSet members = new HashSet<>();
     fakeConversation =
-        new Conversation(
-          fakeConversationId,
-          UUID.randomUUID(),
-          "test_conversation",
-          Instant.now());
+				new Conversation(
+						fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now(),
+						members, Type.TEXT, Visibility.PUBLIC,
+						"fakeURL", "5/DAYS", "fake :D");
 
     mockUserStore.addUser(mockUser);
     mockConvoStore.addConversation(fakeConversation);
@@ -97,7 +104,7 @@ public class AdminServletTest {
     Mockito.when(mockRequest.getParameter("username")).thenReturn(null);
 
     List<Conversation> fakeConversationList = new ArrayList<>();
-    
+
     fakeConversationList.add(fakeConversation);
 
     Mockito.when(mockConvoStore.getAllConversations())
@@ -105,7 +112,7 @@ public class AdminServletTest {
 
     List<Message> fakeMessageList = new ArrayList<>();
     fakeMessageList.add(mockMessage);
-        
+
     Mockito.when(mockMessageStore.getAllMessages())
         .thenReturn(fakeMessageList);
 
@@ -126,10 +133,10 @@ public class AdminServletTest {
 
     int numTotalUsers = totalUsers.size();
     int numTotalMessages = totalMessages.size();
-    int numTotalConvos = totalConvos.size(); 
+    int numTotalConvos = totalConvos.size();
 
     HttpSession mockSession = Mockito.mock(HttpSession.class);
-    
+
     Mockito.when(mockRequest.getSession()).thenReturn(mockSession);
 
     adminServlet.doPost(mockRequest, mockResponse);

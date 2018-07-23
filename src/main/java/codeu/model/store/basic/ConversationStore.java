@@ -15,9 +15,12 @@
 package codeu.model.store.basic;
 
 import codeu.model.data.Conversation;
+import codeu.model.data.Conversation.Type;
+import codeu.model.data.Conversation.Visibility;
 import codeu.model.data.Group;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.List;
 
 /**
@@ -54,6 +57,7 @@ public class ConversationStore {
    * The PersistentStorageAgent responsible for loading Conversations from and saving Conversations
    * to Datastore.
    */
+
   private PersistentStorageAgent persistentStorageAgent;
 
   /** The in-memory list of Conversations. */
@@ -97,6 +101,18 @@ public class ConversationStore {
     }
     return null;
   }
+
+	public ArrayList getPrivateConversationsWithUser(UUID user){
+		ArrayList<Conversation> userConversations = new ArrayList<Conversation>();
+		for(Conversation conversation : conversations){
+			if(!(Visibility.valueOf(conversation.getConversationVisibility()) == Visibility.PUBLIC)){
+				if(conversation.getMembers().contains(user)){
+					userConversations.add(conversation);
+				}
+			}
+		}
+		return userConversations;
+	}
 
   /** Sets the List of Conversations stored by this ConversationStore. */
   public void setConversations(List<Conversation> conversations) {
