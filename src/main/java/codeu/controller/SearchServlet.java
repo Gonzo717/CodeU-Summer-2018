@@ -12,6 +12,7 @@ import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -74,10 +75,33 @@ public class SearchServlet extends HttpServlet {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		List<Activity> activities = activityStore.getAllActivities();
-    //edit the activities here based on search
-		request.setAttribute("activities", activities);
-		request.getRequestDispatcher("/WEB-INF/view/search.jsp").forward(request, response);
+    String searchingValue = ""; //remember to do toLowerCase here
+    List<Activity> activities = activityStore.getAllActivities();
+    List<Activity> searchResults = new ArrayList<Activity>();
+
+    //adds the activities to searchResults here based on search
+    for(Activity activity : activities) {
+      if(activity.getType().equals(ActivityType.USER)) {
+        String userName = userStore.getUser(activity.getActivityId()).getName();
+        if(userName.toLowerCase().equals(searchingValue)) {
+          searchResults.add(activity);
+        }
+
+      }
+      else if(activity.getType().equals(ActivityType.CONVERSATION)) {
+        //conversationStore.getConversationWithTitle() //no way to get with activity UUID
+      }
+      else if(activity.getType().equals(ActivityType.MESSAGE)) {
+        //in progress
+      }
+      else {
+        System.out.println("Invalid activity type...");
+      }
+    }
+
+    request.setAttribute("activities", activities);
+    request.setAttribute("searchResults", searchResults);
+    request.getRequestDispatcher("/WEB-INF/view/search.jsp").forward(request, response);
 	}
 
 

@@ -5,7 +5,7 @@
 <%@ page import="codeu.model.data.Activity.ActivityType" %>
 
 <%
-List<Activity> activities = (List<Activity>) request.getAttribute("activities");
+List<Activity> searchResults = (List<Activity>) request.getAttribute("searchResults");
 %>
 <!DOCTYPE>
 <html>
@@ -94,33 +94,33 @@ List<Activity> activities = (List<Activity>) request.getAttribute("activities");
 				<hr/>
 				<div id="infinitescroll">
 					<%
-					if(activities == null || activities.isEmpty() ) {
+					if(searchResults == null || searchResults.isEmpty() ) {
 					%>
 						<p>Nothing found</p>
 					<%
 					} else {
 					%>
 						<%
-						for(Activity activity : activities) {
+						for(Activity activity : searchResults) {
 							if(activity != null) {
 								if(activity.getType().equals(ActivityType.USER)) {
 								%>
                   if()
-									<span><b><%=activity.getCreationTimeFormatted()%></b> New user has been created! Welcome, <%=UserStore.getInstance()
+									<span><b><%=activity.getCreationTimeFormatted()%></b> User: <%=UserStore.getInstance()
 									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
 								}
 								else if(activity.getType().equals(ActivityType.CONVERSATION)) {
 								%>
-									<span><b><%=activity.getCreationTimeFormatted()%></b>New conversation has been created by <%=UserStore.getInstance()
+									<span><b><%=activity.getCreationTimeFormatted()%></b> Conversation: <%=UserStore.getInstance()
 									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
 								}
 								else if(activity.getType().equals(ActivityType.MESSAGE)) {
 								%>
-									<span><b><%=activity.getCreationTimeFormatted()%></b>New message has been sent by <%=UserStore.getInstance()
+									<span><b><%=activity.getCreationTimeFormatted()%></b> Message sent by: <%=UserStore.getInstance()
 									.getUser(activity.getOwnerId()).getName()%></span>
 									<hr/>
 								<%
