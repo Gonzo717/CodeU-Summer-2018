@@ -68,13 +68,13 @@ public class ProfileServlet extends HttpServlet {
 		String currentProfile = requestUrl.substring("/user/".length());
 		User user = userStore.getUser(currentProfile);
 		String about = "";
-		Profile profile = profileStore.getProfile(user.getProfileID());
 
 		if (user == null){
 			request.setAttribute("error", "THAT USER DOESN'T EXIST! ENTER A VALID USERNAME");
 			request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
 			return;
 		}else {
+			Profile profile = profileStore.getProfile(user.getProfileID());
 			if (profile == null){
 				about = "this user hasn't made a profile yet";
 			}else{
@@ -103,15 +103,16 @@ public class ProfileServlet extends HttpServlet {
 				 }
 
 				User user = userStore.getUser(username);
-				Profile profile = profileStore.getProfile(user.getProfileID());
-				if (profile == null){
-					profile = new Profile(user.getProfileID(), Instant.now());
-					profileStore.addProfile(profile);
-				}
+
 				if (user == null){
 				 	//user is not logged in, redirect to login page
 				 	response.sendRedirect("/login");
 				 	return;
+				 }
+				 Profile profile = profileStore.getProfile(user.getProfileID());
+				 if (profile == null){
+					 profile = new Profile(user.getProfileID(), Instant.now());
+					 profileStore.addProfile(profile);
 				 }
 				//get aboutMe content submitted through the form
 				String aboutMeContent = request.getParameter("about me");
