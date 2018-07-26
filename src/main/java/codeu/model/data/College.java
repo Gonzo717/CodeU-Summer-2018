@@ -1,6 +1,6 @@
 public enum College {
-        BU("Boston University "),
-        Rice("Rice University"),
+        BU("Boston University"),
+        RICE("Rice University"),
         UIC("University of Illinois at Chicago");
 
         private String collegeName;
