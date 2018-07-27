@@ -24,6 +24,7 @@ import codeu.model.data.User;
 import codeu.model.data.Activity;
 import codeu.model.data.Activity.ActivityType;
 import codeu.model.data.Group;
+import codeu.model.data.Profile;
 import codeu.model.store.persistence.PersistentDataStoreException;
 import com.google.appengine.api.datastore.AsyncDatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -300,6 +301,46 @@ public class PersistentDataStore {
 		return activities;
 	}
 
+  /**
+   * Loads all Profile objects from the Datastore service and returns them in a List, sorted in
+   * ascending order by creation time.
+   * @throws PersistentDataStoreException if an error was detected during the load from the
+   *			Datastore service
+   */
+
+  public List<Profile> loadProfiles() throws PersistentDataStoreException {
+  List<Profile> profiles = new ArrayList<>();
+
+    // Retrieve all activities from the datastore.
+    Query query = new Query("chat-profiles").addSort("creation_time", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for(Entity entity : results.asIterable()) {
+      try {
+        UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
+        Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+        // UUID picId = UUID.fromString((String) entity.getProperty("pic_id"));
+        // // Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+        // HashSet<User> followers = (HashSet) entity.getProperty("followers");
+        // HashSet<User> following = (HashSet) entity.getProperty("following");
+        // String college = (String) entity.getProperty("college");
+        // int points = (int) entity.getProperty("points");
+        // HashSet<Conversation> pinnedConvos = (HashSet) entity.getProperty("pinned_convos");
+        // String aboutMe = (String) entity.getProperty("about_me");
+        String aboutMe = (String) entity.getProperty("about_me");
+        Profile profile = new Profile(uuid, creationTime);
+        if (aboutMe != null){
+          profile.setAboutMe(aboutMe);
+       }
+        profiles.add(profile);
+      } catch (Exception e) {
+        throw new PersistentDataStoreException(e);
+      }
+    }
+    return profiles;
+  }
+
+
   /** Write a User object to the Datastore service. */
   public void writeThrough(User user) throws InterruptedException, ExecutionException {
     Entity userEntity = new Entity("chat-users", user.getId().toString());
@@ -369,5 +410,23 @@ public class PersistentDataStore {
 	  activityEntity.setProperty("creation_time", activity.getCreationTime().toString());
 	  Future result = datastore.put(activityEntity);
     result.get();
+  }
+
+  /** Write a Profile object to the Datastore service. */
+  public void writeThrough(Profile profile) {
+    Entity profileEntity = new Entity("chat-profiles", profile.getId().toString());
+    profileEntity.setProperty("uuid", profile.getId().toString());
+    profileEntity.setProperty("creation_time", profile.getCreationTime().toString());
+    if (profile.getAboutMe() != null){
+       profileEntity.setProperty("about_me", profile.getAboutMe());
+    }
+    // profileEntity.setProperty("pic_id", profile.getPicId().toString());
+    // profileEntity.setProperty("followers", profile.getFollowers().toString());
+    // profileEntity.setProperty("following", profile.getFollowing().toString());
+    // profileEntity.setProperty("college", profile.getCollege());
+    // profileEntity.setProperty("points", profile.getPoints());
+    // profileEntity.setProperty("pinned_convos", profile.getPinnedConvos().toString());
+    // profileEntity.setProperty("about_me", profile.getAboutMe());
+    datastore.put(profileEntity);
   }
 }
