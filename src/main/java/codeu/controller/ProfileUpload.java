@@ -62,7 +62,7 @@ public class ProfileUpload extends HttpServlet {
           String username = (String) req.getSession().getAttribute("user");
             if (username == null) {
               // user is not logged in, don't let them create a conversation
-              res.sendRedirect("/profiles");
+              res.sendRedirect("/profile");
               return;
             }
 
@@ -71,13 +71,13 @@ public class ProfileUpload extends HttpServlet {
             if (user == null) {
               // user was not found, don't let them create a conversation
               System.out.println("User not found: " + username);
-              res.sendRedirect("/profiles");
+              res.sendRedirect("/profile");
               return;
             }
             //get BlobKey instance and save it.
           profile.setBlobKey(blobKeys.get(0).getKeyString());
           profileStore.updateProfile(profile);
-          res.sendRedirect("/profiles");
+          res.sendRedirect("/profile");
         }
     }
 }

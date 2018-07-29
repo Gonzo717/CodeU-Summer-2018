@@ -37,21 +37,21 @@
   </servlet-mapping>
 <!-- The blobStore stuff now -->
 	<servlet>
-    <servlet-name>Upload</servlet-name>
+    <servlet-name>ProfileUpload</servlet-name>
     <servlet-class>com.blobstore_upload.Upload</servlet-class>
   </servlet>
    <servlet-mapping>
-    <servlet-name>Upload</servlet-name>
-    <url-pattern>/upload</url-pattern>
+    <servlet-name>ProfileUpload</servlet-name>
+    <url-pattern>/ProfileUpload</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>Serve</servlet-name>
+    <servlet-name>ProfileServe</servlet-name>
     <servlet-class>com.blobstore_upload.Serve</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Serve</servlet-name>
-    <url-pattern>/serve</url-pattern>
+    <servlet-name>ProfileServe</servlet-name>
+    <url-pattern>/ProfileServe</url-pattern>
   </servlet-mapping>
 
   <servlet>
