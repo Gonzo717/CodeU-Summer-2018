@@ -154,9 +154,6 @@
 	.demo-card-wide > .mdl-card__menu {
 	  color: #46B6AC;
 	}
-	/* #login a:hover > #login p{
-		display: flex;
-	} */
 
 	</style>
 
@@ -198,16 +195,15 @@
 							<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
 						<% } else{ %>
 						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
-							<a id="login" class="mdl-navigation__link" href="/login">
+							<a style="color: inherit;" id="login" href="/login">
 								<i class="fa fa-sign-in" aria-hidden="true"></i>
-								<%-- <p id="loginDescription" style="">Login</p> --%>
 							</a>
 						</label>
 
 						<% } %>
 						<%-- <% if(request.getSession().getAttribute("admin") != null){ %> --%>
 						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
-							<a href="/admin">
+							<a style="color:inherit;" href="/admin">
 								<i class="fa fa-id-card" aria-hidden="true"></i>
 							</a>
 						</label>
