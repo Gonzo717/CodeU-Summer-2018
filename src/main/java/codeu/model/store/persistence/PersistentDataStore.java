@@ -326,12 +326,15 @@ public class PersistentDataStore {
         // String college = (String) entity.getProperty("college");
         // int points = (int) entity.getProperty("points");
         // HashSet<Conversation> pinnedConvos = (HashSet) entity.getProperty("pinned_convos");
-        // String aboutMe = (String) entity.getProperty("about_me");
         String aboutMe = (String) entity.getProperty("about_me");
+        String blobKey = (String) entity.getProperty("blobKey");
         Profile profile = new Profile(uuid, creationTime);
         if (aboutMe != null){
           profile.setAboutMe(aboutMe);
        }
+       if (blobKey != null && !blobKey.isEmpty()) {
+          profile.setBlobKey(blobKey);
+        }
         profiles.add(profile);
       } catch (Exception e) {
         throw new PersistentDataStoreException(e);
@@ -420,13 +423,15 @@ public class PersistentDataStore {
     if (profile.getAboutMe() != null){
        profileEntity.setProperty("about_me", profile.getAboutMe());
     }
+    profileEntity.setProperty("blobKey", profile.getBlobKey());
+
     // profileEntity.setProperty("pic_id", profile.getPicId().toString());
     // profileEntity.setProperty("followers", profile.getFollowers().toString());
     // profileEntity.setProperty("following", profile.getFollowing().toString());
     // profileEntity.setProperty("college", profile.getCollege());
     // profileEntity.setProperty("points", profile.getPoints());
     // profileEntity.setProperty("pinned_convos", profile.getPinnedConvos().toString());
-    // profileEntity.setProperty("about_me", profile.getAboutMe());
+    Future result = datastore.put(profileEntity);
     datastore.put(profileEntity);
   }
 }

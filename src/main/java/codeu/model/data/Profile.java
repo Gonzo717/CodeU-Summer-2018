@@ -1,5 +1,9 @@
 package codeu.model.data;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import java.time.Instant;
 import java.util.UUID;
 import java.util.HashSet;
@@ -16,6 +20,8 @@ public class Profile {
   private int brownie_points;
   private HashSet<Conversation> pinnedConvos;
   private String aboutMe;
+  private String blobKey;
+
 
 /**
 * Constructs a new profile
@@ -29,6 +35,8 @@ public class Profile {
 * @param pinnedConvos    the conversations this user has pinned
 * @param aboutMe         the "about me" of this profile
 * @param creation        the creation time of this profile
+* @param blobKey         the BlobKeyof this Profile
+
 */
 
   public Profile(UUID id, Instant creation){
@@ -98,9 +106,20 @@ public class Profile {
        return creation;
      }
 
+     /** Returns the BlobKey of this Profile. */
+     public String getBlobKey() {
+       return blobKey;
+     }
+
+
      /** adds aboutMe data to Profile object. */
      public void setAboutMe(String aboutMe){
        this.aboutMe = aboutMe;
      }
+
+     /** sets the BlobKey of this Profile. */
+     public void setBlobKey(String key) {
+       blobKey = key;
+  }
 
 }

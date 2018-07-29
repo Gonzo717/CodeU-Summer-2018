@@ -2,8 +2,13 @@
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService" %>
+
+
 <%
-List<Message> messages = (List<Message>) request.getAttribute("messages");
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+		List<Message> messages = (List<Message>) request.getAttribute("messages");
 %>
 
 <!DOCTYPE html>
@@ -44,6 +49,21 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				var chatDiv = document.getElementById('chat');
 				chatDiv.scrollTop = chatDiv.scrollHeight;
 			};
+
+			function showPhoto(){
+      	var preview = document.querySelector('img'); //selects the query named img
+      	var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+      	var reader  = new FileReader();
+      	reader.onloadend = function () {
+          	preview.src = reader.result;
+      	}
+      	if (file) {
+          	reader.readAsDataURL(file); //reads the data as a URL
+      	} else {
+          	preview.src = "";
+      	}
+    		}
+  		showPhoto();
 		</script>
 	</head>
 
@@ -106,6 +126,24 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 							<%=request.getAttribute("currentProfile")%>'s Profile Page
 						</h1>
 					<hr/>
+
+					<div class="container">
+              <center>
+                <img src="/ProfileServe" name="profileImage" id="photo" width="160" height="160" class="img-circle">
+              </center>
+          </div>
+					<!-- Uploading images-->
+          <form action="<%= blobstoreService.createUploadUrl("/ProfileUpload") %>" method="post" enctype="multipart/form-data">
+            <div style="text-align: center;">
+              <div>
+                <h4 style="text-align:center;">Change Profile</h4>
+              </div>
+              <div style="text-align: center;">
+                <input type="file" id="fileUpload" name="myFile" onchange="this.form.submit(); showPhoto()"/>
+              </div>
+            </div>
+          </form>
+
 					<h3>About <%=request.getAttribute("currentProfile")%>:</h3>
 					<P>
 					<div style="width:75%; margin-left: 50px; margin-right: auto;margin-top:50px;">
