@@ -8,13 +8,14 @@ import java.util.HashSet;
 /** Class representing a user's profile. */
 public class Profile {
   private final UUID id;
-  private final UUID profilePicId;
-  private final HashSet<User> followers;
-  private final HashSet<User> following;
-  private final String college;
-  private final int brownie_points;
-  private final HashSet<Conversation> pinnedConvos;
-  private final String aboutMe;
+  private final Instant creation;
+  private UUID profilePicId;
+  private HashSet<User> followers;
+  private HashSet<User> following;
+  private String college;
+  private int brownie_points;
+  private HashSet<Conversation> pinnedConvos;
+  private String aboutMe;
 
 /**
 * Constructs a new profile
@@ -26,19 +27,13 @@ public class Profile {
 * @param college         the college this user attends
 * @param brownie_points  the number of brownie_points this user has
 * @param pinnedConvos    the conversations this user has pinned
-* @param aboutMe         the "about me" of this user
+* @param aboutMe         the "about me" of this profile
+* @param creation        the creation time of this profile
 */
 
-  public Profile(UUID id, UUID profilePicId, HashSet<User> followers, HashSet<User> following, String college,
-      int brownie_points, HashSet<Conversation> pinnedConvos, String aboutMe){
+  public Profile(UUID id, Instant creation){
         this.id = id;
-        this.profilePicId = profilePicId;
-        this.followers = followers;
-        this.following = following;
-        this.college = college;
-        this.brownie_points = brownie_points;
-        this.pinnedConvos = pinnedConvos;
-        this.aboutMe = aboutMe;
+        this.creation = creation;
   }
 
   /**
@@ -89,7 +84,23 @@ public class Profile {
        return pinnedConvos;
      }
 
-     public String getAboutMe(){
+     /**
+      * Returns the aboutMe of this profile.
+      */
+    public String getAboutMe(){
        return aboutMe;
      }
+
+     /**
+      * Returns the creation time of this Profile.
+      */
+     public Instant getCreationTime() {
+       return creation;
+     }
+
+     /** adds aboutMe data to Profile object. */
+     public void setAboutMe(String aboutMe){
+       this.aboutMe = aboutMe;
+     }
+
 }

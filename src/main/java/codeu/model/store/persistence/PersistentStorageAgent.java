@@ -19,6 +19,7 @@ import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.data.Activity;
 import codeu.model.data.Group;
+import codeu.model.data.Profile;
 
 import codeu.model.store.persistence.PersistentDataStore;
 import java.util.List;
@@ -98,12 +99,13 @@ public class PersistentStorageAgent {
 	/**
 	* Retrieve all Activity objects from the Datastore service. The returned list may be empty.
 	*
-	* @throws PersistentDataStoreException if an error was detected during the loard from the
+	* @throws PersistentDataStoreException if an error was detected during the load from the
 	*		Datastore service
 	*/
 	public List<Activity> loadActivities() throws PersistentDataStoreException {
 		return persistentDataStore.loadActivities();
   	}
+
 	/**
 	 * Retrieve all Message objects from the Datastore service. The returned list may be empty.
 	 *
@@ -113,6 +115,16 @@ public class PersistentStorageAgent {
 	 public List<Message> loadMessages() throws PersistentDataStoreException {
 		 return persistentDataStore.loadMessages();
 	}
+
+	/**
+	 * Retrieve all Profile objects from the Datastore service. The returned list may be empty.
+	 *
+	 * @throws PersistentDataStoreException if an error was detecting during the load from the
+	 *   Datastore Service
+	 */
+	 public List<Profile> loadProfiles() throws PersistentDataStoreException {
+		 return persistentDataStore.loadProfiles();
+	 }
 
 	/** Write a User object to the Datastore service. */
 	public void writeThrough(User user) {
@@ -157,5 +169,10 @@ public class PersistentStorageAgent {
 		}
 		catch(InterruptedException e) {}
 		catch(ExecutionException e) {}
+	}
+
+	/** Write a Profile object to the Datastore service. */
+	public void writeThrough(Profile profile) {
+		persistentDataStore.writeThrough(profile);
 	}
 }
