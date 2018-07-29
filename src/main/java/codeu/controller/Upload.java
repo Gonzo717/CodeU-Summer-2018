@@ -49,6 +49,7 @@ public class Upload extends HttpServlet {
 
 		List<BlobKey> blobKeys = blobs.get(conversationTitle);
 		BlobKey avatarBlobKey = blobKeys.get(0);
+
 		ServingUrlOptions servingURLOptions = ServingUrlOptions.Builder.withBlobKey(avatarBlobKey);
 		String avatarImageURL = imagesService.getServingUrl(servingURLOptions);
 		conversation.setAvatarImageURL(avatarImageURL);

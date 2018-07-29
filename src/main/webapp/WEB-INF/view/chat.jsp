@@ -196,7 +196,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 				</script>
 
 				<div class="add_avatarImage">
-					<form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="POST" enctype="multipart/form-data">
+					<% String success = blobstoreService.createUploadUrl("/upload");
+						System.out.println(success); %>
+					<form action="<%= success %>" method="POST" enctype="multipart/form-data">
 					<h3>File :
 						<input type="text" name="conversation" value="<%= conversation.getTitle() %>"/>
 						<input type="file" name="<%=conversation.getTitle()%>"/>
