@@ -43,40 +43,15 @@ public class Upload extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// Conversation conversation = (Conversation) req.getAttribute("conversation");
-		// List<Conversation> conversations =
-		// 	(List<Conversation>) request.getParameter("conversation");
 		String conversationTitle = (String) request.getParameter("conversation");
 		Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
-
 		Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request); //gets all blobs lol
-		// System.out.println(conversation.getTitle());
-		// List<BlobKey> blobKeys = blobs.get("avatarImage/" + conversation.getTitle());
-		// BlobKey avatarBlobKey = blobKeys.get(0);
-		List<BlobKey> blobKeys = null;
-		// for(Conversation conversation: conversations){
-		// 	blobKeys = blobs.get(conversation.getTitle());
-		// 	BlobKey avatarBlobKey = blobKeys.get(0);
-		// 	ServingUrlOptions servingURLOptions = ServingUrlOptions.Builder.withBlobKey(avatarBlobKey);
-		// 	String avatarImageURL = imagesService.getServingUrl(servingURLOptions);
-		// 	System.out.println("avatarImageURL");
-		// 	System.out.println(avatarImageURL);
-		// 	conversation.setAvatarImageURL(avatarImageURL);
-		// }
 
-		blobKeys = blobs.get(conversationTitle);
+		List<BlobKey> blobKeys = blobs.get(conversationTitle);
 		BlobKey avatarBlobKey = blobKeys.get(0);
 		ServingUrlOptions servingURLOptions = ServingUrlOptions.Builder.withBlobKey(avatarBlobKey);
 		String avatarImageURL = imagesService.getServingUrl(servingURLOptions);
-		System.out.println("avatarImageURL");
-		System.out.println(avatarImageURL);
 		conversation.setAvatarImageURL(avatarImageURL);
-
-		// ServingUrlOptions servingURLOptions = ServingUrlOptions.Builder.withBlobKey(avatarBlobKey);
-		// String avatarImageURL = imagesService.getServingUrl(servingURLOptions);
-		// System.out.println("avatarImageURL");
-		// System.out.println(avatarImageURL);
-		// conversation.setAvatarImageURL(avatarImageURL);
 
 		//wanna have some descriptions to kinda keep track of this stuff!
 		//So one description could be like conversationAvatarImages, BlobKey

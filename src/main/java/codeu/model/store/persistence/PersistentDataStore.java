@@ -126,7 +126,6 @@ public class PersistentDataStore {
 
 				// HashSet<UUID> members = (HashSet<UUID>) entity.getProperty("members");
 				String memberString = (String) entity.getProperty("members");
-				System.out.println(memberString);
 				String str = memberString.substring(1, memberString.length() - 1); // So memberString is basically "[<UUID1>,<UUID2>]"
 				List<String> stringMembers = Arrays.asList(str.split(", "));
 
@@ -157,22 +156,8 @@ public class PersistentDataStore {
 				// boolean isActive = (boolean) entity.getProperty("isActive");
 
 				String stringValidTime = (String) entity.getProperty("validTime");
-
-				// List<String> timeList = Arrays.asList(stringValidTime.split("/"));
-				//
-				// long timeDigit = Long.parseLong(timeList.get(0));
-				// ChronoUnit timeUnit = ChronoUnit.valueOf(timeList.get(1));
-
-				// this.deletionInstant = creationTime.plus(timeDigit, timeUnit);
-
-				// if(stringValidTime != null){
-				// 	validTime = ChronoUnit.valueOf(stringValidTime.toUpperCase());
-				// } else{
-				// 	validTime = ChronoUnit.DECADES;
-				// }
-				// ChronoUnit validTime = ChronoUnit.valueOf(stringValidTime.toUpperCase());
-
 				String description = (String) entity.getProperty("description");
+				
         Conversation conversation = new Conversation(uuid, ownerUuid, title, creationTime,
 																											members, type, visibility, avatarImageURL,
 																											stringValidTime, description);

@@ -232,13 +232,15 @@
 								 <li class="mdl-list__item mdl-list__item--two-line">
 								 	<span class="mdl-list__item-primary-content">
 										<%if(conversation.getAvatarImageURL() != null){%>
-											<i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage"></i>
+											<i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage" style="background-size: contain;"></i>
 										<% } else {%>
 											<i class="material-icons mdl-list__item-avatar">public</i>
 										<% } %>
 								 		<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
+										<a style="text-decoration: none;" href="/chat/<%= conversation.getTitle() %>">
 										<span><%= conversation.getTitle() %></span>
 										<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
+										</a>
 									</span>
 									<a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
 								 		<%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
@@ -252,8 +254,13 @@
 					<%if(conversation.getConversationVisibility().equals("GROUP") && conversation.isAccessAllowed(id)){ %>
 							<ul class="mdl-list--text-center">
 								<li class="mdl-list__item mdl-list__item--two-line">
+									<a href="/chat/<%= conversation.getTitle() %>">
 								 <span class="mdl-list__item-primary-content">
-									 <i class="material-icons mdl-list__item-avatar">group</i>
+									 <%if(conversation.getAvatarImageURL() != null){%>
+										 <i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage"></i>
+									 <% } else {%>
+										 <i class="material-icons mdl-list__item-avatar">group</i>
+									 <% } %>
 									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
 									 <% if(conversation.isActive()){ %>
 									 		<span><%= conversation.getTitle() %></span>
@@ -265,6 +272,7 @@
 									 <% } %>
 									 <%-- <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span> --%>
 								 </span>
+							 	</a>
 								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
 									 <%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
 								 </a>
@@ -278,7 +286,11 @@
 							<ul class="mdl-list--text-center">
 								<li class="mdl-list__item mdl-list__item--two-line">
 								 <span class="mdl-list__item-primary-content">
-									 <i class="material-icons mdl-list__item-avatar">person</i>
+									 <%if(conversation.getAvatarImageURL() != null){%>
+										 <i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage"></i>
+									 <% } else {%>
+										 <i class="material-icons mdl-list__item-avatar">person</i>
+									 <% } %>
 									 <span><%= conversation.getTitle() %></span>
 									 <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
 								 </span>
