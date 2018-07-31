@@ -57,12 +57,12 @@ public class ProfileUpload extends HttpServlet {
         List<BlobKey> blobKeys = blobs.get("myFile");
 
         if (blobKeys == null || blobKeys.isEmpty()) {
-            res.sendRedirect("/profile");
+            res.sendRedirect("/WEB-INF/view/profile.jsp");
         } else {
           String username = (String) req.getSession().getAttribute("user");
             if (username == null) {
               // user is not logged in, don't let them create a conversation
-              res.sendRedirect("/profile");
+              res.sendRedirect("/WEB-INF/view/profile.jsp");
               return;
             }
 
@@ -71,13 +71,13 @@ public class ProfileUpload extends HttpServlet {
             if (user == null) {
               // user was not found, don't let them create a conversation
               System.out.println("User not found: " + username);
-              res.sendRedirect("/profile");
+              res.sendRedirect("/WEB-INF/view/profile.jsp");
               return;
             }
             //get BlobKey instance and save it.
           profile.setBlobKey(blobKeys.get(0).getKeyString());
           profileStore.updateProfile(profile);
-          res.sendRedirect("/profile");
+          res.sendRedirect("/WEB-INF/view/profile.jsp");
         }
     }
 }

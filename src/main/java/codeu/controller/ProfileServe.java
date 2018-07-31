@@ -53,7 +53,7 @@ public class ProfileServe extends HttpServlet {
           String username = (String) req.getSession().getAttribute("user");
             if (username == null) {
               // user is not logged in, don't let them create a conversation
-              res.sendRedirect("/profile");
+              res.sendRedirect("/WEB-INF/view/profile.jsp");
               return;
             }
 
@@ -61,7 +61,7 @@ public class ProfileServe extends HttpServlet {
             if (user == null) {
               // user was not found, don't let them create a conversation
               System.out.println("User not found: " + username);
-              res.sendRedirect("/profile");
+              res.sendRedirect("/WEB-INF/view/profile.jsp");
               return;
             }
 
@@ -69,7 +69,7 @@ public class ProfileServe extends HttpServlet {
             String key = profile.getBlobKey();
 
             if (key == null || key.isEmpty()) {
-                res.sendRedirect("/profile");
+                res.sendRedirect("/WEB-INF/view/profile.jsp");
                 return;
             }
 
