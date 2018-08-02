@@ -98,7 +98,7 @@
 	.demo-card-profPage > .mdl-card__title {
 		color: #fff;
 		height: 256px;
-		background: url('/images/profPage.png') left no-repeat;
+		background: url('/images/generic_profile.png') left no-repeat;
 		background-color: #46B6AC;
 		background-size: contain;
 	}
@@ -138,7 +138,7 @@
 	.demo-card-sentMsg > .mdl-card__title {
 		color: #fff;
 	  height: 235px;
-	  background: url('/images/sentMsg.png') left no-repeat;
+	  background: url('/images/generic_convo.png') left no-repeat;
 		background-color: #46B6AC;
 		background-size: contain;
 	}
@@ -289,8 +289,8 @@
 												Keep track of what's going on. Check your Activity Feed and see who's doing what.
 											</div>
 											<div class="mdl-card__actions mdl-card--border">
-												<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/login">
-													Register now
+												<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations">
+													Check out conversations
 												</a>
 											</div>
 											<div class="mdl-card__menu">
@@ -305,75 +305,10 @@
 							<div class="mdl-typography--text-left" style="padding-left: 10px;">
 								<h1 style="color: white;">Try it out. </h1>
 							</div>
-							<div class="content-grid mdl-grid">
-								<div class="mdl-cell">
-									<div class="demo-card-addAdmin mdl-card mdl-shadow--2dp" >
-										<div class="mdl-card__title">
-											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
-										</div>
-										<%-- <div class="mdl-card__subtitle">
-											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
-										</div> --%>
-										<div class="mdl-card__supporting-text">
-											Try out our ground-breaking take on Public, Direct, and Group Conversations.
-										</div>
-										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations">
-												Try Conversations
-											</a>
-										</div>
-										<div class="mdl-card__menu">
-										</div>
-								</div>
-									<!-- also here -->
-								</div>
-							  <div class="mdl-cell">
-									<div class="demo-card-adminStats mdl-card mdl-shadow--2dp">
-										<div class="mdl-card__title">
-											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
-										</div>
-										<%-- <div class="mdl-card__subtitle">
-											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
-										</div> --%>
-										<div class="mdl-card__supporting-text">
-											Add/Remove Members and set an Expiry time. Conversations can self-destruct!
-										</div>
-										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/conversations">
-												Go Converse
-											</a>
-										</div>
-										<div class="mdl-card__menu">
-										</div>
-								</div>
-							    <!-- add content here -->
-							  </div>
-								<div class="mdl-cell">
-									<div class="demo-card-playGame mdl-card mdl-shadow--2dp">
-										<div class="mdl-card__title">
-											<%-- <h2 class="mdl-card__title-text">Yet Another Chat App</h2> --%>
-										</div>
-										<%-- <div class="mdl-card__subtitle">
-											<h2 class="mdl-card__subtitle-text">Welcome to YACA.</h2>
-										</div> --%>
-										<div class="mdl-card__supporting-text">
-											Even play a game if you get bored! Coming soon to all users.
-										</div>
-										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/login">
-												Check it out.
-											</a>
-										</div>
-										<div class="mdl-card__menu">
-										</div>
-								</div>
-							    <!-- add content here -->
-							  </div>
-							</div>
 
-							<div class="white_bg" style="background-color:white; max-width: 500px;">
+							<div class="white_bg" style="background-color:white; max-width: 500px; margin:auto;">
 								<div class="content-grid mdl-grid">
-									<div class="mdl-cell" style="max-width: 500px;margin: auto;">
+									<div class="mdl-cell" style="max-width: 500px;">
 										<form action="/register" method="POST">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input class="mdl-textfield__input" type="text" name="username" id="username">
@@ -393,7 +328,7 @@
 											</sub>
 										<br/>
 										<br/>
-										<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="submitButton">Submit</button>
+										<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id="submitButton">Register</button>
 										<br/>
 										<br>
 										</form>
