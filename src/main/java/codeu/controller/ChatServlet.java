@@ -134,12 +134,13 @@ public class ChatServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
   throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
-    String conversationTitle = requestUrl.substring("/chat/".length());
-    Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
-		UUID conversationId = conversation.getId();
+    UUID conversationId = UUID.fromString(requestUrl.substring("/chat/".length()));
+		System.out.println(conversationId);
+    Conversation conversation = conversationStore.getConversationWithId(conversationId);
 		List<Message> messages = messageStore.getMessagesInConversation(conversationId);
-		request.setAttribute("messages", messages);
 		request.setAttribute("conversation", conversation);
+		request.setAttribute("messages", messages);
+
 
     request.getRequestDispatcher("/WEB-INF/view/chat.jsp").forward(request, response);
   }
@@ -172,8 +173,8 @@ public class ChatServlet extends HttpServlet {
 
 		// define some things
 
-    String conversationTitle = requestUrl.substring("/chat/".length());
-    Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
+    UUID conversationTitle = UUID.fromString(requestUrl.substring("/chat/".length()));
+    Conversation conversation = conversationStore.getConversationWithId(conversationTitle);
 
     if (conversation == null) {
       // couldn't find conversation, redirect to conversation list
