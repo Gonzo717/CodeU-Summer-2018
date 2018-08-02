@@ -48,69 +48,69 @@ limitations under the License.
     </style>
 		</head>
 				<body>
-				<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-				  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
-					<div class="mdl-layout__header-row">
-						<a class="mdl-navigation__link" href="/index.jsp"><span class="mdl-layout-title">YACA</span></a>
-						<!-- Image card -->
-							  <!-- Add spacer, to align navigation to the right in desktop -->
-						<div class="android-header-spacer mdl-layout-spacer"></div>
-							<div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
-								<label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
-									<i class="material-icons">search</i>
-								</label>
-								<div class="mdl-textfield__expandable-holder">
-									<input class="mdl-textfield__input" type="text" id="search-field">
+					<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+					  <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
+						<div class="mdl-layout__header-row">
+							<a class="mdl-navigation__link" href="/index.jsp"><span class="mdl-layout-title">YACA</span></a>
+							<!-- Image card -->
+								  <!-- Add spacer, to align navigation to the right in desktop -->
+							<div class="android-header-spacer mdl-layout-spacer"></div>
+								<div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+									<label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+										<i class="material-icons">search</i>
+									</label>
+									<div class="mdl-textfield__expandable-holder">
+										<input class="mdl-textfield__input" type="text" id="search-field">
+									</div>
 								</div>
+								  <!-- Navigation -->
+								<div class="android-navigation-container">
+									<nav class="android-navigation mdl-navigation">
+										<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+											<a id="conversations" class="mdl-navigation__link" href="/conversations">
+												<i class="material-icons">textsms</i>
+											</a>
+										</label>
+
+										<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a> --%>
+										<% if(request.getSession().getAttribute("user") != null){ %>
+											<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">Hello <%= request.getSession().getAttribute("user") %>!</a>
+										<% } else{ %>
+										<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+											<a style="color: inherit;" id="login" href="/login">
+												<i class="fa fa-sign-in" aria-hidden="true"></i>
+											</a>
+											<p style="display: none;">Login</p>
+										</label>
+
+										<% } %>
+										<%-- <% if(request.getSession().getAttribute("admin") != null){ %> --%>
+										<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+											<a style="color:inherit;" href="/admin">
+												<i class="fa fa-id-card" aria-hidden="true"></i>
+											</a>
+										</label>
+									    <%-- <% } %> --%>
+										<label class="mdl-button mdl-js-button mdl-button--icon" for="activity">
+											<a id="activity" class="mdl-navigation__link" href="/activityfeed">
+												<i class="material-icons">format_list_numbered</i>
+											</a>
+										</label>
+										<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a> --%>
+										<% if(request.getSession().getAttribute("user") != null){ %>
+											<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
+										<% } %>
+									</nav>
+								</div>
+								<span class="android-mobile-title mdl-layout-title">
+									<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">
+									<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
+									</a>
+								</span>
+
 							</div>
-							  <!-- Navigation -->
-							<div class="android-navigation-container">
-								<nav class="android-navigation mdl-navigation">
-									<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
-										<a id="conversations" class="mdl-navigation__link" href="/conversations">
-											<i class="material-icons">textsms</i>
-										</a>
-									</label>
-
-									<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a> --%>
-									<% if(request.getSession().getAttribute("user") != null){ %>
-										<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
-									<% } else{ %>
-									<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
-										<a style="color: inherit;" id="login" href="/login">
-											<i class="fa fa-sign-in" aria-hidden="true"></i>
-										</a>
-										<p style="display: none;">Login</p>
-									</label>
-
-									<% } %>
-									<%-- <% if(request.getSession().getAttribute("admin") != null){ %> --%>
-									<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
-										<a style="color:inherit;" href="/admin">
-											<i class="fa fa-id-card" aria-hidden="true"></i>
-										</a>
-									</label>
-								    <%-- <% } %> --%>
-									<label class="mdl-button mdl-js-button mdl-button--icon" for="activity">
-										<a id="activity" class="mdl-navigation__link" href="/activityfeed">
-											<i class="material-icons">format_list_numbered</i>
-										</a>
-									</label>
-									<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a> --%>
-									<% if(request.getSession().getAttribute("user") != null){ %>
-										<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
-									<% } %>
-								</nav>
-							</div>
-							<span class="android-mobile-title mdl-layout-title">
-								<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/about.jsp">
-								<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
-								</a>
-							</span>
-
 						</div>
 					</div>
-				</div>
 
 				<main class="mdl-layout__content" style="display:-webkit-box;">
 					<div class="page-content">

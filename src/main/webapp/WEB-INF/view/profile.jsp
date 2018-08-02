@@ -75,7 +75,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 							<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a> --%>
 							<% if(request.getSession().getAttribute("user") != null){ %>
-								<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
+								<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">Hello <%= request.getSession().getAttribute("user") %>!</a>
 							<% } else{ %>
 							<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
 								<a style="color: inherit;" id="login" href="/login">

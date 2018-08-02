@@ -225,8 +225,9 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 					}
 				}
 				</script>
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=displayAddAvatarImage()>Change Avatar Image</button>
-
+				<% if(request.getSession().getAttribute("user") != null){%>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onclick=displayAddAvatarImage()>Change Avatar Image</button>
+				<%}%>
 				<div id="add-avatar-image" style="display:none;">
 					<% String success = blobstoreService.createUploadUrl("/upload");
 						System.out.println(success); %>
@@ -237,6 +238,12 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						<input type="submit" value="Upload Photo"/>
 					</h3>
 					</form>
+					<h3>After uploading photo, click here to see changes!
+						<form action="/chat/" method="POST" id="chatServlet">
+							<input type="submit" name="<%=conversation.getTitle()%>" value="Refresh Changes"/>
+						</form>
+					</h3>
+
 				</div>
 
 
@@ -262,7 +269,11 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						<%  }
 							} %>
 				<%	} else{ %>
-								<h1><%=conversation.getTitle()%></h1>
+								<h1>
+								<%if(conversation.getAvatarImageURL() != null){%>
+									<i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage" style="background-size: contain; max-width:50px; max-height:50px; "></i>
+								<% } %>
+								<%=conversation.getTitle()%></h1>
 				<%	} %>
 
 					<h5 id="countdownTimer"></h5>
@@ -434,6 +445,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 							<%
 							  for (Message message : messages) {
 									String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
+									String currentUser = (String) request.getSession().getAttribute("user");
 								%>
 									<% /* TODO: Change this.
 											* Currently, I am only displaying message.getContent().getValue0().
@@ -443,7 +455,11 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 											* text will be available.
 											*/
 									%>
-								  <li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
+									<%if(author.equals(currentUser)){ %>
+										<li style="text-align:right; width:95%; padding-right: 10px;"><strong><a class="mdl-color-text--red" style="text-decoration: none;" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
+								<%} else{ %>
+										<li style="text-align:left; width: 100%;"><strong><a class="mdl-color-text--cyan" style="text-decoration:none;" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
+								<%} %>
 								<%
 							  }
 							%>
@@ -469,7 +485,11 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 						%>
 
-						<h1> <%=conversation.getTitle()%>
+						<h1>
+						<%if(conversation.getAvatarImageURL() != null){%>
+							<i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage" style="max-width:100px; max-height:100px;"></i>
+						<% } %>
+						<%=conversation.getTitle()%>
 						<h5 id="countdownTimer"></h5>
 						<a href="" style="float: right">
 							<i class="material-icons mdl-list__item-avatar">autorenew</i>
@@ -482,7 +502,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 									String currentUser = (String) request.getSession().getAttribute("user");
 
 									if(author.equals(currentUser)){ %>
-										<li style="text-align:right; width:95%; padding-right: 10px;"><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
+										<li style="text-align:right; width:95%; padding-right: 10px;"><strong><a class="mdl-color-text--red" style="text-decoration: none;" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
 								<%} else{ %>
 										<li style="text-align:left; width: 100%;"><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
 								<%}
