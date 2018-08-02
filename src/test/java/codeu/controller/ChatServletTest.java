@@ -93,9 +93,7 @@ public class ChatServletTest {
 
 	@Test
 	public void testDoGet() throws IOException, ServletException {
-		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
-
-		UUID fakeConversationId = UUID.randomUUID();
+		UUID fakeConversationId = UUID.fromString("10000000-2222-3333-4444-555555555555");
 		HashSet members = new HashSet<>();
 		Type type = Type.TEXT;
 		Visibility visibility = Visibility.PUBLIC;
@@ -105,10 +103,15 @@ public class ChatServletTest {
 		String description = "fake :D";
 
 		Conversation fakeConversation =
-				new Conversation(fakeConversationId, UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
+				new Conversation(fakeConversationId, UUID.randomUUID(), "test conversation", Instant.now(), members, type,
 													visibility, avatarImageURL, validTime, description);
-		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
+		Mockito.when(mockConversationStore.getConversationWithId(fakeConversationId))
 				.thenReturn(fakeConversation);
+		System.out.println(fakeConversation.getId());
+		System.out.println(mockConversationStore.getConversationWithId(fakeConversationId));
+		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/10000000-2222-3333-4444-555555555555");
+
+
 
 		List<Message> fakeMessageList = new ArrayList<>();
 		UUID idOne = UUID.fromString("10000000-2222-3333-4444-555555555555");
@@ -169,7 +172,7 @@ public class ChatServletTest {
 
 	@Test
 	public void testDoPost_ConversationNotFound() throws IOException, ServletException {
-		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
+		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/10000000-2222-3333-4444-555555555555");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
 		User fakeUser =
@@ -184,6 +187,8 @@ public class ChatServletTest {
 
 		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation")).thenReturn(null);
 
+		Mockito.when(mockConversationStore.getConversationWithId(UUID.fromString("10000000-2222-3333-4444-555555555555"))).thenReturn(null);
+
 		Mockito.when(mockGroupConversationStore.getGroupConversationWithTitle("test_conversation")).thenReturn(null);
 
 		chatServlet.doPost(mockRequest, mockResponse);
@@ -194,7 +199,7 @@ public class ChatServletTest {
 
 	@Test
 	public void testDoPost_StoresMessage() throws IOException, ServletException {
-		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
+		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/10000000-2222-3333-4444-555555555555");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
 		User fakeUser =
@@ -213,14 +218,16 @@ public class ChatServletTest {
 		String avatarImageURL = "fakeURL";
 		String validTime = "9/DAYS";
 		String description = "fake :D";
-
+		UUID conversationID = UUID.fromString("10000000-2222-3333-4444-555555555555");
 		String msgText = "Test message";
 		BlobKey msgMedia = null;
 
 		Conversation fakeConversation =
-				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
+				new Conversation(conversationID, UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
 													visibility, avatarImageURL, validTime, description);
-		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
+		// Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
+		// 		.thenReturn(fakeConversation);
+		Mockito.when(mockConversationStore.getConversationWithId(conversationID))
 				.thenReturn(fakeConversation);
 
 		Pair messageContent = new Pair<>(msgText, msgMedia);
@@ -234,12 +241,12 @@ public class ChatServletTest {
 		Mockito.verify(mockMessageStore).addMessage(messageArgumentCaptor.capture());
 		Assert.assertEquals(messageContent, messageArgumentCaptor.getValue().getContent());
 
-		Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
+		Mockito.verify(mockResponse).sendRedirect("/chat/10000000-2222-3333-4444-555555555555");
 	}
 
 	@Test
 	public void testDoPost_CleansHtmlContent() throws IOException, ServletException {
-		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
+		Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/10000000-2222-3333-4444-555555555555");
 		Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
 		User fakeUser =
@@ -255,11 +262,15 @@ public class ChatServletTest {
 
 		HashSet members = new HashSet<>();
 		members.add(fakeUser);
+		UUID conversationID = UUID.fromString("10000000-2222-3333-4444-555555555555");
 		Conversation fakeConversation =
-				new Conversation(UUID.randomUUID(), UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
+				new Conversation(conversationID, UUID.randomUUID(), "test_conversation", Instant.now(), members, type,
 													visibility, avatarImageURL, validTime, description);
 
-		Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
+		// Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
+		// 		.thenReturn(fakeConversation);
+
+		Mockito.when(mockConversationStore.getConversationWithId(conversationID))
 				.thenReturn(fakeConversation);
 
 		Mockito.when(mockRequest.getParameter("messageText"))
@@ -275,6 +286,6 @@ public class ChatServletTest {
 		Assert.assertEquals(
 				"Contains html and content.", messageArgumentCaptor.getValue().getContent().getValue0());
 
-		Mockito.verify(mockResponse).sendRedirect("/chat/test_conversation");
+		Mockito.verify(mockResponse).sendRedirect("/chat/10000000-2222-3333-4444-555555555555");
 	}
 }

@@ -102,6 +102,18 @@ public class ConversationStore {
     return null;
   }
 
+	public Conversation getConversationWithId(UUID id){
+		System.out.println(conversations);
+		for (Conversation conversation : conversations) {
+			System.out.println("HELLO");
+			System.out.println(conversation.getId());
+      if (conversation.getId().equals(id)) {
+        return conversation;
+      }
+    }
+    return null;
+	}
+
 	public ArrayList getPrivateConversationsWithUser(UUID user){
 		ArrayList<Conversation> userConversations = new ArrayList<Conversation>();
 		for(Conversation conversation : conversations){

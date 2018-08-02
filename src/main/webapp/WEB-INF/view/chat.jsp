@@ -275,7 +275,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 						<%-- <% if(!(allowedUsers.contains(UUID.fromString("00000000-0000-0000-0000-000000000000")))){ %> --%>
 							<div id="display-allowed-users">
 								<h4>Current Members</h4>
-							<form action="/chat/<%= conversation.getTitle() %>" method="POST">
+							<form action="/chat/<%= conversation.getId() %>" method="POST">
 								<%
 									// code for removing users
 									int removeUserCounter = 0;
@@ -349,7 +349,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
 						<% if(request.getSession().getAttribute("addedDirectMessageRecipient") == null ) { %>
 								<div id="selectDirectMessage">
-								<form action="/chat/<%= conversation.getTitle() %>" method="POST">
+								<form action="/chat/<%= conversation.getId() %>" method="POST">
 								<%  List<User> users = UserStore.getInstance().getUsers();
 									int addUserCounter = 0; // already initialized
 									%>
@@ -408,7 +408,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 							</div>
 
 							<% if (request.getSession().getAttribute("user") != null) { %>
-							<form autocomplete="off" action="/chat/<%= conversation.getTitle() %>" method="POST">
+							<form autocomplete="off" action="/chat/<%= conversation.getId() %>" method="POST">
 								</br>
 								<input maxlength="75" type="text" name="messageText">
 								<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>
@@ -432,20 +432,24 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 							<i class="material-icons mdl-list__item-avatar">autorenew</i>
 						</a></h1>
 							<div id="chat">
-								<ul>
+								<ul style="list-style-type: none;">
 							<%
 								for (Message message : messages) {
 									String author = UserStore.getInstance().getUser(message.getAuthorId()).getName();
-								%>
-									<li><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
-								<%
+									String currentUser = (String) request.getSession().getAttribute("user");
+
+									if(author.equals(currentUser)){ %>
+										<li style="text-align:right; width:95%; padding-right: 10px;"><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
+								<%} else{ %>
+										<li style="text-align:left; width: 100%;"><strong><a class="mdl-color-text--cyan" href="/user/<%=author%>"><%= author %></a>:</strong> <%= message.getContent().getValue0() %></li>
+								<%}
 								}
 							%>
 								</ul>
 							</div>
 
 							<% if (request.getSession().getAttribute("user") != null) { %>
-							<form autocomplete="off" action="/chat/<%= conversation.getTitle() %>" method="POST">
+							<form autocomplete="off" action="/chat/<%= conversation.getId() %>" method="POST">
 								</br>
 								<input maxlength="75" type="text" name="messageText">
 								<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" type="submit">Send</button>

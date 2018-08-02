@@ -128,8 +128,15 @@
 						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
 						</div>
 
-						<sub style="color:teal"> Must not contain spaces. At least two characters long. 
+						<sub style="color:teal"> Think of one word that encapsulates the essence of your conversation!
 						</sub>
+
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+							<input class="mdl-textfield__input" type="text" name="conversationDescription" id="description">
+							<label class="mdl-textfield__label" for="description">Short Description...</label>
+						</div>
+						</br>
+						<button name="conversationParameters" value="conversationParameters" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
 						<!-- ALL THE OPTIONS FOR TYPE -->
 						<%-- <h3>Select Conversation Type: </h3>
 						<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="MEDIA">
@@ -194,13 +201,6 @@
 					<option value="DAYS">Days</option>
 				</select>
 			</br>
-
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-							<input class="mdl-textfield__input" type="text" name="conversationDescription" id="description">
-							<label class="mdl-textfield__label" for="description">Short Description...</label>
-						</div>
-						</br>
-					 	<button name="conversationParameters" value="conversationParameters" class="mdl-button mdl-js-button mdl-button--raised" type="submit">Create</button>
 		      </form>
 
 			  <%-- <form action="/conversations" method="POST">
@@ -236,7 +236,7 @@
 										<span><%= conversation.getTitle() %></span>
 										<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
 									</span>
-									<a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
+									<a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getId().toString() %>"><i class="material-icons">question_answer</i></a>
 								 		<%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
 								 	</a>
 								 		<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
@@ -261,7 +261,7 @@
 									 <% } %>
 									 <%-- <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span> --%>
 								 </span>
-								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
+								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getId().toString() %>"><i class="material-icons">question_answer</i></a>
 									 <%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
 								 </a>
 									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">
@@ -278,7 +278,7 @@
 									 <span><%= conversation.getTitle() %></span>
 									 <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
 								 </span>
-								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
+								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getId().toString() %>"><i class="material-icons">question_answer</i></a>
 									 <%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
 								 </a>
 									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">

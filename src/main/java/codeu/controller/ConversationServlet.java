@@ -172,8 +172,8 @@ public class ConversationServlet extends HttpServlet {
 		 // --description-- set to null initially, not needed upon creation but can change later.
 		 String conversationParameters = request.getParameter("conversationParameters");
 		 String conversationTitle = request.getParameter("conversationTitle");
- 		// username at least 5 chars and cannot contain spaces
- 		if (!conversationTitle.matches("^(?=\\S+$).{2,}$")) {
+ 		// conversation title at least 2 chars and cannot contain spaces
+ 		if (!conversationTitle.matches("^\\w+( \\w+)*$")) {
  			request.setAttribute("error", "Invalid conversation Title");
  			request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
  			return;
@@ -313,8 +313,8 @@ public class ConversationServlet extends HttpServlet {
 		// 	default:
 
 		//Have to do this regardless of the type of conversation Conversation! :D
-
-			Conversation conversation = new Conversation( UUID.randomUUID(), user.getId(), conversationTitle,
+			UUID conversationUUID = UUID.randomUUID();
+			Conversation conversation = new Conversation( conversationUUID, user.getId(), conversationTitle,
 																										Instant.now(), members, conversationType,
 																										conversationVisibility, avatarImageURL, validTime,
 																										conversationDescription );
@@ -325,7 +325,7 @@ public class ConversationServlet extends HttpServlet {
 			Activity convoActivity = new Activity(ActivityType.CONVERSATION, UUID.randomUUID(), conversation.getOwnerId(), conversation.getId(), conversation.getCreationTime());
       activityStore.addActivity(convoActivity);
 
-			response.sendRedirect("/chat/" + conversationTitle);
+			response.sendRedirect("/chat/" + conversationUUID);
 	}
 	//PostPut runs when the user datastore has a user put into it
   @PostPut(kinds = {"chat-conversations"}) // Only applies to chat-convos query
