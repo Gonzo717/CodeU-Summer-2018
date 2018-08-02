@@ -30,6 +30,7 @@
 	<link rel="shortcut icon" href="/images/YACA.png" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-yellow.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	<style>
 	.content-grid {
@@ -74,20 +75,37 @@
 				  <!-- Navigation -->
 				<div class="android-navigation-container">
 					<nav class="android-navigation mdl-navigation">
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+							<a id="conversations" class="mdl-navigation__link" href="/conversations">
+								<i class="material-icons">textsms</i>
+							</a>
+						</label>
+
+						<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a> --%>
 						<% if(request.getSession().getAttribute("user") != null){ %>
-								<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
-							<a></a>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
 						<% } else{ %>
-							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+							<a style="color: inherit;" id="login" href="/login">
+								<i class="fa fa-sign-in" aria-hidden="true"></i>
+							</a>
+							<p style="display: none;">Login</p>
+						</label>
+
 						<% } %>
-						<%-- <% if(request.getSession().getAttribute("admin") != null) { %> --%>
-							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
-						<%-- <% } %> --%>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
-						<% if(request.getSession().getAttribute("user") != null){ %>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
-						<% } %>
+						<%-- <% if(request.getSession().getAttribute("admin") != null){ %> --%>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+							<a style="color:inherit;" href="/admin">
+								<i class="fa fa-id-card" aria-hidden="true"></i>
+							</a>
+						</label>
+					    <%-- <% } %> --%>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="activity">
+							<a id="activity" class="mdl-navigation__link" href="/activityfeed">
+								<i class="material-icons">format_list_numbered</i>
+							</a>
+						</label>
+						<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a> --%>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
 						<% } %>
@@ -98,6 +116,7 @@
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 					</a>
 				</span>
+
 			</div>
 		</div>
 	</div>
@@ -128,7 +147,7 @@
 						  <label class="mdl-textfield__label" for="">Conversation Title...</label> <!-- sample3 -->
 						</div>
 
-						<sub style="color:teal"> Think of one word that encapsulates the essence of your conversation!
+						<sub style="color:teal"> Think of something that encapsulates the essence of your conversation!
 						</sub>
 
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -232,12 +251,12 @@
 								 <li class="mdl-list__item mdl-list__item--two-line">
 								 	<span class="mdl-list__item-primary-content">
 										<%if(conversation.getAvatarImageURL() != null){%>
-											<i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage" style="background-size: contain;"></i>
+											<i class="mdl-list__item-avatar"><img src="<%= conversation.getAvatarImageURL() %>" alt="avatarImage" style="background-size: contain; max-width:50px; max-height:50px; "></i>
 										<% } else {%>
 											<i class="material-icons mdl-list__item-avatar">public</i>
 										<% } %>
 								 		<%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>"> --%>
-										<a style="text-decoration: none;" href="/chat/<%= conversation.getTitle() %>">
+										<a style="text-decoration: none; color:inherit;" href="/chat/<%= conversation.getId() %>">
 										<span><%= conversation.getTitle() %></span>
 										<span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span>
 										</a>
@@ -272,12 +291,8 @@
 									 <% } %>
 									 <%-- <span class="mdl-list__item-sub-title"><%= conversation.getDescription() %></span> --%>
 								 </span>
-<<<<<<< HEAD
 							 	</a>
-								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getTitle() %>"><i class="material-icons">question_answer</i></a>
-=======
 								 <a class="mdl-list__item-secondary-action mdl-list__item-avatar" href="/chat/<%= conversation.getId().toString() %>"><i class="material-icons">question_answer</i></a>
->>>>>>> landingPageDev
 									 <%-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"><%= conversation.getTitle() %></button> --%>
 								 </a>
 									 <%-- <a class="mdl-navigation__link" href="/chat/<%= conversation.getTitle() %>">

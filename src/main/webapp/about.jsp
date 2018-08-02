@@ -118,20 +118,37 @@
 				  <!-- Navigation -->
 				<div class="android-navigation-container">
 					<nav class="android-navigation mdl-navigation">
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+							<a id="conversations" class="mdl-navigation__link" href="/conversations">
+								<i class="material-icons">textsms</i>
+							</a>
+						</label>
+
+						<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a> --%>
 						<% if(request.getSession().getAttribute("user") != null){ %>
-								<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
-							<a></a>
+							<a class="mdl-navigation__link mdl-typography--text-uppercase">Hello <%= request.getSession().getAttribute("user") %>!</a>
 						<% } else{ %>
-							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/login">Login</a>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+							<a style="color: inherit;" id="login" href="/login">
+								<i class="fa fa-sign-in" aria-hidden="true"></i>
+							</a>
+							<p style="display: none;">Login</p>
+						</label>
+
 						<% } %>
-						<%-- <% if(request.getSession().getAttribute("admin") != null) { %> --%>
-							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/admin">Admin</a>
-						<%-- <% } %> --%>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a>
-						<% if(request.getSession().getAttribute("user") != null){ %>
-						<a class="mdl-navigation__link mdl-typography--text-uppercase" href ="/user/<%=request.getSession().getAttribute("user")%>">My Profile</a>
-						<% } %>
+						<%-- <% if(request.getSession().getAttribute("admin") != null){ %> --%>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+							<a style="color:inherit;" href="/admin">
+								<i class="fa fa-id-card" aria-hidden="true"></i>
+							</a>
+						</label>
+					    <%-- <% } %> --%>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="activity">
+							<a id="activity" class="mdl-navigation__link" href="/activityfeed">
+								<i class="material-icons">format_list_numbered</i>
+							</a>
+						</label>
+						<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/activityfeed">Activity Feed</a> --%>
 						<% if(request.getSession().getAttribute("user") != null){ %>
 							<a class="mdl-navigation__link mdl-typography--text-uppercase" href="/logout">Logout</a>
 						<% } %>
@@ -142,6 +159,7 @@
 					<img class="android-logo-image" src="/images/JavaChipsLogoMenu.png">
 					</a>
 				</span>
+
 			</div>
 		</div>
 	</div>

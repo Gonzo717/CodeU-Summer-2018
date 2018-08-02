@@ -178,17 +178,11 @@
 				  <!-- Navigation -->
 				<div class="android-navigation-container">
 					<nav class="android-navigation mdl-navigation">
-
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--full-width">
-							<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
-								<a id="conversations" class="mdl-navigation__link" href="/conversations">
-									<i class="material-icons">textsms</i>
-								</a>
-							</label>
-							<div class="mdl-textfield__expandable-holder">
-								<a id="conversations" class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations"></a>
-							</div>
-						</div>
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="conversations">
+							<a id="conversations" class="mdl-navigation__link" href="/conversations">
+								<i class="material-icons">textsms</i>
+							</a>
+						</label>
 
 						<%-- <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/conversations">Conversations</a> --%>
 						<% if(request.getSession().getAttribute("user") != null){ %>
@@ -198,6 +192,7 @@
 							<a style="color: inherit;" id="login" href="/login">
 								<i class="fa fa-sign-in" aria-hidden="true"></i>
 							</a>
+							<p style="display: none;">Login</p>
 						</label>
 
 						<% } %>
