@@ -6,7 +6,7 @@ This chat app started as a playground for us Google CodeU participants to practi
 
 ## Getting Started:
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-This WebApp runs on Google's AppEngine service, to view the most updated deployed version of our app, click [here](https://javachips-204100.appspot.com/)
+This WebApp runs on Google's AppEngine service, to view the most updated deployed version of our app, click [here](http://javachips-215101.appspot.com/)
 
 ### Step 1: Download Java
 
